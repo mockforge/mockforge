@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "url": "https://github.com/MockForge/mockforge"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
