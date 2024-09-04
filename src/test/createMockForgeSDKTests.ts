@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { IMockForgeSDK } from "../sdk/common/sdk.js";
-import { MockForgeSDK } from "../sdk/node/sdk.js";
 
 export function createMockForgeSDKTests(
   beforeEachFn: () => Promise<IMockForgeSDK>,
