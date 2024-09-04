@@ -2,6 +2,7 @@
   "name": "mockforge",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -14,5 +15,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "DiamondYuan",
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "pnpm@9.8.0+sha512.8e4c3550fb500e808dbc30bb0ce4dd1eb614e30b1c55245f211591ec2cdf9c611cabd34e1364b42f564bd54b3945ed0f49d61d1bbf2ec9bd74b866fcdc723276",
+  "dependencies": {
+    "@types/node": "^22.5.3",
+    "typescript": "^5.5.4",
+    "valid-filename": "^4.0.0",
+    "vitest": "^2.0.5"
+  }
 }
