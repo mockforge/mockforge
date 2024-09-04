@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "cov": "vitest --coverage"
+    "cov": "vitest run --coverage"
   },
   "author": "DiamondYuan",
   "license": "MIT",
