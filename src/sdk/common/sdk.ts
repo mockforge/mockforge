@@ -13,7 +13,6 @@ export interface IMockForgeSDK {
    * @returns A list of mock APIs
    */
   listMockAPIs(): Promise<MockAPI[]>;
-
   /**
    *
    * @param method http method
