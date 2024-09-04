@@ -51,14 +51,26 @@ export function createMockForgeStateServiceTests(
         mockAPI.pathname,
         mockAPI.mockResponses[0].name
       );
-
-      const aaa = await service.getMockForgeState();
-      expect(aaa).toEqual({
+      expect(await service.getMockForgeState()).toEqual({
         http: [
           {
             method: "POST",
             pathname: "/users",
             activeMockResponses: ["Success"],
+          },
+        ],
+      });
+      await service.toggleHttpApiResponse(
+        mockAPI.method,
+        mockAPI.pathname,
+        mockAPI.mockResponses[0].name
+      );
+      expect(await service.getMockForgeState()).toEqual({
+        http: [
+          {
+            method: "POST",
+            pathname: "/users",
+            activeMockResponses: [],
           },
         ],
       });
