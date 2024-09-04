@@ -22,6 +22,7 @@
     "@types/express": "^4.17.21",
     "@types/koa": "^2.15.0",
     "@types/node": "^22.5.3",
+    "@types/ws": "^8.5.12",
     "@vitest/coverage-v8": "^2.0.5",
     "express": "^4.19.2",
     "get-port": "^7.1.0",
@@ -30,6 +31,7 @@
     "tsc": "^2.0.4",
     "typescript": "^5.5.4",
     "valid-filename": "^4.0.0",
-    "vitest": "^2.0.5"
+    "vitest": "^2.0.5",
+    "ws": "^8.18.0"
   }
 }

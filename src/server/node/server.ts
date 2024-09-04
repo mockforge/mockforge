@@ -1,12 +1,19 @@
 import express, { Request, Response } from "express";
 import getPort from "get-port";
 import { createServer } from "node:http";
+import WebSocket from "ws";
 import { RPCRequestBody, RPCResponse } from "./../common/rpc.js";
 import { MockForgeStateService } from "./service.js";
+import { MockForgeEvent } from "../common/event.js";
 
-interface CreateMockForgeServerOption {
+export interface CreateMockForgeServerOption {
   baseDir: string;
   port?: number;
+}
+
+interface Client {
+  id: string;
+  ws: WebSocket;
 }
 
 export async function createMockForgeServer(
@@ -17,9 +24,18 @@ export async function createMockForgeServer(
   return new Promise((resolve, reject) => {
     const app = express();
     const server = createServer(app);
+    const wss = new WebSocket.Server({ server });
     app.use(express.json());
 
     const mockForgeStateService = new MockForgeStateService(option.baseDir);
+    const clients: Client[] = [];
+    // 添加一个方法来发送事件给所有客户端
+    function broadcastEvent(event: MockForgeEvent) {
+      clients.forEach((client) => {
+        client.ws.send(JSON.stringify(event));
+      });
+    }
+
     app.post("/rpc", async (req: Request, res: Response) => {
       const requestBody = req.body as RPCRequestBody;
       const { method, args, clientId } = requestBody;
@@ -46,9 +62,48 @@ export async function createMockForgeServer(
           clientId,
         };
       }
+
+      try {
+        switch (method as keyof MockForgeStateService) {
+          case "addMockAPI":
+          case "deleteHttpMockAPI":
+          case "deleteHttpMockResponse":
+          case "updateHttpMockAPI":
+          case "addHttpMockResponse": {
+            broadcastEvent({
+              type: "http-mock-api-change",
+              clientId,
+            });
+            break;
+          }
+          case "toggleHttpApiResponse": {
+            broadcastEvent({
+              type: "http-mock-api-change",
+              clientId,
+            });
+            break;
+          }
+        }
+      } catch (error) {}
       res.json(response);
     });
 
+    wss.on("connection", (ws: WebSocket, req: Request) => {
+      const clientId = req.headers["mock-forge-client-id"] as string;
+      if (clientId) {
+        const client: Client = { id: clientId, ws };
+        clients.push(client);
+        ws.on("close", () => {
+          const index = clients.findIndex((c) => c.id === clientId);
+          if (index !== -1) {
+            clients.splice(index, 1);
+            console.log(`Client ${clientId} disconnected`);
+          }
+        });
+      } else {
+        ws.close();
+      }
+    });
     server.listen(serverPort, () => {
       const address = server.address();
       if (address && typeof address === "object") {
