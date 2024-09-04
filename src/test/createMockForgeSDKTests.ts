@@ -1,12 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { MockForgeSDK } from "../../sdk/node/sdk.js";
+import { IMockForgeSDK } from "../sdk/common/sdk.js";
+import { MockForgeSDK } from "../sdk/node/sdk.js";
 
 export function createMockForgeSDKTests(
-  beforeEachFn: () => Promise<MockForgeSDK>,
+  beforeEachFn: () => Promise<IMockForgeSDK>,
   afterEachFn: () => Promise<void>
 ) {
   describe("MockForgeSDK", () => {
-    let sdk: MockForgeSDK;
+    let sdk: IMockForgeSDK;
 
     beforeEach(async () => {
       sdk = await beforeEachFn();

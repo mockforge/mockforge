@@ -40,7 +40,6 @@ export async function createMockForgeServer(
           clientId,
         };
       } catch (error) {
-        console.error(`Error processing RPC request: ${error}`);
         response = {
           success: false,
           errorMessage: error instanceof Error ? error.message : String(error),

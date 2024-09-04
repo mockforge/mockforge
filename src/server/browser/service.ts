@@ -1,13 +1,12 @@
-import { IMockForgeSDK } from "../../sdk/common/sdk.js";
 import {
   HttpMockResponse,
   MockAPI,
   MockAPIMetadata,
 } from "../../sdk/common/types.js";
 import { RPCRequestBody, RPCResponse } from "../common/rpc.js";
-import { IMockForgeState } from "../common/service.js";
+import { IMockForgeState, IMockForgeStateService } from "../common/service.js";
 
-export class MockForgeStateService implements IMockForgeSDK {
+export class BrowserMockForgeStateService implements IMockForgeStateService {
   private baseURL: string;
   private clientId: string;
 
