@@ -1,49 +1,65 @@
 import express, { Request, Response } from "express";
+import getPort from "get-port";
 import { createServer } from "node:http";
-import { MockForgeStateService } from "./service.js";
 import { RPCRequestBody, RPCResponse } from "./common/rpc.js";
+import { MockForgeStateService } from "./service.js";
 
-interface createMockForgeServerOption {
+interface CreateMockForgeServerOption {
   baseDir: string;
+  port?: number;
 }
 
-export function createMockForgeServer(option: createMockForgeServerOption) {
-  const app = express();
-  const server = createServer(app);
-  app.use(express.json());
+export async function createMockForgeServer(
+  option: CreateMockForgeServerOption
+): Promise<number> {
+  const serverPort = await getPort({ port: option.port || 50830 });
 
-  const mockForgeStateService = new MockForgeStateService(option.baseDir);
-  app.post("/rpc", async (req: Request, res: Response) => {
-    const requestBody = req.body as RPCRequestBody;
-    const { method, args, clientId } = requestBody;
+  return new Promise((resolve, reject) => {
+    const app = express();
+    const server = createServer(app);
+    app.use(express.json());
 
-    let response: RPCResponse;
+    const mockForgeStateService = new MockForgeStateService(option.baseDir);
+    app.post("/rpc", async (req: Request, res: Response) => {
+      const requestBody = req.body as RPCRequestBody;
+      const { method, args, clientId } = requestBody;
 
-    try {
-      const serviceMethod = mockForgeStateService[
-        method as keyof MockForgeStateService
-      ] as Function;
-      if (typeof serviceMethod !== "function") {
-        throw new Error(`Unknown method: ${method}`);
+      let response: RPCResponse;
+
+      try {
+        const serviceMethod = mockForgeStateService[
+          method as keyof MockForgeStateService
+        ] as Function;
+        if (typeof serviceMethod !== "function") {
+          throw new Error(`Unknown method: ${method}`);
+        }
+        const result = await serviceMethod.apply(mockForgeStateService, args);
+        response = {
+          success: true,
+          data: result,
+          clientId,
+        };
+      } catch (error) {
+        console.error(`Error processing RPC request: ${error}`);
+        response = {
+          success: false,
+          errorMessage: error instanceof Error ? error.message : String(error),
+          clientId,
+        };
       }
-      const result = await serviceMethod.apply(mockForgeStateService, args);
-      response = {
-        success: true,
-        data: result,
-        clientId,
-      };
-    } catch (error) {
-      console.error(`Error processing RPC request: ${error}`);
-      response = {
-        success: false,
-        errorMessage: error instanceof Error ? error.message : String(error),
-        clientId,
-      };
-    }
-    res.json(response);
-  });
+      res.json(response);
+    });
 
-  server.listen(50930, () => {
-    console.log("server running at http://localhost:50930");
+    server.listen(serverPort, () => {
+      const address = server.address();
+      if (address && typeof address === "object") {
+        resolve(address.port);
+      } else {
+        reject(new Error("Failed to get server address"));
+      }
+    });
+    server.on("error", (error) => {
+      reject(error);
+    });
   });
 }
