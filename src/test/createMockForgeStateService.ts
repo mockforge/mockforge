@@ -74,6 +74,20 @@ export function createMockForgeStateServiceTests(
           },
         ],
       });
+      await service.toggleHttpApiResponse(
+        mockAPI.method,
+        mockAPI.pathname,
+        mockAPI.mockResponses[0].name
+      );
+      expect(await service.getMockForgeState()).toEqual({
+        http: [
+          {
+            method: "POST",
+            pathname: "/users",
+            activeMockResponses: ["Success"],
+          },
+        ],
+      });
     });
   });
 }
