@@ -1,5 +1,5 @@
-import { MockForgeSDK } from "../sdk/node/sdk.js";
-import { IMockForgeState } from "./common/service.js";
+import { MockForgeSDK } from "../../sdk/node/sdk.js";
+import { IMockForgeState } from "../common/service.js";
 
 export class MockForgeStateService extends MockForgeSDK {
   private state: IMockForgeState = {

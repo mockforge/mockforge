@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import os from "os";
 import path from "path";
-import { createMockForgeServer } from "../../../server/server.js";
+import { createMockForgeServer } from "../../../server/node/server.js";
 import { createMockForgeSDKTests } from "../../createMockForgeSDKTests.js";
 import { BrowserMockForgeStateService } from "../../../server/browser/service.js";
 

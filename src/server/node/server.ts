@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import getPort from "get-port";
 import { createServer } from "node:http";
-import { RPCRequestBody, RPCResponse } from "./common/rpc.js";
+import { RPCRequestBody, RPCResponse } from "./../common/rpc.js";
 import { MockForgeStateService } from "./service.js";
 
 interface CreateMockForgeServerOption {
