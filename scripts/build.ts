@@ -23,13 +23,14 @@ async function build() {
     minify: true,
     sourcemap: true,
     target: ["node14"],
-    outdir: distDir,
   };
 
   try {
     // 构建 inject.js
     await esbuild.build({
       ...commonConfig,
+      platform: "node",
+      format: "esm",
       entryPoints: [join(srcDir, "inject", "main.ts")],
       outfile: join(distDir, "inject.js"),
     });
@@ -38,6 +39,8 @@ async function build() {
     // 构建 vite-plugin.js
     await esbuild.build({
       ...commonConfig,
+      platform: "node",
+      format: "esm",
       entryPoints: [join(srcDir, "vite-plugin", "main.ts")],
       outfile: join(distDir, "vite-plugin.js"),
     });

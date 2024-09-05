@@ -1,6 +1,6 @@
 {
   "name": "mockforge",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "type": "module",
   "main": "index.js",
@@ -14,9 +14,8 @@
   "scripts": {
     "dev": "npm run dev:server & npm run dev:ui",
     "dev:ui": "vite",
-    "build:ui": "vite build",
     "dev:server": "tsx --watch scripts/start-server.ts",
-    "build": "tsx scripts/build.ts",
+    "build": "tsx scripts/build.ts && vite build",
     "cov": "vitest run --coverage"
   },
   "author": "DiamondYuan",
