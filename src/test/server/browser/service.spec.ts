@@ -1,10 +1,10 @@
 import fs from "fs/promises";
 import os from "os";
 import path from "path";
-import { BrowserMockForgeStateService } from "../../../server/browser/service.js";
 import { createMockForgeServer } from "../../../server/node/server.js";
 import { createMockForgeSDKTests } from "../../createMockForgeSDKTests.js";
 import { createMockForgeStateServiceTests } from "../../createMockForgeStateService.js";
+import { BrowserMockForgeStateService } from "../../../ui/service/service.js";
 
 (() => {
   let tempDir: string;
@@ -15,6 +15,7 @@ import { createMockForgeStateServiceTests } from "../../createMockForgeStateServ
       );
       const port = await createMockForgeServer({
         baseDir: tempDir,
+        port: Math.floor(Math.random() * 1000) + 10000,
       });
       return new BrowserMockForgeStateService("http://localhost:" + port);
     },

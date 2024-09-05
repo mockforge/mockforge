@@ -19,14 +19,13 @@ interface Client {
 export async function createMockForgeServer(
   option: CreateMockForgeServerOption
 ): Promise<number> {
-  const serverPort = await getPort({ port: option.port || 50830 });
+  const serverPort = await getPort({ port: option.port || 50930 });
 
   return new Promise((resolve, reject) => {
     const app = express();
     const server = createServer(app);
     const wss = new WebSocketServer({ server });
     app.use(express.json());
-
     const mockForgeStateService = new MockForgeStateService(option.baseDir);
     const clients: Client[] = [];
     // 添加一个方法来发送事件给所有客户端

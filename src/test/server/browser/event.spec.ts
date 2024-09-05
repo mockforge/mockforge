@@ -2,10 +2,10 @@ import fs from "fs/promises";
 import os from "os";
 import path from "path";
 import { expect, it, vi } from "vitest";
-import { BrowserMockForgeStateService } from "../../../server/browser/service.js";
 import { createMockForgeServer } from "../../../server/node/server.js";
-import { BrowserMockForgeEventListener } from "../../../server/browser/event.js";
 import { WebSocket } from "ws";
+import { BrowserMockForgeStateService } from "../../../ui/service/service.js";
+import { BrowserMockForgeEventListener } from "../../../ui/service/event.js";
 
 class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
   getWebsocket(url: string, clientId: string) {

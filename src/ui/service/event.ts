@@ -1,6 +1,6 @@
 import Emittery from "emittery";
-import { MockForgeEvent } from "../common/event.js";
 import type { WebSocket as WsWebsocket } from "ws";
+import { MockForgeEvent } from "../../server/common/event";
 
 export interface IMockForgeEventListener {
   handleEvent(handler: (event: MockForgeEvent) => void): void;
