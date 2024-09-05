@@ -6,6 +6,7 @@ import { RPCRequestBody, RPCResponse } from "./../common/rpc.js";
 import { MockForgeStateService } from "./service.js";
 import { MockForgeEvent } from "../common/event.js";
 import querystring from "query-string";
+import cors from "cors";
 
 export interface CreateMockForgeServerOption {
   baseDir: string;
@@ -28,6 +29,7 @@ export async function createMockForgeServer(
     const server = createServer(app);
     const wss = new WebSocketServer({ server });
     app.use(express.json());
+    app.use(cors());
     const mockForgeStateService = new MockForgeStateService(option.baseDir);
     const clients: Client[] = [];
     // 添加一个方法来发送事件给所有客户端

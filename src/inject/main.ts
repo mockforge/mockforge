@@ -5,6 +5,7 @@ import { patchXMLHttpRequest } from "./patchXMLHttpRequest";
 import { RequestSimulator } from "./RequestSimulator";
 
 async function initAndInject() {
+  console.log("[MockForge] init");
   const requestSimulatorElement = document.getElementById(
     "mockforge-request-simulator"
   );

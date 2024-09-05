@@ -20,9 +20,10 @@ async function build() {
   // 构建配置
   const commonConfig = {
     bundle: true,
-    minify: true,
+    minify: false,
     sourcemap: true,
     target: ["node14"],
+    external: ["express", "ws"],
   };
 
   try {
@@ -45,7 +46,6 @@ async function build() {
       outfile: join(distDir, "vite-plugin.js"),
     });
     console.log("Built vite-plugin.js");
-
     console.log("Build completed successfully");
   } catch (err) {
     console.error("Build failed:", err);

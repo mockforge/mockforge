@@ -16,7 +16,7 @@ export interface ValidRequest {
   url: string;
   method: string;
   headers?: Record<string, string>;
-  body: null | string;
+  body?: null | string;
   params?: Record<string, string>;
 }
 
