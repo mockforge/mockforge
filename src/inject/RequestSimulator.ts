@@ -161,6 +161,7 @@ export class RequestSimulator implements ISimulatedRequestHandler {
       if (api.method !== requestMethod) {
         continue;
       }
+
       const matchFunction = match(api.pathname.replace(/\[(\S+)\]/g, ":$1"));
       const result = matchFunction(urlPath);
       if (!result) {

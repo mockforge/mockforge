@@ -22,7 +22,7 @@ async function build() {
     bundle: true,
     minify: false,
     sourcemap: true,
-    target: ["node14"],
+    target: ["node16"],
     external: ["express", "ws"],
   };
 
@@ -33,7 +33,7 @@ async function build() {
       platform: "node",
       format: "esm",
       entryPoints: [join(srcDir, "inject", "main.ts")],
-      outfile: join(distDir, "inject.js"),
+      outfile: join(distDir, "inject/inject.js"),
     });
     console.log("Built inject.js");
 

@@ -11,7 +11,7 @@ import cors from "cors";
 export interface CreateMockForgeServerOption {
   baseDir: string;
   port?: number;
-  static?: string;
+  static?: string[];
 }
 
 interface Client {
@@ -38,7 +38,9 @@ export async function createMockForgeServer(
       });
     }
     if (option.static) {
-      app.use(express.static(option.static));
+      option.static.forEach((e) => {
+        app.use(express.static(e));
+      });
     }
     app.post("/api/v1/mockforge/rpc", async (req: Request, res: Response) => {
       const requestBody = req.body as RPCRequestBody;
