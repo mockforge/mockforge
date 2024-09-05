@@ -5,6 +5,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import { RPCRequestBody, RPCResponse } from "./../common/rpc.js";
 import { MockForgeStateService } from "./service.js";
 import { MockForgeEvent } from "../common/event.js";
+import querystring from "query-string";
 
 export interface CreateMockForgeServerOption {
   baseDir: string;
@@ -77,26 +78,28 @@ export async function createMockForgeServer(
           }
           case "toggleHttpApiResponse": {
             broadcastEvent({
-              type: "http-mock-api-change",
+              type: "mock-forge-state-change",
               clientId,
             });
             break;
           }
         }
       } catch (error) {}
+
       res.json(response);
     });
 
     wss.on("connection", (ws: WebSocket, req: Request) => {
-      const clientId = req.headers["mock-forge-client-id"] as string;
-      if (clientId && req.url === "/api/v1/mockforge/rpc") {
+      const parseResult = querystring.parseUrl(req.url);
+      const url = parseResult.url;
+      const clientId = String(parseResult.query.clientId);
+      if (clientId && url === "/api/v1/mockforge/connect") {
         const client: Client = { id: clientId, ws };
         clients.push(client);
         ws.on("close", () => {
           const index = clients.findIndex((c) => c.id === clientId);
           if (index !== -1) {
             clients.splice(index, 1);
-            console.log(`Client ${clientId} disconnected`);
           }
         });
       } else {

@@ -9,6 +9,7 @@ import { BrowserMockForgeEventListener } from "../service/event";
 import { IMockForgeEventListener } from "../../server/common/event";
 
 interface MockForgeStore {
+  clientId: string;
   browserMockForgeStateService: IMockForgeStateService;
   browserMockForgeEventListener: IMockForgeEventListener;
   mockForgeState: IMockForgeState;
@@ -40,15 +41,19 @@ interface MockForgeStore {
   ) => Promise<void>;
 }
 const clientId = Math.random().toString(36).substring(2, 15);
-
+const browserMockForgeEventListener = new BrowserMockForgeEventListener(
+  "",
+  clientId
+);
+browserMockForgeEventListener.connect().then((err) => {
+  console.log(err);
+});
 export const useMockForgeStore = create<MockForgeStore>((set, get) => ({
   mockForgeState: { http: [] },
   apiList: [],
+  clientId,
   browserMockForgeStateService: new BrowserMockForgeStateService("", clientId),
-  browserMockForgeEventListener: new BrowserMockForgeEventListener(
-    "",
-    clientId
-  ),
+  browserMockForgeEventListener: browserMockForgeEventListener,
   updateMockForgeState: (newState) => set({ mockForgeState: newState }),
   updateApiList: (newApiList) => set({ apiList: newApiList }),
   isHttpApiResponseSelected: (method, pathname, responseName) => {

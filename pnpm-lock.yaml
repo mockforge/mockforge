@@ -17,6 +17,9 @@ importers:
       antd:
         specifier: ^5.20.5
         version: 5.20.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      query-string:
+        specifier: ^9.1.0
+        version: 9.1.0
       zustand:
         specifier: ^4.5.5
         version: 4.5.5(@types/react@18.3.5)(react@18.3.1)
@@ -959,6 +962,10 @@ packages:
       supports-color:
         optional: true
 
+  decode-uri-component@0.4.1:
+    resolution: {integrity: sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/decode-uri-component/-/decode-uri-component-0.4.1.tgz}
+    engines: {node: '>=14.16'}
+
   deep-eql@5.0.2:
     resolution: {integrity: sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==, tarball: https://nexus3.bilibili.co/repository/npm-public/deep-eql/-/deep-eql-5.0.2.tgz}
     engines: {node: '>=6'}
@@ -1055,6 +1062,10 @@ packages:
   filename-reserved-regex@3.0.0:
     resolution: {integrity: sha512-hn4cQfU6GOT/7cFHXBqeBg2TbrMBgdD0kcjLhvSQYYwm3s4B6cjvBfb7nBALJLAXqmU5xajSa7X2NnUud/VCdw==, tarball: https://nexus3.bilibili.co/repository/npm-public/filename-reserved-regex/-/filename-reserved-regex-3.0.0.tgz}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  filter-obj@5.1.0:
+    resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==, tarball: https://nexus3.bilibili.co/repository/npm-public/filter-obj/-/filter-obj-5.1.0.tgz}
+    engines: {node: '>=14.16'}
 
   finalhandler@1.2.0:
     resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==, tarball: https://nexus3.bilibili.co/repository/npm-public/finalhandler/-/finalhandler-1.2.0.tgz}
@@ -1391,6 +1402,10 @@ packages:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==, tarball: https://nexus3.bilibili.co/repository/npm-public/qs/-/qs-6.11.0.tgz}
     engines: {node: '>=0.6'}
 
+  query-string@9.1.0:
+    resolution: {integrity: sha512-t6dqMECpCkqfyv2FfwVS1xcB6lgXW/0XZSaKdsCNGYkqMO76AFiJEg4vINzoDKcZa6MS7JX+OHIjwh06K5vczw==, tarball: https://nexus3.bilibili.co/repository/npm-public/query-string/-/query-string-9.1.0.tgz}
+    engines: {node: '>=18'}
+
   range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==, tarball: https://nexus3.bilibili.co/repository/npm-public/range-parser/-/range-parser-1.2.1.tgz}
     engines: {node: '>= 0.6'}
@@ -1722,6 +1737,10 @@ packages:
   source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==, tarball: https://nexus3.bilibili.co/repository/npm-public/source-map-js/-/source-map-js-1.2.0.tgz}
     engines: {node: '>=0.10.0'}
+
+  split-on-first@3.0.0:
+    resolution: {integrity: sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==, tarball: https://nexus3.bilibili.co/repository/npm-public/split-on-first/-/split-on-first-3.0.0.tgz}
+    engines: {node: '>=12'}
 
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==, tarball: https://nexus3.bilibili.co/repository/npm-public/stackback/-/stackback-0.0.2.tgz}
@@ -2846,6 +2865,8 @@ snapshots:
     dependencies:
       ms: 2.1.2
 
+  decode-uri-component@0.4.1: {}
+
   deep-eql@5.0.2: {}
 
   deep-equal@1.0.1: {}
@@ -2998,6 +3019,8 @@ snapshots:
       - supports-color
 
   filename-reserved-regex@3.0.0: {}
+
+  filter-obj@5.1.0: {}
 
   finalhandler@1.2.0:
     dependencies:
@@ -3320,6 +3343,12 @@ snapshots:
   qs@6.11.0:
     dependencies:
       side-channel: 1.0.6
+
+  query-string@9.1.0:
+    dependencies:
+      decode-uri-component: 0.4.1
+      filter-obj: 5.1.0
+      split-on-first: 3.0.0
 
   range-parser@1.2.1: {}
 
@@ -3767,6 +3796,8 @@ snapshots:
   signal-exit@4.1.0: {}
 
   source-map-js@1.2.0: {}
+
+  split-on-first@3.0.0: {}
 
   stackback@0.0.2: {}
 

@@ -8,12 +8,8 @@ import { BrowserMockForgeStateService } from "../../../ui/service/service.js";
 import { BrowserMockForgeEventListener } from "../../../ui/service/event.js";
 
 class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
-  getWebsocket(url: string, clientId: string) {
-    return new WebSocket(url, {
-      headers: {
-        "mock-forge-client-id": clientId,
-      },
-    });
+  getWebsocket(url: string) {
+    return new WebSocket(url);
   }
 }
 

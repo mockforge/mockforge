@@ -3,11 +3,14 @@ import { useRequest } from "ahooks";
 import { Button, Checkbox, Input } from "antd";
 import { useEffect } from "react";
 import { MockAPI } from "../sdk/common/types";
+import { MockForgeEvent } from "../server/common/event";
 import { AddApiForm } from "./component/AddApiForm";
 import "./index.css";
 import useMockForgeStore from "./model/state";
 
 const APICard: React.FC<{ api: MockAPI }> = (props) => {
+  const mockForgeStore = useMockForgeStore();
+
   return (
     <div className="api-card">
       <div className="api-header">
@@ -36,7 +39,21 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
       >
         {props.api.mockResponses.map((o) => (
           <div className="tag-item" key={o.name}>
-            <Checkbox style={{ marginRight: 8 }} />
+            <Checkbox
+              style={{ marginRight: 8 }}
+              checked={mockForgeStore.isHttpApiResponseSelected(
+                props.api.method,
+                props.api.pathname,
+                o.name
+              )}
+              onChange={() => {
+                mockForgeStore.toggleHttpApiResponse(
+                  props.api.method,
+                  props.api.pathname,
+                  o.name
+                );
+              }}
+            />
             <div className="tag-name">{o.name}</div>
             <EditOutlined className="tag-icon" />
           </div>
@@ -70,20 +87,24 @@ function useInitData(clientId: string) {
     }
   );
   useEffect(() => {
-    mockForgeStore.browserMockForgeEventListener.handleEvent((event) => {
+    const handler = (event: MockForgeEvent) => {
       if (event.type === "http-mock-api-change") {
         mockApiRequest.refresh();
       }
       if (event.type === "mock-forge-state-change") {
         mockForgeStateRequest.refresh();
       }
-    });
+    };
+    mockForgeStore.browserMockForgeEventListener.handleEvent(handler);
+    return () => {
+      mockForgeStore.browserMockForgeEventListener.removeEventListener(handler);
+    };
   }, [clientId, mockApiRequest]);
 }
 
-export function App(props: { clinetId: string }) {
+export function App() {
   const mockForgeStore = useMockForgeStore();
-  useInitData(props.clinetId);
+  useInitData(mockForgeStore.clientId);
   return (
     <div style={{ padding: 20 }}>
       <div className="search-bar">

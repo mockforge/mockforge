@@ -16,16 +16,8 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener {
     this.clientId = clientId;
   }
 
-  protected getWebsocket(
-    url: string,
-    clientId: string
-  ): WebSocket | WsWebsocket {
-    return new WebSocket(url, {
-      //@ts-expect-error
-      headers: {
-        "mock-forge-client-id": clientId,
-      },
-    });
+  protected getWebsocket(url: string): WebSocket | WsWebsocket {
+    return new WebSocket(url);
   }
 
   handleEvent(handler: (event: MockForgeEvent) => void): void {
@@ -37,8 +29,8 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener {
 
   connect(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const wsUrl = `${this.baseUrl}/api/v1/mockforge/rpc`;
-      this.ws = this.getWebsocket(wsUrl, this.clientId);
+      const wsUrl = `${this.baseUrl}/api/v1/mockforge/connect?clientId=${this.clientId}`;
+      this.ws = this.getWebsocket(wsUrl);
       this.ws.onopen = () => {
         if (this.ws) {
           this.ws.send(JSON.stringify({ clientId: this.clientId }));

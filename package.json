@@ -47,6 +47,7 @@
     "@ant-design/icons": "^5.4.0",
     "ahooks": "^3.8.1",
     "antd": "^5.20.5",
+    "query-string": "^9.1.0",
     "zustand": "^4.5.5"
   }
 }
