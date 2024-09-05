@@ -14,8 +14,9 @@
   "scripts": {
     "dev": "npm run dev:server & npm run dev:ui",
     "dev:ui": "vite",
+    "build:ui": "vite build",
     "dev:server": "tsx --watch scripts/start-server.ts",
-    "build": "tsc",
+    "build": "tsx scripts/build.ts",
     "cov": "vitest run --coverage"
   },
   "author": "DiamondYuan",
@@ -47,6 +48,7 @@
     "@ant-design/icons": "^5.4.0",
     "ahooks": "^3.8.1",
     "antd": "^5.20.5",
+    "esbuild": "^0.23.1",
     "immer": "^10.1.1",
     "path-to-regexp": "^8.0.0",
     "query-string": "^9.1.0",

@@ -10,6 +10,7 @@ import querystring from "query-string";
 export interface CreateMockForgeServerOption {
   baseDir: string;
   port?: number;
+  static?: string;
 }
 
 interface Client {
@@ -35,7 +36,9 @@ export async function createMockForgeServer(
         client.ws.send(JSON.stringify(event));
       });
     }
-
+    if (option.static) {
+      app.use(express.static(option.static));
+    }
     app.post("/api/v1/mockforge/rpc", async (req: Request, res: Response) => {
       const requestBody = req.body as RPCRequestBody;
       const { method, args, clientId } = requestBody;
