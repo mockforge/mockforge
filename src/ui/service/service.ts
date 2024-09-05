@@ -22,7 +22,7 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
       clientId: this.clientId,
     };
 
-    const response = await fetch(`${this.baseURL}/rpc`, {
+    const response = await fetch(`${this.baseURL}/api/v1/mockforge/rpc`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -36,7 +36,7 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener {
 
   connect(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const wsUrl = `${this.baseUrl}/rpc`;
+      const wsUrl = `${this.baseUrl}/api/v1/mockforge/rpc`;
       this.ws = this.getWebsocket(wsUrl, this.clientId);
       this.ws.onopen = () => {
         if (this.ws) {

@@ -12,7 +12,9 @@
     "url": "https://github.com/MockForge/mockforge"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run dev:ui && npm run dev:server",
+    "dev:ui": "vite",
+    "dev:server": "tsx --watch scripts/start-server.ts",
     "build": "tsc",
     "cov": "vitest run --coverage"
   },

@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import getPort from "get-port";
 import { createServer } from "node:http";
-import { WebSocketServer } from "ws";
+import { WebSocketServer, WebSocket } from "ws";
 import { RPCRequestBody, RPCResponse } from "./../common/rpc.js";
 import { MockForgeStateService } from "./service.js";
 import { MockForgeEvent } from "../common/event.js";
@@ -35,7 +35,7 @@ export async function createMockForgeServer(
       });
     }
 
-    app.post("/rpc", async (req: Request, res: Response) => {
+    app.post("/api/v1/mockforge/rpc", async (req: Request, res: Response) => {
       const requestBody = req.body as RPCRequestBody;
       const { method, args, clientId } = requestBody;
 
@@ -89,7 +89,7 @@ export async function createMockForgeServer(
 
     wss.on("connection", (ws: WebSocket, req: Request) => {
       const clientId = req.headers["mock-forge-client-id"] as string;
-      if (clientId) {
+      if (clientId && req.url === "/api/v1/mockforge/rpc") {
         const client: Client = { id: clientId, ws };
         clients.push(client);
         ws.on("close", () => {

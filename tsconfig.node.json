@@ -19,5 +19,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "exclude": ["src/ui"],
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "vite.config.ts", "scripts"]
 }
