@@ -114,11 +114,19 @@ export const AddApiForm = () => {
             name="name"
             label="API 名字"
             rules={[{ required: true }]}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
           >
             <Input />
           </Form.Item>
-          <Form.Item layout="horizontal" name="description" label="API 描述">
-            <TextArea rows={4} />
+          <Form.Item
+            layout="horizontal"
+            name="description"
+            label="API 描述"
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+          >
+            <TextArea rows={2} />
           </Form.Item>
 
           <Form.List name="mocks">
@@ -138,6 +146,8 @@ export const AddApiForm = () => {
                         label="Mock 名字"
                         rules={[{ required: true }]}
                         layout="horizontal"
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 18 }}
                       >
                         <Input />
                       </Form.Item>
@@ -146,6 +156,8 @@ export const AddApiForm = () => {
                         name={[name, "description"]}
                         label="Mock 描述"
                         layout="horizontal"
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 18 }}
                       >
                         <TextArea rows={2} />
                       </Form.Item>
@@ -154,6 +166,8 @@ export const AddApiForm = () => {
                         name={[name, "matchJson"]}
                         label="匹配的 JSON"
                         layout="horizontal"
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 18 }}
                       >
                         <TextArea rows={4} />
                       </Form.Item>
@@ -162,6 +176,8 @@ export const AddApiForm = () => {
                         name={[name, "responseJson"]}
                         label="返回的 JSON"
                         layout="horizontal"
+                        labelCol={{ span: 6 }}
+                        wrapperCol={{ span: 18 }}
                         rules={[{ required: true }]}
                       >
                         <TextArea rows={4} />

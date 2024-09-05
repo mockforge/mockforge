@@ -6,8 +6,6 @@ import { MockAPI } from "../sdk/common/types";
 import { AddApiForm } from "./component/AddApiForm";
 import "./index.css";
 import useMockForgeStore from "./model/state";
-import { BrowserMockForgeEventListener } from "./service/event";
-import { BrowserMockForgeStateService } from "./service/service";
 
 const APICard: React.FC<{ api: MockAPI }> = (props) => {
   return (
@@ -50,13 +48,10 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
 
 function useInitData(clientId: string) {
   const mockForgeStore = useMockForgeStore();
-  const browserMockForgeStateService = new BrowserMockForgeStateService(
-    "",
-    clientId
-  );
+
   const mockApiRequest = useRequest(
     () => {
-      return browserMockForgeStateService.listMockAPIs();
+      return mockForgeStore.browserMockForgeStateService.listMockAPIs();
     },
     {
       onSuccess(data) {
@@ -66,7 +61,7 @@ function useInitData(clientId: string) {
   );
   const mockForgeStateRequest = useRequest(
     () => {
-      return browserMockForgeStateService.getMockForgeState();
+      return mockForgeStore.browserMockForgeStateService.getMockForgeState();
     },
     {
       onSuccess(data) {
@@ -75,11 +70,7 @@ function useInitData(clientId: string) {
     }
   );
   useEffect(() => {
-    const browserMockForgeEventListener = new BrowserMockForgeEventListener(
-      "",
-      clientId
-    );
-    browserMockForgeEventListener.handleEvent((event) => {
+    mockForgeStore.browserMockForgeEventListener.handleEvent((event) => {
       if (event.type === "http-mock-api-change") {
         mockApiRequest.refresh();
       }
@@ -93,7 +84,6 @@ function useInitData(clientId: string) {
 export function App(props: { clinetId: string }) {
   const mockForgeStore = useMockForgeStore();
   useInitData(props.clinetId);
-
   return (
     <div style={{ padding: 20 }}>
       <div className="search-bar">
