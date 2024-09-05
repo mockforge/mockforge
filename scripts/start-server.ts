@@ -11,10 +11,9 @@ const __dirname = dirname(__filename);
 const baseDir = join(__dirname, "cache", "mock");
 
 // 确保目标目录存在
-async function ensureDirectory(path) {
+async function ensureDirectory(path: string) {
   try {
     await mkdir(path, { recursive: true });
-    console.log(`Directory ${path} created or already exists.`);
   } catch (error) {
     console.error(`Error creating directory ${path}:`, error);
   }

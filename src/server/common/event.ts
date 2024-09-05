@@ -12,5 +12,6 @@ export type MockForgeEvent = MockForgeStateChangeEvent | HttpMockPIChangeEvent;
 
 export interface IMockForgeEventListener {
   handleEvent(handler: (event: MockForgeEvent) => void): void;
+  removeEventListener(handler: (event: MockForgeEvent) => void): void;
   connect(): Promise<void>;
 }

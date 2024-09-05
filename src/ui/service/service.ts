@@ -3,8 +3,11 @@ import {
   MockAPI,
   MockAPIMetadata,
 } from "../../sdk/common/types.js";
-import { RPCRequestBody, RPCResponse } from "../common/rpc.js";
-import { IMockForgeState, IMockForgeStateService } from "../common/service.js";
+import { RPCRequestBody, RPCResponse } from "../../server/common/rpc.js";
+import {
+  IMockForgeState,
+  IMockForgeStateService,
+} from "../../server/common/service.js";
 
 export class BrowserMockForgeStateService implements IMockForgeStateService {
   private baseURL: string;
@@ -29,7 +32,6 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
       },
       body: JSON.stringify(requestBody),
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

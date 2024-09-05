@@ -21,7 +21,6 @@ export type MockForgeStateChangeEvent = {
 
 export interface IMockForgeStateService extends IMockForgeSDK {
   getMockForgeState(): Promise<IMockForgeState>;
-
   toggleHttpApiResponse(
     method: string,
     pathname: string,

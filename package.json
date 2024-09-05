@@ -42,5 +42,11 @@
     "vite": "^5.4.3",
     "vitest": "^2.0.5",
     "ws": "^8.18.0"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "ahooks": "^3.8.1",
+    "antd": "^5.20.5",
+    "zustand": "^4.5.5"
   }
 }

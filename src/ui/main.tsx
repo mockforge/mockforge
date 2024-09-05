@@ -1,13 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserMockForgeStateService } from "./service/service";
+import { App } from "./app";
 
-const xxx = new BrowserMockForgeStateService("");
-
-console.log(await xxx.getMockForgeState());
+const clinetId = Math.random().toString(36).substring(2, 15);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <div>11</div>
+    <App clinetId={clinetId}></App>
   </StrictMode>
 );
