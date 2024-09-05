@@ -1,15 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Space,
-} from "antd";
+import { Button, Card, Drawer, Form, Input, Select, Space } from "antd";
 import { useState } from "react";
 import { MockAPI } from "../../sdk/common/types";
 import useMockForgeStore from "../model/state";
@@ -66,53 +56,57 @@ export const AddApiForm = () => {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        新增 API Mock
+        Add API
       </Button>
-      <Modal
-        title="新增 API Mock"
-        visible={isModalVisible}
-        onCancel={handleCancel}
+      <Drawer
+        title="Add API"
+        open={isModalVisible}
         footer={null}
+        onClose={handleCancel}
         width={800}
+        maskClosable={false}
+        extra={
+          <Space>
+            <Button onClick={handleCancel}>Cancel</Button>
+            <Button type="primary" onClick={form.submit}>
+              Submit
+            </Button>
+          </Space>
+        }
       >
         <Form
           form={form}
           onFinish={onFinish}
-          layout="vertical"
+          layout="horizontal"
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           initialValues={{
             method: "GET",
             mocks: [{}],
           }}
         >
-          <Row gutter={16}>
-            <Col span={6}>
-              <Form.Item
-                name="method"
-                label="Method"
-                rules={[{ required: true }]}
-              >
-                <Select>
-                  <Option value="GET">GET</Option>
-                  <Option value="POST">POST</Option>
-                  <Option value="PUT">PUT</Option>
-                  <Option value="DELETE">DELETE</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={18}>
-              <Form.Item
-                name="pathname"
-                label="Pathname"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
+          <Form.Item name="method" label="Method" rules={[{ required: true }]}>
+            <Select>
+              <Option value="GET">GET</Option>
+              <Option value="POST">POST</Option>
+              <Option value="PUT">PUT</Option>
+              <Option value="DELETE">DELETE</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            layout="horizontal"
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
+            name="pathname"
+            label="Pathname"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
           <Form.Item
             layout="horizontal"
             name="name"
-            label="API 名字"
+            label="Name"
             rules={[{ required: true }]}
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 18 }}
@@ -122,7 +116,7 @@ export const AddApiForm = () => {
           <Form.Item
             layout="horizontal"
             name="description"
-            label="API 描述"
+            label="Description"
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 18 }}
           >
@@ -132,80 +126,109 @@ export const AddApiForm = () => {
           <Form.List name="mocks">
             {(fields, { add, remove }) => (
               <>
-                {fields.map(({ key, name, ...restField }) => (
+                {fields.map(({ key, name, ...restField }, index) => (
                   <Card
-                    size="small"
+                    type="inner"
+                    title={`Mock ${index}`}
                     key={key}
                     style={{ marginBottom: 16 }}
                     extra={<MinusCircleOutlined onClick={() => remove(name)} />}
                   >
-                    <Space direction="vertical" style={{ width: "100%" }}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "name"]}
-                        label="Mock 名字"
-                        rules={[{ required: true }]}
-                        layout="horizontal"
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 18 }}
-                      >
-                        <Input />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "description"]}
-                        label="Mock 描述"
-                        layout="horizontal"
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 18 }}
-                      >
-                        <TextArea rows={2} />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "matchJson"]}
-                        label="匹配的 JSON"
-                        layout="horizontal"
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 18 }}
-                      >
-                        <TextArea rows={4} />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "responseJson"]}
-                        label="返回的 JSON"
-                        layout="horizontal"
-                        labelCol={{ span: 6 }}
-                        wrapperCol={{ span: 18 }}
-                        rules={[{ required: true }]}
-                      >
-                        <TextArea rows={4} />
-                      </Form.Item>
-                    </Space>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "name"]}
+                      label={"Name"}
+                      rules={[{ required: true }]}
+                      layout="horizontal"
+                      labelCol={{ span: 6 }}
+                      wrapperCol={{ span: 18 }}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "description"]}
+                      label="Description"
+                      layout="horizontal"
+                      labelCol={{ span: 6 }}
+                      wrapperCol={{ span: 18 }}
+                      rules={[
+                        {
+                          validator: (_, value) => {
+                            try {
+                              JSON.parse(value);
+                            } catch (e) {
+                              return Promise.reject("Invalid JSON");
+                            }
+                            return Promise.resolve();
+                          },
+                          message: "Please input a valid JSON",
+                        },
+                      ]}
+                    >
+                      <TextArea rows={2} />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "matchJson"]}
+                      label="Request Match"
+                      layout="horizontal"
+                      labelCol={{ span: 6 }}
+                      wrapperCol={{ span: 18 }}
+                    >
+                      <TextArea
+                        rows={7}
+                        placeholder={JSON.stringify(
+                          {
+                            body: {},
+                            params: {},
+                            headers: {},
+                            query: {},
+                          },
+                          null,
+                          2
+                        )}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "responseJson"]}
+                      label="Response"
+                      layout="horizontal"
+                      labelCol={{ span: 6 }}
+                      wrapperCol={{ span: 18 }}
+                      rules={[
+                        { required: true },
+                        {
+                          validator: (_, value) => {
+                            try {
+                              JSON.parse(value);
+                            } catch (e) {
+                              return Promise.reject("Invalid JSON");
+                            }
+                            return Promise.resolve();
+                          },
+                          message: "Please input a valid JSON",
+                        },
+                      ]}
+                    >
+                      <TextArea rows={4} />
+                    </Form.Item>
                   </Card>
                 ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    block
-                    icon={<PlusOutlined />}
-                  >
-                    添加 Mock
-                  </Button>
-                </Form.Item>
+                <Button
+                  type="dashed"
+                  onClick={() => add()}
+                  block
+                  icon={<PlusOutlined />}
+                >
+                  Add Mock
+                </Button>
               </>
             )}
           </Form.List>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              提交
-            </Button>
-          </Form.Item>
         </Form>
-      </Modal>
+      </Drawer>
     </>
   );
 };

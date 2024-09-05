@@ -51,7 +51,6 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener {
       };
 
       this.ws.onclose = () => {
-        console.log("WebSocket closed");
         this.ws = null;
       };
     });
