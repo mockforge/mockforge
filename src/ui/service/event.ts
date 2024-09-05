@@ -23,6 +23,7 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener {
     clientId: string
   ): WebSocket | WsWebsocket {
     return new WebSocket(url, {
+      //@ts-expect-error
       headers: {
         "mock-forge-client-id": clientId,
       },
