@@ -13,6 +13,7 @@ export type RPCSuccessResponse = {
 export type RPCErrorResponse = {
   success: false;
   errorMessage: string;
+  stack?: string;
   clientId: string;
 };
 

@@ -1,10 +1,10 @@
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useRequest } from "ahooks";
-import { Button, Checkbox, Input } from "antd";
+import { Checkbox } from "antd";
 import { useEffect } from "react";
 import { MockAPI } from "../sdk/common/types";
 import { MockForgeEvent } from "../server/common/event";
 import { AddApiForm } from "./component/AddApiForm";
+import { AddMockResponseButton } from "./component/AddApiResponse";
 import "./index.css";
 import useMockForgeStore from "./model/state";
 
@@ -19,9 +19,10 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
           <div className="api-title">
             {props.api.pathname}
             <div className="api-actions">
-              <Button icon={<PlusOutlined />} type="primary">
-                新增返回结果
-              </Button>
+              <AddMockResponseButton
+                method={props.api.method}
+                pathname={props.api.pathname}
+              />
             </div>
           </div>
         </div>
@@ -47,15 +48,18 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
                 o.name
               )}
               onChange={() => {
-                mockForgeStore.toggleHttpApiResponse(
-                  props.api.method,
-                  props.api.pathname,
-                  o.name
-                );
+                mockForgeStore
+                  .toggleHttpApiResponse(
+                    props.api.method,
+                    props.api.pathname,
+                    o.name
+                  )
+                  .catch((err) => {
+                    console.log(err);
+                  });
               }}
             />
             <div className="tag-name">{o.name}</div>
-            <EditOutlined className="tag-icon" />
           </div>
         ))}
       </div>
@@ -109,7 +113,6 @@ export function App() {
     <div style={{ padding: 20 }}>
       <div className="search-bar">
         <AddApiForm></AddApiForm>
-        <Input.Search className="search-input" placeholder="输入关键字搜索" />
       </div>
       {
         <div style={{ marginTop: 20 }}>

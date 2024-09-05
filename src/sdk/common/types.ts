@@ -46,7 +46,7 @@ export interface HttpMockResponse {
       headers: Record<string, string>;
       query: Record<string, string>;
     };
-  };
+  } | null;
   // Specific content of the mock response
   responseData: {
     type: "json";

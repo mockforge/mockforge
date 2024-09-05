@@ -37,7 +37,9 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
     }
     const result: RPCResponse = (await response.json()) as RPCResponse;
     if (!result.success) {
-      throw new Error(result.errorMessage);
+      const err = new Error(result.errorMessage);
+      err.stack = result.stack;
+      throw err;
     }
     return result.data;
   }

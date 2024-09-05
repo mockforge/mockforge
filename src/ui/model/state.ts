@@ -7,6 +7,7 @@ import {
 import { BrowserMockForgeStateService } from "../service/service";
 import { BrowserMockForgeEventListener } from "../service/event";
 import { IMockForgeEventListener } from "../../server/common/event";
+import { produce } from "immer";
 
 interface MockForgeStore {
   clientId: string;
@@ -70,20 +71,26 @@ export const useMockForgeStore = create<MockForgeStore>((set, get) => ({
       responseName
     );
     set((state) => {
-      const newState = { ...state };
-      const apiIndex = newState.mockForgeState.http.findIndex(
-        (api) => api.method === method && api.pathname === pathname
-      );
-      if (apiIndex !== -1) {
-        const api = newState.mockForgeState.http[apiIndex];
-        const responseIndex = api.activeMockResponses.indexOf(responseName);
-        if (responseIndex === -1) {
-          api.activeMockResponses.push(responseName);
+      return produce(state, (newState) => {
+        const apiIndex = newState.mockForgeState.http.findIndex(
+          (api) => api.method === method && api.pathname === pathname
+        );
+        if (apiIndex !== -1) {
+          const api = newState.mockForgeState.http[apiIndex];
+          const responseIndex = api.activeMockResponses.indexOf(responseName);
+          if (responseIndex === -1) {
+            api.activeMockResponses.push(responseName);
+          } else {
+            api.activeMockResponses.splice(responseIndex, 1);
+          }
         } else {
-          api.activeMockResponses.splice(responseIndex, 1);
+          newState.mockForgeState.http.push({
+            method,
+            pathname,
+            activeMockResponses: [responseName],
+          });
         }
-      }
-      return newState;
+      });
     });
   },
 

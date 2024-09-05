@@ -59,6 +59,7 @@ export async function createMockForgeServer(
         response = {
           success: false,
           errorMessage: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : "",
           clientId,
         };
       }
