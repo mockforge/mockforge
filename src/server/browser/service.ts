@@ -10,9 +10,9 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
   private baseURL: string;
   private clientId: string;
 
-  constructor(baseURL: string) {
+  constructor(baseURL: string, clientId?: string) {
     this.baseURL = baseURL;
-    this.clientId = Math.random().toString(36).substring(2, 15);
+    this.clientId = clientId ?? Math.random().toString(36).substring(2, 15);
   }
 
   private async callRPC(method: string, args: any[]): Promise<any> {

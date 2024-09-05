@@ -1,49 +1,65 @@
-import { IMockForgeEventListener, MockForgeEvent } from "../common/event.js";
+import Emittery from "emittery";
+import { MockForgeEvent } from "../common/event.js";
+import type { WebSocket as WsWebsocket } from "ws";
+
+export interface IMockForgeEventListener {
+  handleEvent(handler: (event: MockForgeEvent) => void): void;
+  connect(): Promise<void>;
+}
 
 export class BrowserMockForgeEventListener implements IMockForgeEventListener {
   private baseUrl: string;
   private clientId: string;
-  private ws: WebSocket | null = null;
-  private eventHandler: ((event: MockForgeEvent) => void) | null = null;
+  private ws: WsWebsocket | WebSocket | null = null;
+  private emitter: Emittery = new Emittery();
 
   constructor(baseUrl: string, clientId: string) {
     this.baseUrl = baseUrl;
     this.clientId = clientId;
   }
 
-  handleEvent(handler: (event: MockForgeEvent) => void): void {
-    this.eventHandler = handler;
-    this.connect();
-  }
-
-  private connect(): void {
-    const wsUrl = `${this.baseUrl}/rpc`;
-    this.ws = new WebSocket(wsUrl, {
+  protected getWebsocket(
+    url: string,
+    clientId: string
+  ): WebSocket | WsWebsocket {
+    return new WebSocket(url, {
       headers: {
-        "mock-forge-client-id": this.clientId,
+        "mock-forge-client-id": clientId,
       },
     });
+  }
 
-    this.ws.onopen = () => {
-      console.log("WebSocket connected");
-      if (this.ws) {
-        this.ws.send(JSON.stringify({ clientId: this.clientId }));
-      }
-    };
+  handleEvent(handler: (event: MockForgeEvent) => void): void {
+    this.emitter.on("event", handler);
+  }
 
-    this.ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.clientId !== this.clientId && this.eventHandler) {
-        this.eventHandler(data as MockForgeEvent);
-      }
-    };
+  connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const wsUrl = `${this.baseUrl}/rpc`;
+      this.ws = this.getWebsocket(wsUrl, this.clientId);
+      this.ws.onopen = () => {
+        if (this.ws) {
+          this.ws.send(JSON.stringify({ clientId: this.clientId }));
+          resolve();
+        }
+      };
 
-    this.ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
+      this.ws.onmessage = (event: any) => {
+        const data = JSON.parse(event.data);
+        if (data.clientId !== this.clientId) {
+          this.emitter.emit("event", data as MockForgeEvent);
+        }
+      };
 
-    this.ws.onclose = () => {
-      console.log("WebSocket closed");
-    };
+      this.ws.onerror = (error: any) => {
+        console.error("WebSocket error:", error);
+        reject(error);
+      };
+
+      this.ws.onclose = () => {
+        console.log("WebSocket closed");
+        this.ws = null;
+      };
+    });
   }
 }

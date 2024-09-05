@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import getPort from "get-port";
 import { createServer } from "node:http";
-import WebSocket from "ws";
+import { WebSocketServer } from "ws";
 import { RPCRequestBody, RPCResponse } from "./../common/rpc.js";
 import { MockForgeStateService } from "./service.js";
 import { MockForgeEvent } from "../common/event.js";
@@ -24,7 +24,7 @@ export async function createMockForgeServer(
   return new Promise((resolve, reject) => {
     const app = express();
     const server = createServer(app);
-    const wss = new WebSocket.Server({ server });
+    const wss = new WebSocketServer({ server });
     app.use(express.json());
 
     const mockForgeStateService = new MockForgeStateService(option.baseDir);

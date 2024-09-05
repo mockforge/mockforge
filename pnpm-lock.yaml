@@ -23,6 +23,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^2.0.5
         version: 2.0.5(vitest@2.0.5(@types/node@22.5.3))
+      emittery:
+        specifier: ^1.0.3
+        version: 1.0.3
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -78,139 +81,139 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
   '@esbuild/aix-ppc64@0.21.5':
-    resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
+    resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/aix-ppc64/-/aix-ppc64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [ppc64]
     os: [aix]
 
   '@esbuild/android-arm64@0.21.5':
-    resolution: {integrity: sha512-c0uX9VAUBQ7dTDCjq+wdyGLowMdtR/GoC2U5IYk/7D1H1JYC0qseD7+11iMP2mRLN9RcCMRcjC4YMclCzGwS/A==}
+    resolution: {integrity: sha512-c0uX9VAUBQ7dTDCjq+wdyGLowMdtR/GoC2U5IYk/7D1H1JYC0qseD7+11iMP2mRLN9RcCMRcjC4YMclCzGwS/A==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/android-arm64/-/android-arm64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [android]
 
   '@esbuild/android-arm@0.21.5':
-    resolution: {integrity: sha512-vCPvzSjpPHEi1siZdlvAlsPxXl7WbOVUBBAowWug4rJHb68Ox8KualB+1ocNvT5fjv6wpkX6o/iEpbDrf68zcg==}
+    resolution: {integrity: sha512-vCPvzSjpPHEi1siZdlvAlsPxXl7WbOVUBBAowWug4rJHb68Ox8KualB+1ocNvT5fjv6wpkX6o/iEpbDrf68zcg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/android-arm/-/android-arm-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [arm]
     os: [android]
 
   '@esbuild/android-x64@0.21.5':
-    resolution: {integrity: sha512-D7aPRUUNHRBwHxzxRvp856rjUHRFW1SdQATKXH2hqA0kAZb1hKmi02OpYRacl0TxIGz/ZmXWlbZgjwWYaCakTA==}
+    resolution: {integrity: sha512-D7aPRUUNHRBwHxzxRvp856rjUHRFW1SdQATKXH2hqA0kAZb1hKmi02OpYRacl0TxIGz/ZmXWlbZgjwWYaCakTA==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/android-x64/-/android-x64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [android]
 
   '@esbuild/darwin-arm64@0.21.5':
-    resolution: {integrity: sha512-DwqXqZyuk5AiWWf3UfLiRDJ5EDd49zg6O9wclZ7kUMv2WRFr4HKjXp/5t8JZ11QbQfUS6/cRCKGwYhtNAY88kQ==}
+    resolution: {integrity: sha512-DwqXqZyuk5AiWWf3UfLiRDJ5EDd49zg6O9wclZ7kUMv2WRFr4HKjXp/5t8JZ11QbQfUS6/cRCKGwYhtNAY88kQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/darwin-arm64/-/darwin-arm64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
 
   '@esbuild/darwin-x64@0.21.5':
-    resolution: {integrity: sha512-se/JjF8NlmKVG4kNIuyWMV/22ZaerB+qaSi5MdrXtd6R08kvs2qCN4C09miupktDitvh8jRFflwGFBQcxZRjbw==}
+    resolution: {integrity: sha512-se/JjF8NlmKVG4kNIuyWMV/22ZaerB+qaSi5MdrXtd6R08kvs2qCN4C09miupktDitvh8jRFflwGFBQcxZRjbw==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/darwin-x64/-/darwin-x64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
 
   '@esbuild/freebsd-arm64@0.21.5':
-    resolution: {integrity: sha512-5JcRxxRDUJLX8JXp/wcBCy3pENnCgBR9bN6JsY4OmhfUtIHe3ZW0mawA7+RDAcMLrMIZaf03NlQiX9DGyB8h4g==}
+    resolution: {integrity: sha512-5JcRxxRDUJLX8JXp/wcBCy3pENnCgBR9bN6JsY4OmhfUtIHe3ZW0mawA7+RDAcMLrMIZaf03NlQiX9DGyB8h4g==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/freebsd-arm64/-/freebsd-arm64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [freebsd]
 
   '@esbuild/freebsd-x64@0.21.5':
-    resolution: {integrity: sha512-J95kNBj1zkbMXtHVH29bBriQygMXqoVQOQYA+ISs0/2l3T9/kj42ow2mpqerRBxDJnmkUDCaQT/dfNXWX/ZZCQ==}
+    resolution: {integrity: sha512-J95kNBj1zkbMXtHVH29bBriQygMXqoVQOQYA+ISs0/2l3T9/kj42ow2mpqerRBxDJnmkUDCaQT/dfNXWX/ZZCQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/freebsd-x64/-/freebsd-x64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [freebsd]
 
   '@esbuild/linux-arm64@0.21.5':
-    resolution: {integrity: sha512-ibKvmyYzKsBeX8d8I7MH/TMfWDXBF3db4qM6sy+7re0YXya+K1cem3on9XgdT2EQGMu4hQyZhan7TeQ8XkGp4Q==}
+    resolution: {integrity: sha512-ibKvmyYzKsBeX8d8I7MH/TMfWDXBF3db4qM6sy+7re0YXya+K1cem3on9XgdT2EQGMu4hQyZhan7TeQ8XkGp4Q==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-arm64/-/linux-arm64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
 
   '@esbuild/linux-arm@0.21.5':
-    resolution: {integrity: sha512-bPb5AHZtbeNGjCKVZ9UGqGwo8EUu4cLq68E95A53KlxAPRmUyYv2D6F0uUI65XisGOL1hBP5mTronbgo+0bFcA==}
+    resolution: {integrity: sha512-bPb5AHZtbeNGjCKVZ9UGqGwo8EUu4cLq68E95A53KlxAPRmUyYv2D6F0uUI65XisGOL1hBP5mTronbgo+0bFcA==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-arm/-/linux-arm-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [arm]
     os: [linux]
 
   '@esbuild/linux-ia32@0.21.5':
-    resolution: {integrity: sha512-YvjXDqLRqPDl2dvRODYmmhz4rPeVKYvppfGYKSNGdyZkA01046pLWyRKKI3ax8fbJoK5QbxblURkwK/MWY18Tg==}
+    resolution: {integrity: sha512-YvjXDqLRqPDl2dvRODYmmhz4rPeVKYvppfGYKSNGdyZkA01046pLWyRKKI3ax8fbJoK5QbxblURkwK/MWY18Tg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-ia32/-/linux-ia32-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [linux]
 
   '@esbuild/linux-loong64@0.21.5':
-    resolution: {integrity: sha512-uHf1BmMG8qEvzdrzAqg2SIG/02+4/DHB6a9Kbya0XDvwDEKCoC8ZRWI5JJvNdUjtciBGFQ5PuBlpEOXQj+JQSg==}
+    resolution: {integrity: sha512-uHf1BmMG8qEvzdrzAqg2SIG/02+4/DHB6a9Kbya0XDvwDEKCoC8ZRWI5JJvNdUjtciBGFQ5PuBlpEOXQj+JQSg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-loong64/-/linux-loong64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [loong64]
     os: [linux]
 
   '@esbuild/linux-mips64el@0.21.5':
-    resolution: {integrity: sha512-IajOmO+KJK23bj52dFSNCMsz1QP1DqM6cwLUv3W1QwyxkyIWecfafnI555fvSGqEKwjMXVLokcV5ygHW5b3Jbg==}
+    resolution: {integrity: sha512-IajOmO+KJK23bj52dFSNCMsz1QP1DqM6cwLUv3W1QwyxkyIWecfafnI555fvSGqEKwjMXVLokcV5ygHW5b3Jbg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-mips64el/-/linux-mips64el-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [mips64el]
     os: [linux]
 
   '@esbuild/linux-ppc64@0.21.5':
-    resolution: {integrity: sha512-1hHV/Z4OEfMwpLO8rp7CvlhBDnjsC3CttJXIhBi+5Aj5r+MBvy4egg7wCbe//hSsT+RvDAG7s81tAvpL2XAE4w==}
+    resolution: {integrity: sha512-1hHV/Z4OEfMwpLO8rp7CvlhBDnjsC3CttJXIhBi+5Aj5r+MBvy4egg7wCbe//hSsT+RvDAG7s81tAvpL2XAE4w==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-ppc64/-/linux-ppc64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [ppc64]
     os: [linux]
 
   '@esbuild/linux-riscv64@0.21.5':
-    resolution: {integrity: sha512-2HdXDMd9GMgTGrPWnJzP2ALSokE/0O5HhTUvWIbD3YdjME8JwvSCnNGBnTThKGEB91OZhzrJ4qIIxk/SBmyDDA==}
+    resolution: {integrity: sha512-2HdXDMd9GMgTGrPWnJzP2ALSokE/0O5HhTUvWIbD3YdjME8JwvSCnNGBnTThKGEB91OZhzrJ4qIIxk/SBmyDDA==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-riscv64/-/linux-riscv64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [riscv64]
     os: [linux]
 
   '@esbuild/linux-s390x@0.21.5':
-    resolution: {integrity: sha512-zus5sxzqBJD3eXxwvjN1yQkRepANgxE9lgOW2qLnmr8ikMTphkjgXu1HR01K4FJg8h1kEEDAqDcZQtbrRnB41A==}
+    resolution: {integrity: sha512-zus5sxzqBJD3eXxwvjN1yQkRepANgxE9lgOW2qLnmr8ikMTphkjgXu1HR01K4FJg8h1kEEDAqDcZQtbrRnB41A==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-s390x/-/linux-s390x-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [s390x]
     os: [linux]
 
   '@esbuild/linux-x64@0.21.5':
-    resolution: {integrity: sha512-1rYdTpyv03iycF1+BhzrzQJCdOuAOtaqHTWJZCWvijKD2N5Xu0TtVC8/+1faWqcP9iBCWOmjmhoH94dH82BxPQ==}
+    resolution: {integrity: sha512-1rYdTpyv03iycF1+BhzrzQJCdOuAOtaqHTWJZCWvijKD2N5Xu0TtVC8/+1faWqcP9iBCWOmjmhoH94dH82BxPQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/linux-x64/-/linux-x64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
 
   '@esbuild/netbsd-x64@0.21.5':
-    resolution: {integrity: sha512-Woi2MXzXjMULccIwMnLciyZH4nCIMpWQAs049KEeMvOcNADVxo0UBIQPfSmxB3CWKedngg7sWZdLvLczpe0tLg==}
+    resolution: {integrity: sha512-Woi2MXzXjMULccIwMnLciyZH4nCIMpWQAs049KEeMvOcNADVxo0UBIQPfSmxB3CWKedngg7sWZdLvLczpe0tLg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/netbsd-x64/-/netbsd-x64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [netbsd]
 
   '@esbuild/openbsd-x64@0.21.5':
-    resolution: {integrity: sha512-HLNNw99xsvx12lFBUwoT8EVCsSvRNDVxNpjZ7bPn947b8gJPzeHWyNVhFsaerc0n3TsbOINvRP2byTZ5LKezow==}
+    resolution: {integrity: sha512-HLNNw99xsvx12lFBUwoT8EVCsSvRNDVxNpjZ7bPn947b8gJPzeHWyNVhFsaerc0n3TsbOINvRP2byTZ5LKezow==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/openbsd-x64/-/openbsd-x64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [openbsd]
 
   '@esbuild/sunos-x64@0.21.5':
-    resolution: {integrity: sha512-6+gjmFpfy0BHU5Tpptkuh8+uw3mnrvgs+dSPQXQOv3ekbordwnzTVEb4qnIvQcYXq6gzkyTnoZ9dZG+D4garKg==}
+    resolution: {integrity: sha512-6+gjmFpfy0BHU5Tpptkuh8+uw3mnrvgs+dSPQXQOv3ekbordwnzTVEb4qnIvQcYXq6gzkyTnoZ9dZG+D4garKg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/sunos-x64/-/sunos-x64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [sunos]
 
   '@esbuild/win32-arm64@0.21.5':
-    resolution: {integrity: sha512-Z0gOTd75VvXqyq7nsl93zwahcTROgqvuAcYDUr+vOv8uHhNSKROyU961kgtCD1e95IqPKSQKH7tBTslnS3tA8A==}
+    resolution: {integrity: sha512-Z0gOTd75VvXqyq7nsl93zwahcTROgqvuAcYDUr+vOv8uHhNSKROyU961kgtCD1e95IqPKSQKH7tBTslnS3tA8A==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/win32-arm64/-/win32-arm64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
 
   '@esbuild/win32-ia32@0.21.5':
-    resolution: {integrity: sha512-SWXFF1CL2RVNMaVs+BBClwtfZSvDgtL//G/smwAc5oVK/UPu2Gu9tIaRgFmYFFKrmg3SyAjSrElf0TiJ1v8fYA==}
+    resolution: {integrity: sha512-SWXFF1CL2RVNMaVs+BBClwtfZSvDgtL//G/smwAc5oVK/UPu2Gu9tIaRgFmYFFKrmg3SyAjSrElf0TiJ1v8fYA==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/win32-ia32/-/win32-ia32-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [win32]
 
   '@esbuild/win32-x64@0.21.5':
-    resolution: {integrity: sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==}
+    resolution: {integrity: sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==, tarball: https://nexus3.bilibili.co/repository/npm-public/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
@@ -242,95 +245,95 @@ packages:
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
   '@pkgjs/parseargs@0.11.0':
-    resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
+    resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@pkgjs/parseargs/-/parseargs-0.11.0.tgz}
     engines: {node: '>=14'}
 
   '@rollup/rollup-android-arm-eabi@4.21.2':
-    resolution: {integrity: sha512-fSuPrt0ZO8uXeS+xP3b+yYTCBUd05MoSp2N/MFOgjhhUhMmchXlpTQrTpI8T+YAwAQuK7MafsCOxW7VrPMrJcg==}
+    resolution: {integrity: sha512-fSuPrt0ZO8uXeS+xP3b+yYTCBUd05MoSp2N/MFOgjhhUhMmchXlpTQrTpI8T+YAwAQuK7MafsCOxW7VrPMrJcg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.21.2.tgz}
     cpu: [arm]
     os: [android]
 
   '@rollup/rollup-android-arm64@4.21.2':
-    resolution: {integrity: sha512-xGU5ZQmPlsjQS6tzTTGwMsnKUtu0WVbl0hYpTPauvbRAnmIvpInhJtgjj3mcuJpEiuUw4v1s4BimkdfDWlh7gA==}
+    resolution: {integrity: sha512-xGU5ZQmPlsjQS6tzTTGwMsnKUtu0WVbl0hYpTPauvbRAnmIvpInhJtgjj3mcuJpEiuUw4v1s4BimkdfDWlh7gA==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.21.2.tgz}
     cpu: [arm64]
     os: [android]
 
   '@rollup/rollup-darwin-arm64@4.21.2':
-    resolution: {integrity: sha512-99AhQ3/ZMxU7jw34Sq8brzXqWH/bMnf7ZVhvLk9QU2cOepbQSVTns6qoErJmSiAvU3InRqC2RRZ5ovh1KN0d0Q==}
+    resolution: {integrity: sha512-99AhQ3/ZMxU7jw34Sq8brzXqWH/bMnf7ZVhvLk9QU2cOepbQSVTns6qoErJmSiAvU3InRqC2RRZ5ovh1KN0d0Q==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.21.2.tgz}
     cpu: [arm64]
     os: [darwin]
 
   '@rollup/rollup-darwin-x64@4.21.2':
-    resolution: {integrity: sha512-ZbRaUvw2iN/y37x6dY50D8m2BnDbBjlnMPotDi/qITMJ4sIxNY33HArjikDyakhSv0+ybdUxhWxE6kTI4oX26w==}
+    resolution: {integrity: sha512-ZbRaUvw2iN/y37x6dY50D8m2BnDbBjlnMPotDi/qITMJ4sIxNY33HArjikDyakhSv0+ybdUxhWxE6kTI4oX26w==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.21.2.tgz}
     cpu: [x64]
     os: [darwin]
 
   '@rollup/rollup-linux-arm-gnueabihf@4.21.2':
-    resolution: {integrity: sha512-ztRJJMiE8nnU1YFcdbd9BcH6bGWG1z+jP+IPW2oDUAPxPjo9dverIOyXz76m6IPA6udEL12reYeLojzW2cYL7w==}
+    resolution: {integrity: sha512-ztRJJMiE8nnU1YFcdbd9BcH6bGWG1z+jP+IPW2oDUAPxPjo9dverIOyXz76m6IPA6udEL12reYeLojzW2cYL7w==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-arm-gnueabihf/-/rollup-linux-arm-gnueabihf-4.21.2.tgz}
     cpu: [arm]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.21.2':
-    resolution: {integrity: sha512-flOcGHDZajGKYpLV0JNc0VFH361M7rnV1ee+NTeC/BQQ1/0pllYcFmxpagltANYt8FYf9+kL6RSk80Ziwyhr7w==}
+    resolution: {integrity: sha512-flOcGHDZajGKYpLV0JNc0VFH361M7rnV1ee+NTeC/BQQ1/0pllYcFmxpagltANYt8FYf9+kL6RSk80Ziwyhr7w==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-arm-musleabihf/-/rollup-linux-arm-musleabihf-4.21.2.tgz}
     cpu: [arm]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.21.2':
-    resolution: {integrity: sha512-69CF19Kp3TdMopyteO/LJbWufOzqqXzkrv4L2sP8kfMaAQ6iwky7NoXTp7bD6/irKgknDKM0P9E/1l5XxVQAhw==}
+    resolution: {integrity: sha512-69CF19Kp3TdMopyteO/LJbWufOzqqXzkrv4L2sP8kfMaAQ6iwky7NoXTp7bD6/irKgknDKM0P9E/1l5XxVQAhw==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-arm64-gnu/-/rollup-linux-arm64-gnu-4.21.2.tgz}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.21.2':
-    resolution: {integrity: sha512-48pD/fJkTiHAZTnZwR0VzHrao70/4MlzJrq0ZsILjLW/Ab/1XlVUStYyGt7tdyIiVSlGZbnliqmult/QGA2O2w==}
+    resolution: {integrity: sha512-48pD/fJkTiHAZTnZwR0VzHrao70/4MlzJrq0ZsILjLW/Ab/1XlVUStYyGt7tdyIiVSlGZbnliqmult/QGA2O2w==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-arm64-musl/-/rollup-linux-arm64-musl-4.21.2.tgz}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.21.2':
-    resolution: {integrity: sha512-cZdyuInj0ofc7mAQpKcPR2a2iu4YM4FQfuUzCVA2u4HI95lCwzjoPtdWjdpDKyHxI0UO82bLDoOaLfpZ/wviyQ==}
+    resolution: {integrity: sha512-cZdyuInj0ofc7mAQpKcPR2a2iu4YM4FQfuUzCVA2u4HI95lCwzjoPtdWjdpDKyHxI0UO82bLDoOaLfpZ/wviyQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-powerpc64le-gnu/-/rollup-linux-powerpc64le-gnu-4.21.2.tgz}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.21.2':
-    resolution: {integrity: sha512-RL56JMT6NwQ0lXIQmMIWr1SW28z4E4pOhRRNqwWZeXpRlykRIlEpSWdsgNWJbYBEWD84eocjSGDu/XxbYeCmwg==}
+    resolution: {integrity: sha512-RL56JMT6NwQ0lXIQmMIWr1SW28z4E4pOhRRNqwWZeXpRlykRIlEpSWdsgNWJbYBEWD84eocjSGDu/XxbYeCmwg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-riscv64-gnu/-/rollup-linux-riscv64-gnu-4.21.2.tgz}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.21.2':
-    resolution: {integrity: sha512-PMxkrWS9z38bCr3rWvDFVGD6sFeZJw4iQlhrup7ReGmfn7Oukrr/zweLhYX6v2/8J6Cep9IEA/SmjXjCmSbrMQ==}
+    resolution: {integrity: sha512-PMxkrWS9z38bCr3rWvDFVGD6sFeZJw4iQlhrup7ReGmfn7Oukrr/zweLhYX6v2/8J6Cep9IEA/SmjXjCmSbrMQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-s390x-gnu/-/rollup-linux-s390x-gnu-4.21.2.tgz}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.21.2':
-    resolution: {integrity: sha512-B90tYAUoLhU22olrafY3JQCFLnT3NglazdwkHyxNDYF/zAxJt5fJUB/yBoWFoIQ7SQj+KLe3iL4BhOMa9fzgpw==}
+    resolution: {integrity: sha512-B90tYAUoLhU22olrafY3JQCFLnT3NglazdwkHyxNDYF/zAxJt5fJUB/yBoWFoIQ7SQj+KLe3iL4BhOMa9fzgpw==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.21.2.tgz}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.21.2':
-    resolution: {integrity: sha512-7twFizNXudESmC9oneLGIUmoHiiLppz/Xs5uJQ4ShvE6234K0VB1/aJYU3f/4g7PhssLGKBVCC37uRkkOi8wjg==}
+    resolution: {integrity: sha512-7twFizNXudESmC9oneLGIUmoHiiLppz/Xs5uJQ4ShvE6234K0VB1/aJYU3f/4g7PhssLGKBVCC37uRkkOi8wjg==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.21.2.tgz}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.21.2':
-    resolution: {integrity: sha512-9rRero0E7qTeYf6+rFh3AErTNU1VCQg2mn7CQcI44vNUWM9Ze7MSRS/9RFuSsox+vstRt97+x3sOhEey024FRQ==}
+    resolution: {integrity: sha512-9rRero0E7qTeYf6+rFh3AErTNU1VCQg2mn7CQcI44vNUWM9Ze7MSRS/9RFuSsox+vstRt97+x3sOhEey024FRQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-win32-arm64-msvc/-/rollup-win32-arm64-msvc-4.21.2.tgz}
     cpu: [arm64]
     os: [win32]
 
   '@rollup/rollup-win32-ia32-msvc@4.21.2':
-    resolution: {integrity: sha512-5rA4vjlqgrpbFVVHX3qkrCo/fZTj1q0Xxpg+Z7yIo3J2AilW7t2+n6Q8Jrx+4MrYpAnjttTYF8rr7bP46BPzRw==}
+    resolution: {integrity: sha512-5rA4vjlqgrpbFVVHX3qkrCo/fZTj1q0Xxpg+Z7yIo3J2AilW7t2+n6Q8Jrx+4MrYpAnjttTYF8rr7bP46BPzRw==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-win32-ia32-msvc/-/rollup-win32-ia32-msvc-4.21.2.tgz}
     cpu: [ia32]
     os: [win32]
 
   '@rollup/rollup-win32-x64-msvc@4.21.2':
-    resolution: {integrity: sha512-6UUxd0+SKomjdzuAcp+HAmxw1FlGBnl1v2yEPSabtx4lBfdXHDVsW7+lQkgz9cNFJGY3AWR7+V8P5BqkD9L9nA==}
+    resolution: {integrity: sha512-6UUxd0+SKomjdzuAcp+HAmxw1FlGBnl1v2yEPSabtx4lBfdXHDVsW7+lQkgz9cNFJGY3AWR7+V8P5BqkD9L9nA==, tarball: https://nexus3.bilibili.co/repository/npm-public/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.21.2.tgz}
     cpu: [x64]
     os: [win32]
 
@@ -431,7 +434,7 @@ packages:
     engines: {node: '>= 0.6'}
 
   ansi-regex@5.0.1:
-    resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
+    resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/ansi-regex/-/ansi-regex-5.0.1.tgz}
     engines: {node: '>=8'}
 
   ansi-regex@6.0.1:
@@ -439,7 +442,7 @@ packages:
     engines: {node: '>=12'}
 
   ansi-styles@4.3.0:
-    resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
+    resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==, tarball: https://nexus3.bilibili.co/repository/npm-public/ansi-styles/-/ansi-styles-4.3.0.tgz}
     engines: {node: '>=8'}
 
   ansi-styles@6.2.1:
@@ -496,11 +499,11 @@ packages:
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
 
   color-convert@2.0.1:
-    resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
+    resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==, tarball: https://nexus3.bilibili.co/repository/npm-public/color-convert/-/color-convert-2.0.1.tgz}
     engines: {node: '>=7.0.0'}
 
   color-name@1.1.4:
-    resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+    resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==, tarball: https://nexus3.bilibili.co/repository/npm-public/color-name/-/color-name-1.1.4.tgz}
 
   content-disposition@0.5.4:
     resolution: {integrity: sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==}
@@ -582,8 +585,12 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
+  emittery@1.0.3:
+    resolution: {integrity: sha512-tJdCJitoy2lrC2ldJcqN4vkqJ00lT+tOWNT1hBJjO/3FDMJa5TTIiYGCKGkn/WfCyOzUMObeohbVTj00fhiLiA==, tarball: https://nexus3.bilibili.co/repository/npm-public/emittery/-/emittery-1.0.3.tgz}
+    engines: {node: '>=14.16'}
+
   emoji-regex@8.0.0:
-    resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
+    resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==, tarball: https://nexus3.bilibili.co/repository/npm-public/emoji-regex/-/emoji-regex-8.0.0.tgz}
 
   emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
@@ -652,7 +659,7 @@ packages:
     engines: {node: '>= 0.6'}
 
   fsevents@2.3.3:
-    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==, tarball: https://nexus3.bilibili.co/repository/npm-public/fsevents/-/fsevents-2.3.3.tgz}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
@@ -735,7 +742,7 @@ packages:
     engines: {node: '>= 0.10'}
 
   is-fullwidth-code-point@3.0.0:
-    resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
+    resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==, tarball: https://nexus3.bilibili.co/repository/npm-public/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz}
     engines: {node: '>=8'}
 
   is-generator-function@1.0.10:
@@ -1011,7 +1018,7 @@ packages:
     resolution: {integrity: sha512-JPbdCEQLj1w5GilpiHAx3qJvFndqybBysA3qUOnznweH4QbNYUsW/ea8QzSrnh0vNsezMMw5bcVool8lM0gwzg==}
 
   string-width@4.2.3:
-    resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
+    resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==, tarball: https://nexus3.bilibili.co/repository/npm-public/string-width/-/string-width-4.2.3.tgz}
     engines: {node: '>=8'}
 
   string-width@5.1.2:
@@ -1019,7 +1026,7 @@ packages:
     engines: {node: '>=12'}
 
   strip-ansi@6.0.1:
-    resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
+    resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==, tarball: https://nexus3.bilibili.co/repository/npm-public/strip-ansi/-/strip-ansi-6.0.1.tgz}
     engines: {node: '>=8'}
 
   strip-ansi@7.1.0:
@@ -1169,7 +1176,7 @@ packages:
     hasBin: true
 
   wrap-ansi@7.0.0:
-    resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
+    resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==, tarball: https://nexus3.bilibili.co/repository/npm-public/wrap-ansi/-/wrap-ansi-7.0.0.tgz}
     engines: {node: '>=10'}
 
   wrap-ansi@8.1.0:
@@ -1654,6 +1661,8 @@ snapshots:
   eastasianwidth@0.2.0: {}
 
   ee-first@1.1.1: {}
+
+  emittery@1.0.3: {}
 
   emoji-regex@8.0.0: {}
 
