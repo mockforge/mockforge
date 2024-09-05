@@ -1,8 +1,18 @@
-import React, { useState } from "react";
-import { Button, Modal, Form, Input, Select, Space, Card } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import useMockForgeStore from "../model/state";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Space,
+} from "antd";
+import { useState } from "react";
 import { MockAPI } from "../../sdk/common/types";
+import useMockForgeStore from "../model/state";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -65,26 +75,49 @@ export const AddApiForm = () => {
         footer={null}
         width={800}
       >
-        <Form form={form} onFinish={onFinish} layout="vertical">
+        <Form
+          form={form}
+          onFinish={onFinish}
+          layout="vertical"
+          initialValues={{
+            method: "GET",
+            mocks: [{}],
+          }}
+        >
+          <Row gutter={16}>
+            <Col span={6}>
+              <Form.Item
+                name="method"
+                label="Method"
+                rules={[{ required: true }]}
+              >
+                <Select>
+                  <Option value="GET">GET</Option>
+                  <Option value="POST">POST</Option>
+                  <Option value="PUT">PUT</Option>
+                  <Option value="DELETE">DELETE</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={18}>
+              <Form.Item
+                name="pathname"
+                label="Pathname"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
           <Form.Item
-            name="pathname"
-            label="Pathname"
+            layout="horizontal"
+            name="name"
+            label="API 名字"
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item name="method" label="Method" rules={[{ required: true }]}>
-            <Select>
-              <Option value="GET">GET</Option>
-              <Option value="POST">POST</Option>
-              <Option value="PUT">PUT</Option>
-              <Option value="DELETE">DELETE</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item name="name" label="API 名字" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="description" label="API 描述">
+          <Form.Item layout="horizontal" name="description" label="API 描述">
             <TextArea rows={4} />
           </Form.Item>
 
@@ -92,13 +125,19 @@ export const AddApiForm = () => {
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
-                  <Card key={key} style={{ marginBottom: 16 }}>
+                  <Card
+                    size="small"
+                    key={key}
+                    style={{ marginBottom: 16 }}
+                    extra={<MinusCircleOutlined onClick={() => remove(name)} />}
+                  >
                     <Space direction="vertical" style={{ width: "100%" }}>
                       <Form.Item
                         {...restField}
                         name={[name, "name"]}
                         label="Mock 名字"
                         rules={[{ required: true }]}
+                        layout="horizontal"
                       >
                         <Input />
                       </Form.Item>
@@ -106,6 +145,7 @@ export const AddApiForm = () => {
                         {...restField}
                         name={[name, "description"]}
                         label="Mock 描述"
+                        layout="horizontal"
                       >
                         <TextArea rows={2} />
                       </Form.Item>
@@ -113,6 +153,7 @@ export const AddApiForm = () => {
                         {...restField}
                         name={[name, "matchJson"]}
                         label="匹配的 JSON"
+                        layout="horizontal"
                       >
                         <TextArea rows={4} />
                       </Form.Item>
@@ -120,12 +161,12 @@ export const AddApiForm = () => {
                         {...restField}
                         name={[name, "responseJson"]}
                         label="返回的 JSON"
+                        layout="horizontal"
                         rules={[{ required: true }]}
                       >
                         <TextArea rows={4} />
                       </Form.Item>
                     </Space>
-                    <MinusCircleOutlined onClick={() => remove(name)} />
                   </Card>
                 ))}
                 <Form.Item>
