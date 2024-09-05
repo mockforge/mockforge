@@ -17,7 +17,7 @@ async function initAndInject() {
   if (!clientId || !serverURL) {
     return;
   }
-  const requestSimulator = new RequestSimulator();
+  const requestSimulator = new RequestSimulator(location.origin);
   try {
     const initState = getInitialStateSync(serverURL, clientId);
     requestSimulator.setApiList(initState.mockAPIs);

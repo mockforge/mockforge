@@ -18,7 +18,7 @@ export interface HttpMockAPI {
   // Name of the API
   name: string;
   // Description of the API
-  description: string;
+  description?: string;
 
   // Various types of responses
   mockResponses: HttpMockResponse[];
@@ -33,18 +33,17 @@ export interface HttpMockResponse {
   schema: "http_response_v1";
 
   // Description of the mock response
-  description: string;
+  description?: string;
 
   // Request matching rules
   requestMatcher: {
     type: "basic-match";
-
     // Content corresponding to the type
     content: {
-      body: unknown;
-      params: Record<string, string>;
-      headers: Record<string, string>;
-      query: Record<string, string>;
+      body?: unknown;
+      params?: Record<string, string>;
+      headers?: Record<string, string>;
+      query?: Record<string, string>;
     };
   } | null;
   // Specific content of the mock response

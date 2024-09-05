@@ -11,7 +11,9 @@ export function patchXMLHttpRequest(mock: ISimulatedRequestHandler) {
     const originalSetRequestHeader = xhr.setRequestHeader;
     const originalSend = xhr.send;
 
-    const requestOption: Partial<RequestParameters> = {};
+    const requestOption: Partial<RequestParameters> = {
+      body: null,
+    };
     xhr.open = function (method, url) {
       requestOption.method = method;
       requestOption.url = url;
