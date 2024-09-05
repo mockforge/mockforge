@@ -9,3 +9,7 @@ export type MockForgeStateChangeEvent = {
 };
 
 export type MockForgeEvent = MockForgeStateChangeEvent | HttpMockPIChangeEvent;
+
+export interface IMockForgeEventListener {
+  handleEvent(handler: (event: MockForgeEvent) => void): void;
+}
