@@ -99,4 +99,8 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
       mockResponseName,
     ]);
   }
+
+  async getInitialState() {
+    return this.callRPC("getInitialState", []);
+  }
 }

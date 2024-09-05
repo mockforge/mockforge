@@ -48,6 +48,7 @@
     "ahooks": "^3.8.1",
     "antd": "^5.20.5",
     "immer": "^10.1.1",
+    "path-to-regexp": "^8.0.0",
     "query-string": "^9.1.0",
     "zustand": "^4.5.5"
   }

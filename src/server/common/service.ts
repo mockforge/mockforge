@@ -1,4 +1,5 @@
 import { IMockForgeSDK } from "../../sdk/common/sdk.js";
+import { MockAPI } from "../../sdk/common/types.js";
 
 export interface IHttpApiState {
   method: string;
@@ -15,10 +16,10 @@ export type HttpMockAPIChangeEvent = {
   pathname: string;
 };
 
-export type MockForgeStateChangeEvent = {
-  state: IMockForgeState;
-};
-
+export interface InitialState {
+  mockAPIs: MockAPI[];
+  mockState: IMockForgeState;
+}
 export interface IMockForgeStateService extends IMockForgeSDK {
   getMockForgeState(): Promise<IMockForgeState>;
   toggleHttpApiResponse(
@@ -26,4 +27,6 @@ export interface IMockForgeStateService extends IMockForgeSDK {
     pathname: string,
     responseName: string
   ): Promise<void>;
+
+  getInitialState(): Promise<InitialState>;
 }

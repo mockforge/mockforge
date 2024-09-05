@@ -1,7 +1,14 @@
 import { MockForgeSDK } from "../../sdk/node/sdk.js";
-import { IMockForgeState } from "../common/service.js";
+import {
+  IMockForgeState,
+  IMockForgeStateService,
+  InitialState,
+} from "../common/service.js";
 
-export class MockForgeStateService extends MockForgeSDK {
+export class MockForgeStateService
+  extends MockForgeSDK
+  implements IMockForgeStateService
+{
   private state: IMockForgeState = {
     http: [],
   };
@@ -33,5 +40,14 @@ export class MockForgeStateService extends MockForgeSDK {
         previous.activeMockResponses.push(responseName);
       }
     }
+  }
+
+  async getInitialState(): Promise<InitialState> {
+    const mockAPIs = await this.listMockAPIs();
+    const mockState = await this.getMockForgeState();
+    return {
+      mockAPIs,
+      mockState,
+    };
   }
 }
