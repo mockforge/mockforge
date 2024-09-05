@@ -17,7 +17,7 @@ export function getInitialStateSync(
     throw new Error(`HTTP error! status: ${xhr.status}`);
   }
   try {
-    return JSON.parse(xhr.responseText);
+    return JSON.parse(xhr.responseText).data;
   } catch (e) {
     throw new Error("Failed to parse response as JSON");
   }

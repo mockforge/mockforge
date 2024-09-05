@@ -3,7 +3,6 @@ import { match } from "path-to-regexp";
 import queryString from "query-string";
 import { HttpMockResponse, MockAPI } from "../sdk/common/types";
 import { IMockForgeState } from "../server/common/service";
-import { isNullOrUndefined } from "util";
 
 export interface RequestParameters {
   url?: string | URL;
@@ -28,9 +27,7 @@ export interface SimulatedResponse {
 export interface ISimulatedRequestHandler {
   setApiList(apiList: MockAPI[]): void;
   setState(state: IMockForgeState): void;
-  handleSimulatedRequest(
-    request: RequestParameters
-  ): Promise<SimulatedResponse | null>;
+  handleSimulatedRequest(request: RequestParameters): SimulatedResponse | null;
 }
 
 export class RequestSimulator implements ISimulatedRequestHandler {
@@ -48,7 +45,7 @@ export class RequestSimulator implements ISimulatedRequestHandler {
     this.state = cloneDeep(state);
   }
 
-  private getActiveAPIs() {
+  private getActiveAPIs = () => {
     return this.apiCollection
       .map((o) => {
         const activeAPI = this.state.http.find(
@@ -65,11 +62,28 @@ export class RequestSimulator implements ISimulatedRequestHandler {
         };
       })
       .filter((o) => o !== null);
+  };
+
+  handleSimulatedRequest(request: RequestParameters): SimulatedResponse | null {
+    const res = this._handleSimulatedRequest(request);
+    if (!res) {
+      console.log(
+        `[MockForge]  skip request, method=${request.method}, url=${request.url}`
+      );
+      return null;
+    } else {
+      console.log(
+        `[MockForge] handle request, method=${request.method}, url=${request.url}, mock data:`,
+        res
+      );
+    }
+    return {
+      status: 200,
+      body: JSON.stringify(res?.responseData.content),
+    };
   }
 
-  async handleSimulatedRequest(
-    request: RequestParameters
-  ): Promise<SimulatedResponse | null> {
+  _handleSimulatedRequest(request: RequestParameters): HttpMockResponse | null {
     if (!request.url) {
       return null;
     }
@@ -103,10 +117,7 @@ export class RequestSimulator implements ISimulatedRequestHandler {
     if (matchResponses.length === 0) {
       return null;
     }
-    return {
-      status: 200,
-      body: JSON.stringify(matchResponses[0].responseData.content),
-    };
+    return matchResponses[0];
   }
 
   private findMathResponse(

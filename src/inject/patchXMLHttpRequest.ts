@@ -1,56 +1,35 @@
-import {
-  ISimulatedRequestHandler,
-  RequestParameters,
-} from "./RequestSimulator";
+import { ISimulatedRequestHandler } from "./RequestSimulator";
+//@ts-expect-error
+import fakeXhr from "nise/lib/fake-xhr";
 
 export function patchXMLHttpRequest(mock: ISimulatedRequestHandler) {
-  const OriginalXHR = window.XMLHttpRequest;
-  (window as any).XMLHttpRequest = function () {
-    const xhr = new OriginalXHR();
-    const originalOpen = xhr.open;
-    const originalSetRequestHeader = xhr.setRequestHeader;
-    const originalSend = xhr.send;
-
-    const requestOption: Partial<RequestParameters> = {
-      body: null,
-    };
-    xhr.open = function (method, url) {
-      requestOption.method = method;
-      requestOption.url = url;
-      //@ts-expect-error
-      return originalOpen.apply(this, arguments);
-    };
-
-    xhr.setRequestHeader = function (header, value) {
-      if (!requestOption.headers) {
-        requestOption.headers = {};
+  const OriginalXMLHttpRequest = globalThis.XMLHttpRequest;
+  const ss = fakeXhr.useFakeXMLHttpRequest();
+  ss.onCreate = function (xhr: any) {
+    setTimeout(() => {
+      const mockRes = mock.handleSimulatedRequest({
+        url: xhr.url,
+        method: xhr.method,
+        body: xhr.requestBody,
+        headers: xhr.requestHeaders,
+      });
+      if (!mockRes) {
+        const originalXhr = new OriginalXMLHttpRequest();
+        originalXhr.onreadystatechange = function () {
+          if (originalXhr.readyState === XMLHttpRequest.DONE) {
+            xhr.respond(
+              originalXhr.status,
+              originalXhr.getAllResponseHeaders(),
+              originalXhr.responseText
+            );
+          }
+        };
+        originalXhr.open(xhr.method, xhr.url, xhr.async);
+        originalXhr.send(xhr.requestBody);
+        return;
+      } else {
+        xhr.respond(200, { "Content-Type": "application/json" }, mockRes.body);
       }
-      requestOption.headers[header] = value;
-      //@ts-expect-error
-      return originalSetRequestHeader.apply(this, arguments);
-    };
-
-    xhr.send = function (body) {
-      const that = this;
-      requestOption.body = body;
-      mock
-        .handleSimulatedRequest(requestOption)
-        .catch(() => {
-          //@ts-expect-error
-          originalSend.apply(this, arguments);
-        })
-        .then((res) => {
-          setTimeout(() => {
-            //@ts-expect-error
-            that.status = 200;
-            //@ts-expect-error
-            this.responseText = res?.data;
-            //@ts-expect-error
-            that.onreadystatechange();
-          }, 0);
-        });
-    };
-
-    return xhr;
+    }, 0);
   };
 }

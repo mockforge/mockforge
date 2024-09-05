@@ -23,7 +23,6 @@ export async function createMockForgeServer(
   option: CreateMockForgeServerOption
 ): Promise<number> {
   const serverPort = await getPort({ port: option.port || 50930 });
-
   return new Promise((resolve, reject) => {
     const app = express();
     const server = createServer(app);
