@@ -152,19 +152,6 @@ export const AddApiForm = () => {
                       layout="horizontal"
                       labelCol={{ span: 6 }}
                       wrapperCol={{ span: 18 }}
-                      rules={[
-                        {
-                          validator: (_, value) => {
-                            try {
-                              JSON.parse(value);
-                            } catch (e) {
-                              return Promise.reject("Invalid JSON");
-                            }
-                            return Promise.resolve();
-                          },
-                          message: "Please input a valid JSON",
-                        },
-                      ]}
                     >
                       <TextArea rows={2} />
                     </Form.Item>
