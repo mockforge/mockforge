@@ -23,6 +23,15 @@ body {
   padding: 4px 8px;
   border-radius: 4px;
   margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.api-name {
+  font-weight: 400;
+  display: inline-block;
+  margin-left: 16px;
 }
 
 .api-title {

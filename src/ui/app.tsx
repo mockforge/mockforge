@@ -18,6 +18,7 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
           <div className="method-tag">{props.api.method}</div>
           <div className="api-title">
             {props.api.pathname}
+            <span className="api-name">{props.api.name}</span>
             <div className="api-actions">
               <AddMockResponseButton
                 method={props.api.method}
@@ -26,11 +27,10 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
             </div>
           </div>
         </div>
-        <div style={{ color: "#666", fontSize: "14px", marginTop: "5px" }}>
+        <div style={{ color: "#666", fontSize: "14px", marginTop: "8px" }}>
           {props.api.description}
         </div>
       </div>
-
       <div
         style={{
           display: "flex",
@@ -75,6 +75,7 @@ function useInitData(clientId: string) {
       return mockForgeStore.browserMockForgeStateService.listMockAPIs();
     },
     {
+      refreshOnWindowFocus: true,
       onSuccess(data) {
         mockForgeStore.updateApiList(data);
       },
@@ -85,6 +86,7 @@ function useInitData(clientId: string) {
       return mockForgeStore.browserMockForgeStateService.getMockForgeState();
     },
     {
+      refreshOnWindowFocus: true,
       onSuccess(data) {
         mockForgeStore.updateMockForgeState(data);
       },
