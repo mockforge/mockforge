@@ -7,7 +7,9 @@
     "dist"
   ],
   "exports": {
-    "vite-plugin": "./dist/vite-plugin.js"
+    "./vite-plugin": {
+      "import": "./dist/vite-plugin.js"
+    }
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

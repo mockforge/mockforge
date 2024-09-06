@@ -7,7 +7,7 @@ import { RequestSimulator } from "./RequestSimulator";
 async function initAndInject() {
   console.log("[MockForge] init");
   const requestSimulatorElement = document.getElementById(
-    "mockforge-request-simulator"
+    "mock-forge-request-simulator"
   );
   if (!requestSimulatorElement) {
     console.error("Mockforge Request Simulator: Script tag not found");
