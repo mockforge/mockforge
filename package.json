@@ -6,9 +6,17 @@
   "files": [
     "dist"
   ],
+  "typesVersions": {
+    "*": {
+      "vite-plugin": [
+        "vite-plugin.d.ts"
+      ]
+    }
+  },
   "exports": {
     "./vite-plugin": {
-      "import": "./dist/vite-plugin.js"
+      "require": "./dist/vite-plugin.cjs",
+      "import": "./dist/vite-plugin.mjs"
     }
   },
   "publishConfig": {

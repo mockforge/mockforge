@@ -6,13 +6,21 @@ interface MockForgeOption {
   port?: number;
 }
 
+const getDirname = () => {
+  if (typeof __dirname !== "undefined") {
+    return __dirname;
+  } else if (typeof import.meta !== "undefined" && import.meta.url) {
+    return new URL(".", import.meta.url).pathname;
+  }
+  return process.cwd();
+};
+
 export function mockForge(options: MockForgeOption) {
   const { mockDataDir } = options || {};
   const finalBaseDir = mockDataDir || join(process.cwd(), ".mockForge");
   let isMockEnabled = false;
 
   let port: number | null = null;
-  const __dirname = new URL(".", import.meta.url).pathname;
   return {
     name: "vite-plugin-mock-forge",
     configResolved(config: any) {
@@ -23,7 +31,7 @@ export function mockForge(options: MockForgeOption) {
     async configureServer() {
       port = await createMockForgeServer({
         baseDir: finalBaseDir,
-        static: [join(__dirname, "ui"), join(__dirname, "inject")],
+        static: [join(getDirname(), "ui"), join(getDirname(), "inject")],
       });
       console.log("[MockForge] start at http://localhost:" + port);
     },

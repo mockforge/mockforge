@@ -17,14 +17,32 @@ export function patchXMLHttpRequest(mock: ISimulatedRequestHandler) {
         const originalXhr = new OriginalXMLHttpRequest();
         originalXhr.onreadystatechange = function () {
           if (originalXhr.readyState === XMLHttpRequest.DONE) {
+            const arr = originalXhr
+              .getAllResponseHeaders()
+              .trim()
+              .split(/[\r\n]+/);
+
+            const headerMap: Record<string, string> = {};
+            arr.forEach((line) => {
+              const parts = line.split(": ");
+              const header = parts.shift()!;
+              const value = parts.join(": ");
+              headerMap[header] = value;
+            });
+
             xhr.respond(
               originalXhr.status,
-              originalXhr.getAllResponseHeaders(),
+              headerMap,
               originalXhr.responseText
             );
           }
         };
+
         originalXhr.open(xhr.method, xhr.url, xhr.async);
+        Object.keys(xhr.requestHeaders).forEach((key: string) => {
+          originalXhr.setRequestHeader(key, xhr.requestHeaders[key]);
+        });
+        originalXhr.withCredentials = xhr.withCredentials;
         originalXhr.send(xhr.requestBody);
         return;
       } else {

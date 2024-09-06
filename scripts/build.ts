@@ -43,7 +43,14 @@ async function build() {
       platform: "node",
       format: "esm",
       entryPoints: [join(srcDir, "vite-plugin", "main.ts")],
-      outfile: join(distDir, "vite-plugin.js"),
+      outfile: join(distDir, "vite-plugin.mjs"),
+    });
+    await esbuild.build({
+      ...commonConfig,
+      platform: "node",
+      format: "cjs",
+      entryPoints: [join(srcDir, "vite-plugin", "main.ts")],
+      outfile: join(distDir, "vite-plugin.cjs"),
     });
     console.log("Built vite-plugin.js");
     console.log("Build completed successfully");
