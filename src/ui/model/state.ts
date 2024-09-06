@@ -24,6 +24,11 @@ interface MockForgeStore {
     pathname: string,
     responseName: string
   ) => boolean;
+  selectSingleHttpApiResponse(
+    method: string,
+    pathname: string,
+    responseName: string
+  ): Promise<void>;
   toggleHttpApiResponse: (
     method: string,
     pathname: string,
@@ -63,6 +68,18 @@ export const useMockForgeStore = create<MockForgeStore>((set, get) => ({
       (api) => api.method === method && api.pathname === pathname
     );
     return api ? api.activeMockResponses.includes(responseName) : false;
+  },
+  selectSingleHttpApiResponse: async (method, pathname, responseName) => {
+    const { mockForgeState, toggleHttpApiResponse } = get();
+    const api = mockForgeState.http.find(
+      (api) => api.method === method && api.pathname === pathname
+    );
+    if (api && api.activeMockResponses.length > 0) {
+      for (const activeResponseName of api.activeMockResponses) {
+        await toggleHttpApiResponse(method, pathname, activeResponseName);
+      }
+    }
+    await toggleHttpApiResponse(method, pathname, responseName);
   },
   toggleHttpApiResponse: async (method, pathname, responseName) => {
     await get().browserMockForgeStateService.toggleHttpApiResponse(

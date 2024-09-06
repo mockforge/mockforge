@@ -47,7 +47,20 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
                 props.api.pathname,
                 o.name
               )}
-              onChange={() => {
+              onChange={(e) => {
+                if (e.nativeEvent.altKey) {
+                  mockForgeStore
+                    .selectSingleHttpApiResponse(
+                      props.api.method,
+                      props.api.pathname,
+                      o.name
+                    )
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                  return;
+                }
+                console.log(e.nativeEvent.altKey);
                 mockForgeStore
                   .toggleHttpApiResponse(
                     props.api.method,

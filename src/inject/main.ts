@@ -1,3 +1,4 @@
+import { info } from "./logger";
 import { BrowserMockForgeEventListener } from "../ui/service/event";
 import { BrowserMockForgeStateService } from "../ui/service/service";
 import { getInitialStateSync } from "./getInitialStateSync";
@@ -5,7 +6,7 @@ import { patchXMLHttpRequest } from "./patchXMLHttpRequest";
 import { RequestSimulator } from "./RequestSimulator";
 
 async function initAndInject() {
-  console.log("[MockForge] init");
+  info("MockForge initializing");
   const requestSimulatorElement = document.getElementById(
     "mock-forge-request-simulator"
   );
@@ -60,6 +61,7 @@ async function initAndInject() {
       error
     );
   }
+  info(`MockForge initialized, Access ${serverURL} to manage mock data`);
 }
 
 initAndInject();
