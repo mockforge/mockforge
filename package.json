@@ -1,5 +1,5 @@
 {
-  "name": "mockforge",
+  "name": "@diamondyuan/mockforge",
   "version": "0.1.0",
   "description": "",
   "type": "module",
@@ -27,6 +27,7 @@
     "url": "https://github.com/MockForge/mockforge"
   },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "dev": "npm run dev:server & npm run dev:ui",
     "dev:ui": "vite",
     "dev:server": "tsx --watch scripts/start-server.ts",

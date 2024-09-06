@@ -17,7 +17,7 @@ const getDirname = () => {
 
 export function mockForge(options: MockForgeOption) {
   const { mockDataDir } = options || {};
-  const finalBaseDir = mockDataDir || join(process.cwd(), ".mockForge");
+  const finalBaseDir = mockDataDir || join(process.cwd(), ".mockforge");
   let isMockEnabled = false;
 
   let port: number | null = null;
