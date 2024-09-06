@@ -1,23 +1,20 @@
-import { readFile } from "fs/promises";
 import { join } from "path";
 import { createMockForgeServer } from "../server/node/server";
 
 interface MockForgeOption {
-  baseDir?: string;
+  mockDataDir?: string;
   port?: number;
 }
 
-export default function mockPlugin(options: MockForgeOption) {
-  const { baseDir } = options || {};
-  const finalBaseDir = baseDir || join(process.cwd(), ".mockforge");
+export function mockForge(options: MockForgeOption) {
+  const { mockDataDir } = options || {};
+  const finalBaseDir = mockDataDir || join(process.cwd(), ".mockForge");
   let isMockEnabled = false;
 
   let port: number | null = null;
-  // import meta 计算
   const __dirname = new URL(".", import.meta.url).pathname;
-
   return {
-    name: "vite-plugin-mock",
+    name: "vite-plugin-mock-forge",
     configResolved(config: any) {
       if (process.env.MOCK_FORGE && config.command === "serve") {
         isMockEnabled = true;
@@ -37,7 +34,7 @@ export default function mockPlugin(options: MockForgeOption) {
         const serverURL = `http://localhost:${port}`;
         const scriptUrl = `http://localhost:${port}/inject.js`;
         const injection = `
-            <script src="${scriptUrl}" id="mockforge-request-simulator" clientId="${randomId}" serverURL="${serverURL}">
+            <script src="${scriptUrl}" id="mock-forge-request-simulator" clientId="${randomId}" serverURL="${serverURL}">
             </script>
           `;
         return html.replace("</head>", `${injection}</head>`);

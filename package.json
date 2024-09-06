@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "description": "",
   "type": "module",
-  "main": "./dist/vite-plugin.js",
   "files": [
     "dist"
   ],
+  "exports": {
+    "vite-plugin": "./dist/vite-plugin.js"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"

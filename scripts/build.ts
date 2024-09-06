@@ -1,5 +1,5 @@
 import * as esbuild from "esbuild";
-import { rm } from "fs/promises";
+import { rm, cp } from "fs/promises";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
@@ -47,6 +47,13 @@ async function build() {
     });
     console.log("Built vite-plugin.js");
     console.log("Build completed successfully");
+
+    try {
+      await cp(join(srcDir, "types"), join(distDir), { recursive: true });
+      console.log("Copied types directory");
+    } catch (err) {
+      console.error("Error copying types directory:", err);
+    }
   } catch (err) {
     console.error("Build failed:", err);
     process.exit(1);
