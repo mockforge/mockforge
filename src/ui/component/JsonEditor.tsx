@@ -1,6 +1,7 @@
 import * as monaco from 'monaco-editor';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { jsonSchemaService } from '../service/jsonSchema';
+import styles from './JSONEditor.module.css';
 
 interface JSONEditorProps {
   schema?: any;
@@ -25,6 +26,9 @@ export function JSONEditor({ value, onChange, schema }: JSONEditorProps) {
         model: testModel,
         automaticLayout: true,
         theme: 'vs-light',
+        minimap: {
+          enabled: false,
+        },
       });
       editor.onDidChangeModelContent(() => {
         if (onChange) {
@@ -39,5 +43,5 @@ export function JSONEditor({ value, onChange, schema }: JSONEditorProps) {
     }
   }, []);
 
-  return <div ref={containerRef} style={{ height: 200 }} />;
+  return <div ref={containerRef} className={styles.editor} />;
 }
