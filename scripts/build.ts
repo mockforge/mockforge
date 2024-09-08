@@ -1,20 +1,21 @@
 import * as esbuild from "esbuild";
-import { rm, cp } from "fs/promises";
+import { cp, rm } from "fs/promises";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const distDir = join(__dirname, "..", "dist");
+const jsonSchemaDir = join(__dirname, "..", "json-schema");
 const srcDir = join(__dirname, "..", "src");
 
 async function build() {
-  // 清空 dist 目录
   try {
     await rm(distDir, { recursive: true, force: true });
-    console.log("Cleaned dist directory");
+    await rm(jsonSchemaDir, { recursive: true, force: true });
+    console.log("Cleaned dist,jsonSchema directory");
   } catch (err) {
-    console.error("Error cleaning dist directory:", err);
+    console.error("Error cleaning dist,jsonSchema directory:", err);
   }
 
   // 构建配置
@@ -56,7 +57,7 @@ async function build() {
     console.log("Build completed successfully");
 
     try {
-      await cp(join(srcDir, "jsonSchema"), join(distDir, "json-schema"), {
+      await cp(join(srcDir, "jsonSchema"), jsonSchemaDir, {
         recursive: true,
       });
       console.log("Copied types directory");

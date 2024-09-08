@@ -131,3 +131,4 @@ dist
 
 scripts/cache/
 .idea
+json-schema/

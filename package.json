@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "files": [
+    "json-schema",
     "dist"
   ],
   "typesVersions": {
