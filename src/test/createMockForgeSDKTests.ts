@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { IMockForgeSDK } from "../sdk/common/sdk.js";
+import { MockAPI } from "../sdk/common/types.js";
 
 export function createMockForgeSDKTests(
   beforeEachFn: () => Promise<IMockForgeSDK>,
@@ -191,7 +192,7 @@ export function createMockForgeSDKTests(
       });
 
       it("should throw an error when adding an existing mock response", async () => {
-        const mockAPI = {
+        const mockAPI: MockAPI = {
           type: "http" as const,
           method: "GET" as const,
           pathname: "/test",
@@ -200,6 +201,8 @@ export function createMockForgeSDKTests(
           mockResponses: [
             {
               name: "Existing",
+              $schema:
+                "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
               schema: "http_response_v1" as const,
               description: "Existing response",
               requestMatcher: {
@@ -241,6 +244,8 @@ export function createMockForgeSDKTests(
           description: "Test description",
           mockResponses: [
             {
+              $schema:
+                "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
               name: "ToDelete",
               schema: "http_response_v1" as const,
               description: "Response to delete",
