@@ -1,4 +1,5 @@
 import {
+  AddHttpMockResponse,
   HttpMockResponse,
   MockAPI,
   MockAPIMetadata,
@@ -83,9 +84,13 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
   async addHttpMockResponse(
     method: string,
     pathname: string,
-    mockResponse: HttpMockResponse
-  ): Promise<void> {
-    await this.callRPC("addHttpMockResponse", [method, pathname, mockResponse]);
+    mockResponse: AddHttpMockResponse
+  ): Promise<HttpMockResponse> {
+    return await this.callRPC("addHttpMockResponse", [
+      method,
+      pathname,
+      mockResponse,
+    ]);
   }
 
   async deleteHttpMockResponse(

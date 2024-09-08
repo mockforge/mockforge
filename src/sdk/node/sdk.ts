@@ -7,7 +7,12 @@ import {
   METADATA_FILENAME,
 } from "../common/filename.js";
 import { IMockForgeSDK } from "../common/sdk.js";
-import { HttpMockResponse, MockAPI, MockAPIMetadata } from "../common/types.js";
+import {
+  AddHttpMockResponse,
+  HttpMockResponse,
+  MockAPI,
+  MockAPIMetadata,
+} from "../common/types.js";
 
 export class MockForgeSDK implements IMockForgeSDK {
   constructor(private baseDir: string) {}
@@ -116,8 +121,8 @@ export class MockForgeSDK implements IMockForgeSDK {
   async addHttpMockResponse(
     method: string,
     pathname: string,
-    mockResponse: HttpMockResponse
-  ) {
+    mockResponse: AddHttpMockResponse
+  ): Promise<HttpMockResponse> {
     const mockResponsePath = this.resolveMockResponsePath(
       method,
       pathname,
@@ -137,6 +142,11 @@ export class MockForgeSDK implements IMockForgeSDK {
       mockResponsePath,
       JSON.stringify(httpMockResponseToWrite, null, 2)
     );
+    return {
+      ...mockResponse,
+      $schema:
+        "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
+    };
   }
 
   deleteHttpMockResponse(

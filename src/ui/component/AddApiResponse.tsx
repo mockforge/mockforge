@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import { Button, Drawer, Form, Input, Space } from "antd";
+import React, { useState } from "react";
+import { AddHttpMockResponse } from "../../sdk/common/types";
 import useMockForgeStore from "../model/state";
-import { HttpMockResponse } from "../../sdk/common/types";
 
 const { TextArea } = Input;
 
@@ -25,7 +25,7 @@ export const AddMockResponseButton: React.FC<{
   };
 
   const onFinish = async (values: any) => {
-    const newMockResponse: HttpMockResponse = {
+    const newMockResponse: AddHttpMockResponse = {
       name: values.name,
       schema: "http_response_v1",
       description: values.description,

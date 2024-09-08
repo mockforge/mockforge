@@ -1,13 +1,17 @@
+import { produce } from "immer";
 import { create } from "zustand";
-import { HttpMockAPI, HttpMockResponse, MockAPI } from "../../sdk/common/types";
+import {
+  AddHttpMockResponse,
+  HttpMockAPI,
+  MockAPI,
+} from "../../sdk/common/types";
+import { IMockForgeEventListener } from "../../server/common/event";
 import {
   IMockForgeState,
   IMockForgeStateService,
 } from "../../server/common/service";
-import { BrowserMockForgeStateService } from "../service/service";
 import { BrowserMockForgeEventListener } from "../service/event";
-import { IMockForgeEventListener } from "../../server/common/event";
-import { produce } from "immer";
+import { BrowserMockForgeStateService } from "../service/service";
 
 interface MockForgeStore {
   clientId: string;
@@ -38,7 +42,7 @@ interface MockForgeStore {
   addHttpMockResponse: (
     method: string,
     pathname: string,
-    mockResponse: HttpMockResponse
+    mockResponse: AddHttpMockResponse
   ) => Promise<void>;
   deleteHttpMockResponse: (
     method: string,
@@ -117,11 +121,12 @@ export const useMockForgeStore = create<MockForgeStore>((set, get) => ({
   },
 
   addHttpMockResponse: async (method, pathname, mockResponse) => {
-    await get().browserMockForgeStateService.addHttpMockResponse(
-      method,
-      pathname,
-      mockResponse
-    );
+    const newHttpMockResponse =
+      await get().browserMockForgeStateService.addHttpMockResponse(
+        method,
+        pathname,
+        mockResponse
+      );
     set((state) => {
       const newState = { ...state };
       const apiIndex = newState.apiList.findIndex(
@@ -129,7 +134,7 @@ export const useMockForgeStore = create<MockForgeStore>((set, get) => ({
       );
       if (apiIndex !== -1) {
         (newState.apiList[apiIndex] as HttpMockAPI).mockResponses.push(
-          mockResponse
+          newHttpMockResponse
         );
       }
       return newState;

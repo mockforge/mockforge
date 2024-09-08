@@ -56,6 +56,8 @@ export interface HttpMockResponse {
   };
 }
 
+export type AddHttpMockResponse = Omit<HttpMockResponse, "$schema">;
+
 export type UpdateHttpMockAPISchema = Pick<
   HttpMockAPI,
   "method" | "description"
