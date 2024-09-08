@@ -56,6 +56,15 @@ async function build() {
     console.log("Build completed successfully");
 
     try {
+      await cp(join(srcDir, "jsonSchema"), join(distDir, "json-schema"), {
+        recursive: true,
+      });
+      console.log("Copied types directory");
+    } catch (err) {
+      console.error("Error copying types directory:", err);
+    }
+
+    try {
       await cp(join(srcDir, "types"), join(distDir), { recursive: true });
       console.log("Copied types directory");
     } catch (err) {

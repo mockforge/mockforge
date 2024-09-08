@@ -45,9 +45,7 @@ export async function createMockForgeServer(
     app.post("/api/v1/mockforge/rpc", async (req: Request, res: Response) => {
       const requestBody = req.body as RPCRequestBody;
       const { method, args, clientId } = requestBody;
-
       let response: RPCResponse;
-
       try {
         const serviceMethod = mockForgeStateService[
           method as keyof MockForgeStateService
