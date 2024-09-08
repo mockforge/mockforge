@@ -33,7 +33,8 @@
     "dev:ui": "vite",
     "dev:server": "tsx --watch scripts/start-server.ts",
     "build": "tsx scripts/build.ts && vite build",
-    "cov": "vitest run --coverage"
+    "cov": "vitest run --coverage",
+    "format": "prettier src scripts -w"
   },
   "author": "DiamondYuan",
   "license": "MIT",
@@ -58,19 +59,20 @@
     "get-port": "^7.1.0",
     "immer": "^10.1.1",
     "lodash-es": "^4.17.21",
+    "monaco-editor": "^0.51.0",
     "nise": "^6.0.0",
     "path-to-regexp": "^8.0.0",
     "query-string": "^9.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-monaco-editor": "^0.56.1",
     "tsx": "^4.19.0",
     "typescript": "^5.5.4",
     "valid-filename": "^4.0.0",
     "vite": "^5.4.3",
     "vitest": "^2.0.5",
     "zustand": "^4.5.5",
-    "monaco-editor": "^0.51.0",
-    "react-monaco-editor": "^0.56.1"
+    "prettier": "^3.3.3"
   },
   "dependencies": {
     "express": "^4.19.2",

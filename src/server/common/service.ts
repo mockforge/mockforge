@@ -1,5 +1,5 @@
-import { IMockForgeSDK } from "../../sdk/common/sdk.js";
-import { MockAPI } from "../../sdk/common/types.js";
+import { IMockForgeSDK } from '../../sdk/common/sdk.js';
+import { MockAPI } from '../../sdk/common/types.js';
 
 export interface IHttpApiState {
   method: string;
@@ -22,11 +22,7 @@ export interface InitialState {
 }
 export interface IMockForgeStateService extends IMockForgeSDK {
   getMockForgeState(): Promise<IMockForgeState>;
-  toggleHttpApiResponse(
-    method: string,
-    pathname: string,
-    responseName: string
-  ): Promise<void>;
+  toggleHttpApiResponse(method: string, pathname: string, responseName: string): Promise<void>;
 
   getInitialState(): Promise<InitialState>;
 }

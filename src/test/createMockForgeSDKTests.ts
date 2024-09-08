@@ -1,12 +1,9 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { IMockForgeSDK } from "../sdk/common/sdk.js";
-import { MockAPI } from "../sdk/common/types.js";
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { IMockForgeSDK } from '../sdk/common/sdk.js';
+import { MockAPI } from '../sdk/common/types.js';
 
-export function createMockForgeSDKTests(
-  beforeEachFn: () => Promise<IMockForgeSDK>,
-  afterEachFn: () => Promise<void>
-) {
-  describe("MockForgeSDK", () => {
+export function createMockForgeSDKTests(beforeEachFn: () => Promise<IMockForgeSDK>, afterEachFn: () => Promise<void>) {
+  describe('MockForgeSDK', () => {
     let sdk: IMockForgeSDK;
 
     beforeEach(async () => {
@@ -17,28 +14,27 @@ export function createMockForgeSDKTests(
       await afterEachFn();
     });
 
-    describe("listMockAPIs", () => {
-      it("should return an empty array when no APIs exist", async () => {
+    describe('listMockAPIs', () => {
+      it('should return an empty array when no APIs exist', async () => {
         const apis = await sdk.listMockAPIs();
         expect(apis).toEqual([]);
       });
 
-      it("should return existing APIs", async () => {
+      it('should return existing APIs', async () => {
         const mockAPI = {
-          type: "http" as const,
-          method: "GET" as const,
-          pathname: "/test",
-          name: "Test API",
-          description: "Test description",
+          type: 'http' as const,
+          method: 'GET' as const,
+          pathname: '/test',
+          name: 'Test API',
+          description: 'Test description',
           mockResponses: [
             {
-              $schema:
-                "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
-              name: "Default",
-              schema: "http_response_v1" as const,
-              description: "Default response",
+              $schema: 'https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json',
+              name: 'Default',
+              schema: 'http_response_v1' as const,
+              description: 'Default response',
               requestMatcher: {
-                type: "basic-match" as const,
+                type: 'basic-match' as const,
                 content: {
                   body: {},
                   params: {},
@@ -47,8 +43,8 @@ export function createMockForgeSDKTests(
                 },
               },
               responseData: {
-                type: "json" as const,
-                content: { message: "Hello, World!" },
+                type: 'json' as const,
+                content: { message: 'Hello, World!' },
               },
             },
           ],
@@ -61,33 +57,32 @@ export function createMockForgeSDKTests(
       });
     });
 
-    describe("addMockAPI", () => {
-      it("should add a new mock API", async () => {
+    describe('addMockAPI', () => {
+      it('should add a new mock API', async () => {
         const mockAPI = {
-          type: "http" as const,
-          method: "POST" as const,
-          pathname: "/users",
-          name: "Create User",
-          description: "Create a new user",
+          type: 'http' as const,
+          method: 'POST' as const,
+          pathname: '/users',
+          name: 'Create User',
+          description: 'Create a new user',
           mockResponses: [
             {
-              $schema:
-                "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
-              name: "Success",
-              schema: "http_response_v1" as const,
-              description: "Successful response",
+              $schema: 'https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json',
+              name: 'Success',
+              schema: 'http_response_v1' as const,
+              description: 'Successful response',
               requestMatcher: {
-                type: "basic-match" as const,
+                type: 'basic-match' as const,
                 content: {
-                  body: { username: "test" },
+                  body: { username: 'test' },
                   params: {},
                   headers: {},
                   query: {},
                 },
               },
               responseData: {
-                type: "json" as const,
-                content: { id: 1, username: "test" },
+                type: 'json' as const,
+                content: { id: 1, username: 'test' },
               },
             },
           ],
@@ -99,46 +94,40 @@ export function createMockForgeSDKTests(
         expect(apis[0]).toEqual(mockAPI);
       });
 
-      it("should throw an error when adding an existing API", async () => {
+      it('should throw an error when adding an existing API', async () => {
         const mockAPI = {
-          type: "http" as const,
-          method: "GET" as const,
-          pathname: "/test",
-          name: "Test API",
-          description: "Test description",
+          type: 'http' as const,
+          method: 'GET' as const,
+          pathname: '/test',
+          name: 'Test API',
+          description: 'Test description',
           mockResponses: [],
         };
 
         await sdk.addMockAPI(mockAPI);
-        await expect(sdk.addMockAPI(mockAPI)).rejects.toThrow(
-          "API already exists"
-        );
+        await expect(sdk.addMockAPI(mockAPI)).rejects.toThrow('API already exists');
       });
     });
 
-    describe("updateHttpMockAPI", () => {
-      it("should update an existing mock API", async () => {
+    describe('updateHttpMockAPI', () => {
+      it('should update an existing mock API', async () => {
         const mockAPI = {
-          type: "http" as const,
-          method: "GET" as const,
-          pathname: "/test",
-          name: "Test API",
-          description: "Test description",
+          type: 'http' as const,
+          method: 'GET' as const,
+          pathname: '/test',
+          name: 'Test API',
+          description: 'Test description',
           mockResponses: [],
         };
 
         await sdk.addMockAPI(mockAPI);
 
         const updatedData = {
-          name: "Updated Test API",
-          description: "Updated description",
+          name: 'Updated Test API',
+          description: 'Updated description',
         };
 
-        await sdk.updateHttpMockAPI(
-          mockAPI.method,
-          mockAPI.pathname,
-          updatedData
-        );
+        await sdk.updateHttpMockAPI(mockAPI.method, mockAPI.pathname, updatedData);
 
         const apis = await sdk.listMockAPIs();
         expect(apis[0].name).toBe(updatedData.name);
@@ -146,27 +135,26 @@ export function createMockForgeSDKTests(
       });
     });
 
-    describe("addHttpMockResponse", () => {
-      it("should add a new mock response to an existing API", async () => {
+    describe('addHttpMockResponse', () => {
+      it('should add a new mock response to an existing API', async () => {
         const mockAPI = {
-          type: "http" as const,
-          method: "GET" as const,
-          pathname: "/test",
-          name: "Test API",
-          description: "Test description",
+          type: 'http' as const,
+          method: 'GET' as const,
+          pathname: '/test',
+          name: 'Test API',
+          description: 'Test description',
           mockResponses: [],
         };
 
         await sdk.addMockAPI(mockAPI);
 
         const newMockResponse = {
-          $schema:
-            "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
-          name: "New Response",
-          schema: "http_response_v1" as const,
-          description: "New mock response",
+          $schema: 'https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json',
+          name: 'New Response',
+          schema: 'http_response_v1' as const,
+          description: 'New mock response',
           requestMatcher: {
-            type: "basic-match" as const,
+            type: 'basic-match' as const,
             content: {
               body: {},
               params: {},
@@ -175,38 +163,33 @@ export function createMockForgeSDKTests(
             },
           },
           responseData: {
-            type: "json" as const,
-            content: { message: "New response" },
+            type: 'json' as const,
+            content: { message: 'New response' },
           },
         };
 
-        await sdk.addHttpMockResponse(
-          mockAPI.method,
-          mockAPI.pathname,
-          newMockResponse
-        );
+        await sdk.addHttpMockResponse(mockAPI.method, mockAPI.pathname, newMockResponse);
 
         const apis = await sdk.listMockAPIs();
         expect(apis[0].mockResponses).toHaveLength(1);
         expect(apis[0].mockResponses[0]).toEqual(newMockResponse);
       });
 
-      it("should throw an error when adding an existing mock response", async () => {
+      it('should throw an error when adding an existing mock response', async () => {
         const mockAPI: MockAPI = {
-          type: "http" as const,
-          method: "GET" as const,
-          pathname: "/test",
-          name: "Test API",
-          description: "Test description",
+          type: 'http' as const,
+          method: 'GET' as const,
+          pathname: '/test',
+          name: 'Test API',
+          description: 'Test description',
           mockResponses: [
             {
-              name: "Existing",
-              $schema:
-                "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
-              schema: "http_response_v1" as const,
-              description: "Existing response",
+              name: 'Existing',
+              $schema: 'https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json',
+              schema: 'http_response_v1' as const,
+              description: 'Existing response',
               requestMatcher: {
-                type: "basic-match" as const,
+                type: 'basic-match' as const,
                 content: {
                   body: {},
                   params: {},
@@ -215,8 +198,8 @@ export function createMockForgeSDKTests(
                 },
               },
               responseData: {
-                type: "json" as const,
-                content: { message: "Existing response" },
+                type: 'json' as const,
+                content: { message: 'Existing response' },
               },
             },
           ],
@@ -225,32 +208,27 @@ export function createMockForgeSDKTests(
         await sdk.addMockAPI(mockAPI);
 
         await expect(
-          sdk.addHttpMockResponse(
-            mockAPI.method,
-            mockAPI.pathname,
-            mockAPI.mockResponses[0]
-          )
-        ).rejects.toThrow("Mock response Existing already exists");
+          sdk.addHttpMockResponse(mockAPI.method, mockAPI.pathname, mockAPI.mockResponses[0])
+        ).rejects.toThrow('Mock response Existing already exists');
       });
     });
 
-    describe("deleteHttpMockResponse", () => {
-      it("should delete an existing mock response", async () => {
+    describe('deleteHttpMockResponse', () => {
+      it('should delete an existing mock response', async () => {
         const mockAPI = {
-          type: "http" as const,
-          method: "GET" as const,
-          pathname: "/test",
-          name: "Test API",
-          description: "Test description",
+          type: 'http' as const,
+          method: 'GET' as const,
+          pathname: '/test',
+          name: 'Test API',
+          description: 'Test description',
           mockResponses: [
             {
-              $schema:
-                "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
-              name: "ToDelete",
-              schema: "http_response_v1" as const,
-              description: "Response to delete",
+              $schema: 'https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json',
+              name: 'ToDelete',
+              schema: 'http_response_v1' as const,
+              description: 'Response to delete',
               requestMatcher: {
-                type: "basic-match" as const,
+                type: 'basic-match' as const,
                 content: {
                   body: {},
                   params: {},
@@ -259,8 +237,8 @@ export function createMockForgeSDKTests(
                 },
               },
               responseData: {
-                type: "json" as const,
-                content: { message: "To be deleted" },
+                type: 'json' as const,
+                content: { message: 'To be deleted' },
               },
             },
           ],
@@ -268,25 +246,21 @@ export function createMockForgeSDKTests(
 
         await sdk.addMockAPI(mockAPI);
 
-        await sdk.deleteHttpMockResponse(
-          mockAPI.method,
-          mockAPI.pathname,
-          "ToDelete"
-        );
+        await sdk.deleteHttpMockResponse(mockAPI.method, mockAPI.pathname, 'ToDelete');
 
         const apis = await sdk.listMockAPIs();
         expect(apis[0].mockResponses).toHaveLength(0);
       });
     });
 
-    describe("deleteHttpMockAPI", () => {
-      it("should delete an existing mock API", async () => {
+    describe('deleteHttpMockAPI', () => {
+      it('should delete an existing mock API', async () => {
         const mockAPI = {
-          type: "http" as const,
-          method: "GET" as const,
-          pathname: "/test",
-          name: "Test API",
-          description: "Test description",
+          type: 'http' as const,
+          method: 'GET' as const,
+          pathname: '/test',
+          name: 'Test API',
+          description: 'Test description',
           mockResponses: [],
         };
 

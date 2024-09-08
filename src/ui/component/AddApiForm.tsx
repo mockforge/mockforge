@@ -1,8 +1,10 @@
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Drawer, Form, Input, Select, Space } from "antd";
-import { useState } from "react";
-import { MockAPI } from "../../sdk/common/types";
-import useMockForgeStore from "../model/state";
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Drawer, Form, Input, Select, Space } from 'antd';
+import React, { useState } from 'react';
+import { MockAPI } from '../../sdk/common/types';
+import useMockForgeStore from '../model/state';
+import { JSONEditor } from './JsonEditor.tsx';
+import { requestMatcherSchema } from '../schema.ts';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -23,7 +25,7 @@ export const AddApiForm = () => {
 
   const onFinish = async (values: any) => {
     const newApi: MockAPI = {
-      type: "http",
+      type: 'http',
       method: values.method,
       pathname: values.pathname,
       name: values.name,
@@ -31,17 +33,17 @@ export const AddApiForm = () => {
       mockResponses: values.mocks.map((mock: any) => {
         const requestMatcher = mock.matchJson
           ? {
-              type: "basic-match",
+              type: 'basic-match',
               content: JSON.parse(mock.matchJson),
             }
           : null;
         return {
           name: mock.name,
-          schema: "http_response_v1",
+          schema: 'http_response_v1',
           description: mock.description,
           requestMatcher: requestMatcher,
           responseData: {
-            type: "json",
+            type: 'json',
             content: JSON.parse(mock.responseJson),
           },
         };
@@ -81,7 +83,7 @@ export const AddApiForm = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
           initialValues={{
-            method: "GET",
+            method: 'GET',
             mocks: [{}],
           }}
         >
@@ -136,8 +138,8 @@ export const AddApiForm = () => {
                   >
                     <Form.Item
                       {...restField}
-                      name={[name, "name"]}
-                      label={"Name"}
+                      name={[name, 'name']}
+                      label={'Name'}
                       rules={[{ required: true }]}
                       layout="horizontal"
                       labelCol={{ span: 6 }}
@@ -147,7 +149,7 @@ export const AddApiForm = () => {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "description"]}
+                      name={[name, 'description']}
                       label="Description"
                       layout="horizontal"
                       labelCol={{ span: 6 }}
@@ -157,29 +159,17 @@ export const AddApiForm = () => {
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "matchJson"]}
+                      name={[name, 'matchJson']}
                       label="Request Match"
                       layout="horizontal"
                       labelCol={{ span: 6 }}
                       wrapperCol={{ span: 18 }}
                     >
-                      <TextArea
-                        rows={7}
-                        placeholder={JSON.stringify(
-                          {
-                            body: {},
-                            params: {},
-                            headers: {},
-                            query: {},
-                          },
-                          null,
-                          2
-                        )}
-                      />
+                      <JSONEditor schema={requestMatcherSchema}></JSONEditor>
                     </Form.Item>
                     <Form.Item
                       {...restField}
-                      name={[name, "responseJson"]}
+                      name={[name, 'responseJson']}
                       label="Response"
                       layout="horizontal"
                       labelCol={{ span: 6 }}
@@ -191,24 +181,19 @@ export const AddApiForm = () => {
                             try {
                               JSON.parse(value);
                             } catch (e) {
-                              return Promise.reject("Invalid JSON");
+                              return Promise.reject('Invalid JSON');
                             }
                             return Promise.resolve();
                           },
-                          message: "Please input a valid JSON",
+                          message: 'Please input a valid JSON',
                         },
                       ]}
                     >
-                      <TextArea rows={4} />
+                      <JSONEditor></JSONEditor>
                     </Form.Item>
                   </Card>
                 ))}
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                >
+                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                   Add Mock
                 </Button>
               </>

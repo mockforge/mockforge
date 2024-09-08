@@ -1,60 +1,60 @@
 export const HttpMockResponse = {
-  $schema: "http://json-schema.org/draft-07/schema#",
-  type: "object",
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  type: 'object',
   properties: {
     $schema: {
-      type: "string",
-      description: "JOSN Schema",
+      type: 'string',
+      description: 'JOSN Schema',
     },
     schema: {
-      type: "string",
-      description: "Schema version identifier",
-      const: "http_response_v1",
+      type: 'string',
+      description: 'Schema version identifier',
+      const: 'http_response_v1',
     },
     description: {
-      type: "string",
-      description: "Description of the mock response",
+      type: 'string',
+      description: 'Description of the mock response',
       optional: true,
     },
     requestMatcher: {
-      type: ["object", "null"],
-      description: "Request matching rules",
+      type: ['object', 'null'],
+      description: 'Request matching rules',
       properties: {
         type: {
-          type: "string",
-          const: "basic-match",
-          description: "Type of matching rule",
+          type: 'string',
+          const: 'basic-match',
+          description: 'Type of matching rule',
         },
         content: {
-          type: "object",
+          type: 'object',
           properties: {
             body: {
-              description: "Body content for matching",
-              type: "object",
+              description: 'Body content for matching',
+              type: 'object',
               optional: true,
             },
             params: {
-              type: "object",
+              type: 'object',
               additionalProperties: {
-                type: "string",
+                type: 'string',
               },
-              description: "URL parameters for matching",
+              description: 'URL parameters for matching',
               optional: true,
             },
             headers: {
-              type: "object",
+              type: 'object',
               additionalProperties: {
-                type: "string",
+                type: 'string',
               },
-              description: "HTTP headers for matching",
+              description: 'HTTP headers for matching',
               optional: true,
             },
             query: {
-              type: "object",
+              type: 'object',
               additionalProperties: {
-                type: "string",
+                type: 'string',
               },
-              description: "Query parameters for matching",
+              description: 'Query parameters for matching',
               optional: true,
             },
           },
@@ -64,23 +64,23 @@ export const HttpMockResponse = {
       additionalProperties: false,
     },
     responseData: {
-      type: "object",
-      description: "Specific content of the mock response",
+      type: 'object',
+      description: 'Specific content of the mock response',
       properties: {
         type: {
-          type: "string",
-          const: "json",
-          description: "Type of the response content",
+          type: 'string',
+          const: 'json',
+          description: 'Type of the response content',
         },
         content: {
-          description: "The JSON content of the response",
-          type: "object",
+          description: 'The JSON content of the response',
+          type: 'object',
         },
       },
-      required: ["type", "content"],
+      required: ['type', 'content'],
       additionalProperties: false,
     },
   },
-  required: ["$schema", "schema", "requestMatcher", "responseData"],
+  required: ['$schema', 'schema', 'requestMatcher', 'responseData'],
   additionalProperties: false,
 };

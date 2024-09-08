@@ -1,12 +1,12 @@
-import { useRequest } from "ahooks";
-import { Checkbox } from "antd";
-import { useEffect } from "react";
-import { MockAPI } from "../sdk/common/types";
-import { MockForgeEvent } from "../server/common/event";
-import { AddApiForm } from "./component/AddApiForm";
-import { AddMockResponseButton } from "./component/AddApiResponse";
-import "./index.css";
-import useMockForgeStore from "./model/state";
+import { useRequest } from 'ahooks';
+import { Checkbox } from 'antd';
+import { useEffect } from 'react';
+import { MockAPI } from '../sdk/common/types';
+import { MockForgeEvent } from '../server/common/event';
+import { AddApiForm } from './component/AddApiForm';
+import { AddMockResponseButton } from './component/AddApiResponse';
+import './index.css';
+import useMockForgeStore from './model/state';
 
 const APICard: React.FC<{ api: MockAPI }> = (props) => {
   const mockForgeStore = useMockForgeStore();
@@ -14,62 +14,43 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
   return (
     <div className="api-card">
       <div className="api-header">
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <div className="method-tag">{props.api.method}</div>
           <div className="api-title">
             {props.api.pathname}
             <span className="api-name">{props.api.name}</span>
             <div className="api-actions">
-              <AddMockResponseButton
-                method={props.api.method}
-                pathname={props.api.pathname}
-              />
+              <AddMockResponseButton method={props.api.method} pathname={props.api.pathname} />
             </div>
           </div>
         </div>
-        <div style={{ color: "#666", fontSize: "14px", marginTop: "8px" }}>
-          {props.api.description}
-        </div>
+        <div style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>{props.api.description}</div>
       </div>
       <div
         style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
         }}
       >
         {props.api.mockResponses.map((o) => (
           <div className="tag-item" key={o.name}>
             <Checkbox
               style={{ marginRight: 8 }}
-              checked={mockForgeStore.isHttpApiResponseSelected(
-                props.api.method,
-                props.api.pathname,
-                o.name
-              )}
+              checked={mockForgeStore.isHttpApiResponseSelected(props.api.method, props.api.pathname, o.name)}
               onChange={(e) => {
                 if (e.nativeEvent.altKey) {
                   mockForgeStore
-                    .selectSingleHttpApiResponse(
-                      props.api.method,
-                      props.api.pathname,
-                      o.name
-                    )
+                    .selectSingleHttpApiResponse(props.api.method, props.api.pathname, o.name)
                     .catch((err) => {
                       console.log(err);
                     });
                   return;
                 }
                 console.log(e.nativeEvent.altKey);
-                mockForgeStore
-                  .toggleHttpApiResponse(
-                    props.api.method,
-                    props.api.pathname,
-                    o.name
-                  )
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                mockForgeStore.toggleHttpApiResponse(props.api.method, props.api.pathname, o.name).catch((err) => {
+                  console.log(err);
+                });
               }}
             />
             <div className="tag-name">{o.name}</div>
@@ -107,10 +88,10 @@ function useInitData(clientId: string) {
   );
   useEffect(() => {
     const handler = (event: MockForgeEvent) => {
-      if (event.type === "http-mock-api-change") {
+      if (event.type === 'http-mock-api-change') {
         mockApiRequest.refresh();
       }
-      if (event.type === "mock-forge-state-change") {
+      if (event.type === 'mock-forge-state-change') {
         mockForgeStateRequest.refresh();
       }
     };

@@ -1,8 +1,8 @@
-import { cloneDeep, isMatch } from "lodash-es";
-import { match } from "path-to-regexp";
-import queryString from "query-string";
-import { HttpMockResponse, MockAPI } from "../sdk/common/types";
-import { IMockForgeState } from "../server/common/service";
+import { cloneDeep, isMatch } from 'lodash-es';
+import { match } from 'path-to-regexp';
+import queryString from 'query-string';
+import { HttpMockResponse, MockAPI } from '../sdk/common/types';
+import { IMockForgeState } from '../server/common/service';
 
 export interface RequestParameters {
   url?: string | URL;
@@ -48,17 +48,13 @@ export class RequestSimulator implements ISimulatedRequestHandler {
   private getActiveAPIs = () => {
     return this.apiCollection
       .map((o) => {
-        const activeAPI = this.state.http.find(
-          (s) => s.method === o.method && s.pathname === o.pathname
-        );
+        const activeAPI = this.state.http.find((s) => s.method === o.method && s.pathname === o.pathname);
         if (!activeAPI) {
           return null;
         }
         return {
           ...o,
-          mockResponses: o.mockResponses.filter((o) =>
-            activeAPI.activeMockResponses.includes(o.name)
-          ),
+          mockResponses: o.mockResponses.filter((o) => activeAPI.activeMockResponses.includes(o.name)),
         };
       })
       .filter((o) => o !== null);
@@ -67,15 +63,10 @@ export class RequestSimulator implements ISimulatedRequestHandler {
   handleSimulatedRequest(request: RequestParameters): SimulatedResponse | null {
     const res = this._handleSimulatedRequest(request);
     if (!res) {
-      console.log(
-        `[MockForge]  skip request, method=${request.method}, url=${request.url}`
-      );
+      console.log(`[MockForge]  skip request, method=${request.method}, url=${request.url}`);
       return null;
     } else {
-      console.log(
-        `[MockForge] handle request, method=${request.method}, url=${request.url}, mock data:`,
-        res
-      );
+      console.log(`[MockForge] handle request, method=${request.method}, url=${request.url}, mock data:`, res);
     }
     return {
       status: 200,
@@ -87,50 +78,37 @@ export class RequestSimulator implements ISimulatedRequestHandler {
     if (!request.url) {
       return null;
     }
-    if (
-      typeof request.body !== "string" &&
-      request.body !== undefined &&
-      request.body !== null
-    ) {
+    if (typeof request.body !== 'string' && request.body !== undefined && request.body !== null) {
       return null;
     }
-    const normalizedUrl =
-      typeof request.url === "string"
-        ? new URL(request.url, this.origin)
-        : request.url;
+    const normalizedUrl = typeof request.url === 'string' ? new URL(request.url, this.origin) : request.url;
     const urlPath = normalizedUrl.pathname;
-    const requestMethod = request.method || "GET";
+    const requestMethod = request.method || 'GET';
     const matchingApi = this.findMatchingApi(urlPath, requestMethod);
     if (!matchingApi) {
       return null;
     }
-    const matchResponses = this.findMathResponse(
-      matchingApi.api.mockResponses,
-      {
-        url: normalizedUrl.href,
-        headers: request.headers,
-        body: request.body,
-        method: requestMethod,
-        params: matchingApi.params,
-      }
-    );
+    const matchResponses = this.findMathResponse(matchingApi.api.mockResponses, {
+      url: normalizedUrl.href,
+      headers: request.headers,
+      body: request.body,
+      method: requestMethod,
+      params: matchingApi.params,
+    });
     if (matchResponses.length === 0) {
       return null;
     }
     return matchResponses[0];
   }
 
-  private findMathResponse(
-    mockResponses: HttpMockResponse[],
-    request: ValidRequest
-  ): HttpMockResponse[] {
+  private findMathResponse(mockResponses: HttpMockResponse[], request: ValidRequest): HttpMockResponse[] {
     return mockResponses
       .map((o): null | HttpMockResponse => {
         if (!o.requestMatcher) {
           return o;
         }
         switch (o.requestMatcher.type) {
-          case "basic-match": {
+          case 'basic-match': {
             const query = queryString.parseUrl(request.url).query;
 
             if (
@@ -162,7 +140,7 @@ export class RequestSimulator implements ISimulatedRequestHandler {
         continue;
       }
 
-      const matchFunction = match(api.pathname.replace(/\[(\S+)\]/g, ":$1"));
+      const matchFunction = match(api.pathname.replace(/\[(\S+)\]/g, ':$1'));
       const result = matchFunction(urlPath);
       if (!result) {
         continue;

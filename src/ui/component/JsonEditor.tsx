@@ -1,6 +1,6 @@
-import * as monaco from "monaco-editor";
-import { useEffect, useRef } from "react";
-import { jsonSchemaService } from "../service/jsonSchema";
+import * as monaco from 'monaco-editor';
+import { useEffect, useRef } from 'react';
+import { jsonSchemaService } from '../service/jsonSchema';
 
 interface JSONEditorProps {
   schema?: any;
@@ -16,15 +16,15 @@ export function JSONEditor({ value, onChange, schema }: JSONEditorProps) {
     if (containerRef.current) {
       const randomName = `${Math.random()}`;
       const testModel = monaco.editor.createModel(
-        value || "",
-        "json",
+        value || '',
+        'json',
         monaco.Uri.parse(`internal://server/${randomName}.json`)
       );
       jsonSchemaService.addFile(randomName, schema);
       const editor = monaco.editor.create(containerRef.current, {
         model: testModel,
         automaticLayout: true,
-        theme: "vs-light",
+        theme: 'vs-light',
       });
       editor.onDidChangeModelContent(() => {
         if (onChange) {

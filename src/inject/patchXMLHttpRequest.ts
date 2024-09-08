@@ -1,6 +1,6 @@
-import { ISimulatedRequestHandler } from "./RequestSimulator";
+import { ISimulatedRequestHandler } from './RequestSimulator';
 //@ts-expect-error
-import fakeXhr from "nise/lib/fake-xhr";
+import fakeXhr from 'nise/lib/fake-xhr';
 
 export function patchXMLHttpRequest(mock: ISimulatedRequestHandler) {
   const OriginalXMLHttpRequest = globalThis.XMLHttpRequest;
@@ -24,17 +24,13 @@ export function patchXMLHttpRequest(mock: ISimulatedRequestHandler) {
 
             const headerMap: Record<string, string> = {};
             arr.forEach((line) => {
-              const parts = line.split(": ");
+              const parts = line.split(': ');
               const header = parts.shift()!;
-              const value = parts.join(": ");
+              const value = parts.join(': ');
               headerMap[header] = value;
             });
 
-            xhr.respond(
-              originalXhr.status,
-              headerMap,
-              originalXhr.responseText
-            );
+            xhr.respond(originalXhr.status, headerMap, originalXhr.responseText);
           }
         };
 
@@ -46,7 +42,7 @@ export function patchXMLHttpRequest(mock: ISimulatedRequestHandler) {
         originalXhr.send(xhr.requestBody);
         return;
       } else {
-        xhr.respond(200, { "Content-Type": "application/json" }, mockRes.body);
+        xhr.respond(200, { 'Content-Type': 'application/json' }, mockRes.body);
       }
     }, 0);
   };

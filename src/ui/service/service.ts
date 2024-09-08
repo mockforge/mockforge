@@ -1,14 +1,6 @@
-import {
-  AddHttpMockResponse,
-  HttpMockResponse,
-  MockAPI,
-  MockAPIMetadata,
-} from "../../sdk/common/types.js";
-import { RPCRequestBody, RPCResponse } from "../../server/common/rpc.js";
-import {
-  IMockForgeState,
-  IMockForgeStateService,
-} from "../../server/common/service.js";
+import { AddHttpMockResponse, HttpMockResponse, MockAPI, MockAPIMetadata } from '../../sdk/common/types.js';
+import { RPCRequestBody, RPCResponse } from '../../server/common/rpc.js';
+import { IMockForgeState, IMockForgeStateService } from '../../server/common/service.js';
 
 export class BrowserMockForgeStateService implements IMockForgeStateService {
   private baseURL: string;
@@ -27,9 +19,9 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
     };
 
     const response = await fetch(`${this.baseURL}/api/v1/mockforge/rpc`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
     });
@@ -46,39 +38,27 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
   }
 
   async getMockForgeState(): Promise<IMockForgeState> {
-    return this.callRPC("getMockForgeState", []);
+    return this.callRPC('getMockForgeState', []);
   }
 
-  async toggleHttpApiResponse(
-    method: string,
-    pathname: string,
-    responseName: string
-  ): Promise<void> {
-    await this.callRPC("toggleHttpApiResponse", [
-      method,
-      pathname,
-      responseName,
-    ]);
+  async toggleHttpApiResponse(method: string, pathname: string, responseName: string): Promise<void> {
+    await this.callRPC('toggleHttpApiResponse', [method, pathname, responseName]);
   }
 
   async addMockAPI(mockAPI: MockAPI): Promise<void> {
-    await this.callRPC("addMockAPI", [mockAPI]);
+    await this.callRPC('addMockAPI', [mockAPI]);
   }
 
   async listMockAPIs(): Promise<MockAPI[]> {
-    return this.callRPC("listMockAPIs", []);
+    return this.callRPC('listMockAPIs', []);
   }
 
   async deleteHttpMockAPI(method: string, pathname: string): Promise<void> {
-    await this.callRPC("deleteHttpMockAPI", [method, pathname]);
+    await this.callRPC('deleteHttpMockAPI', [method, pathname]);
   }
 
-  async updateHttpMockAPI(
-    method: string,
-    pathname: string,
-    data: MockAPIMetadata
-  ): Promise<void> {
-    await this.callRPC("updateHttpMockAPI", [method, pathname, data]);
+  async updateHttpMockAPI(method: string, pathname: string, data: MockAPIMetadata): Promise<void> {
+    await this.callRPC('updateHttpMockAPI', [method, pathname, data]);
   }
 
   async addHttpMockResponse(
@@ -86,26 +66,14 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
     pathname: string,
     mockResponse: AddHttpMockResponse
   ): Promise<HttpMockResponse> {
-    return await this.callRPC("addHttpMockResponse", [
-      method,
-      pathname,
-      mockResponse,
-    ]);
+    return await this.callRPC('addHttpMockResponse', [method, pathname, mockResponse]);
   }
 
-  async deleteHttpMockResponse(
-    method: string,
-    pathname: string,
-    mockResponseName: string
-  ): Promise<void> {
-    await this.callRPC("deleteHttpMockResponse", [
-      method,
-      pathname,
-      mockResponseName,
-    ]);
+  async deleteHttpMockResponse(method: string, pathname: string, mockResponseName: string): Promise<void> {
+    await this.callRPC('deleteHttpMockResponse', [method, pathname, mockResponseName]);
   }
 
   async getInitialState() {
-    return this.callRPC("getInitialState", []);
+    return this.callRPC('getInitialState', []);
   }
 }

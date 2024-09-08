@@ -1,4 +1,4 @@
-export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 export type MockAPIMetadata = {
   // Name of the API
@@ -9,7 +9,7 @@ export type MockAPIMetadata = {
 
 export interface HttpMockAPI {
   // Type of mock
-  type: "http";
+  type: 'http';
   // Pathname of the API
   pathname: string;
   // HTTP method
@@ -33,14 +33,14 @@ export interface HttpMockResponse {
   $schema: string;
 
   // Schema version identifier
-  schema: "http_response_v1";
+  schema: 'http_response_v1';
 
   // Description of the mock response
   description?: string;
 
   // Request matching rules
   requestMatcher: {
-    type: "basic-match";
+    type: 'basic-match';
     // Content corresponding to the type
     content: {
       body?: unknown;
@@ -51,14 +51,11 @@ export interface HttpMockResponse {
   } | null;
   // Specific content of the mock response
   responseData: {
-    type: "json";
+    type: 'json';
     content: unknown;
   };
 }
 
-export type AddHttpMockResponse = Omit<HttpMockResponse, "$schema">;
+export type AddHttpMockResponse = Omit<HttpMockResponse, '$schema'>;
 
-export type UpdateHttpMockAPISchema = Pick<
-  HttpMockAPI,
-  "method" | "description"
->;
+export type UpdateHttpMockAPISchema = Pick<HttpMockAPI, 'method' | 'description'>;

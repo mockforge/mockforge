@@ -1,12 +1,12 @@
-import express, { Request, Response } from "express";
-import getPort from "get-port";
-import { createServer } from "node:http";
-import { WebSocketServer, WebSocket } from "ws";
-import { RPCRequestBody, RPCResponse } from "./../common/rpc.js";
-import { MockForgeStateService } from "./service.js";
-import { MockForgeEvent } from "../common/event.js";
-import querystring from "query-string";
-import cors from "cors";
+import express, { Request, Response } from 'express';
+import getPort from 'get-port';
+import { createServer } from 'node:http';
+import { WebSocketServer, WebSocket } from 'ws';
+import { RPCRequestBody, RPCResponse } from './../common/rpc.js';
+import { MockForgeStateService } from './service.js';
+import { MockForgeEvent } from '../common/event.js';
+import querystring from 'query-string';
+import cors from 'cors';
 
 export interface CreateMockForgeServerOption {
   baseDir: string;
@@ -19,9 +19,7 @@ interface Client {
   ws: WebSocket;
 }
 
-export async function createMockForgeServer(
-  option: CreateMockForgeServerOption
-): Promise<number> {
+export async function createMockForgeServer(option: CreateMockForgeServerOption): Promise<number> {
   const serverPort = await getPort({ port: option.port || 50930 });
   return new Promise((resolve, reject) => {
     const app = express();
@@ -42,15 +40,13 @@ export async function createMockForgeServer(
         app.use(express.static(e));
       });
     }
-    app.post("/api/v1/mockforge/rpc", async (req: Request, res: Response) => {
+    app.post('/api/v1/mockforge/rpc', async (req: Request, res: Response) => {
       const requestBody = req.body as RPCRequestBody;
       const { method, args, clientId } = requestBody;
       let response: RPCResponse;
       try {
-        const serviceMethod = mockForgeStateService[
-          method as keyof MockForgeStateService
-        ] as Function;
-        if (typeof serviceMethod !== "function") {
+        const serviceMethod = mockForgeStateService[method as keyof MockForgeStateService] as Function;
+        if (typeof serviceMethod !== 'function') {
           throw new Error(`Unknown method: ${method}`);
         }
         const result = await serviceMethod.apply(mockForgeStateService, args);
@@ -63,27 +59,27 @@ export async function createMockForgeServer(
         response = {
           success: false,
           errorMessage: error instanceof Error ? error.message : String(error),
-          stack: error instanceof Error ? error.stack : "",
+          stack: error instanceof Error ? error.stack : '',
           clientId,
         };
       }
 
       try {
         switch (method as keyof MockForgeStateService) {
-          case "addMockAPI":
-          case "deleteHttpMockAPI":
-          case "deleteHttpMockResponse":
-          case "updateHttpMockAPI":
-          case "addHttpMockResponse": {
+          case 'addMockAPI':
+          case 'deleteHttpMockAPI':
+          case 'deleteHttpMockResponse':
+          case 'updateHttpMockAPI':
+          case 'addHttpMockResponse': {
             broadcastEvent({
-              type: "http-mock-api-change",
+              type: 'http-mock-api-change',
               clientId,
             });
             break;
           }
-          case "toggleHttpApiResponse": {
+          case 'toggleHttpApiResponse': {
             broadcastEvent({
-              type: "mock-forge-state-change",
+              type: 'mock-forge-state-change',
               clientId,
             });
             break;
@@ -94,14 +90,14 @@ export async function createMockForgeServer(
       res.json(response);
     });
 
-    wss.on("connection", (ws: WebSocket, req: Request) => {
+    wss.on('connection', (ws: WebSocket, req: Request) => {
       const parseResult = querystring.parseUrl(req.url);
       const url = parseResult.url;
       const clientId = String(parseResult.query.clientId);
-      if (clientId && url === "/api/v1/mockforge/connect") {
+      if (clientId && url === '/api/v1/mockforge/connect') {
         const client: Client = { id: clientId, ws };
         clients.push(client);
-        ws.on("close", () => {
+        ws.on('close', () => {
           const index = clients.findIndex((c) => c.id === clientId);
           if (index !== -1) {
             clients.splice(index, 1);
@@ -113,13 +109,13 @@ export async function createMockForgeServer(
     });
     server.listen(serverPort, () => {
       const address = server.address();
-      if (address && typeof address === "object") {
+      if (address && typeof address === 'object') {
         resolve(address.port);
       } else {
-        reject(new Error("Failed to get server address"));
+        reject(new Error('Failed to get server address'));
       }
     });
-    server.on("error", (error) => {
+    server.on('error', (error) => {
       reject(error);
     });
   });

@@ -1,5 +1,5 @@
-import { join } from "path";
-import { createMockForgeServer } from "../server/node/server";
+import { join } from 'path';
+import { createMockForgeServer } from '../server/node/server';
 
 interface MockForgeOption {
   mockDataDir?: string;
@@ -7,33 +7,33 @@ interface MockForgeOption {
 }
 
 const getDirname = () => {
-  if (typeof __dirname !== "undefined") {
+  if (typeof __dirname !== 'undefined') {
     return __dirname;
-  } else if (typeof import.meta !== "undefined" && import.meta.url) {
-    return new URL(".", import.meta.url).pathname;
+  } else if (typeof import.meta !== 'undefined' && import.meta.url) {
+    return new URL('.', import.meta.url).pathname;
   }
   return process.cwd();
 };
 
 export function mockForge(options: MockForgeOption) {
   const { mockDataDir } = options || {};
-  const finalBaseDir = mockDataDir || join(process.cwd(), ".mockforge");
+  const finalBaseDir = mockDataDir || join(process.cwd(), '.mockforge');
   let isMockEnabled = false;
 
   let port: number | null = null;
   return {
-    name: "vite-plugin-mock-forge",
+    name: 'vite-plugin-mock-forge',
     configResolved(config: any) {
-      if (process.env.MOCK_FORGE && config.command === "serve") {
+      if (process.env.MOCK_FORGE && config.command === 'serve') {
         isMockEnabled = true;
       }
     },
     async configureServer() {
       port = await createMockForgeServer({
         baseDir: finalBaseDir,
-        static: [join(getDirname(), "ui"), join(getDirname(), "inject")],
+        static: [join(getDirname(), 'ui'), join(getDirname(), 'inject')],
       });
-      console.log("[MockForge] start at http://localhost:" + port);
+      console.log('[MockForge] start at http://localhost:' + port);
     },
 
     transformIndexHtml(html: string) {
@@ -45,7 +45,7 @@ export function mockForge(options: MockForgeOption) {
             <script src="${scriptUrl}" id="mock-forge-request-simulator" clientId="${randomId}" serverURL="${serverURL}">
             </script>
           `;
-        return html.replace("</head>", `${injection}</head>`);
+        return html.replace('</head>', `${injection}</head>`);
       }
       return html;
     },
