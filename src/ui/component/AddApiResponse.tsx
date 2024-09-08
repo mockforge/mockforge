@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { AddHttpMockResponse } from "../../sdk/common/types";
 import useMockForgeStore from "../model/state";
 
+import { JSONEditor } from "./JsonEditor";
+
 const { TextArea } = Input;
 
 export const AddMockResponseButton: React.FC<{
@@ -40,7 +42,6 @@ export const AddMockResponseButton: React.FC<{
         content: JSON.parse(values.responseJson),
       },
     };
-
     await addHttpMockResponse(method, pathname, newMockResponse);
     setIsDrawerVisible(false);
     form.resetFields();
@@ -56,6 +57,7 @@ export const AddMockResponseButton: React.FC<{
         placement="right"
         onClose={handleCancel}
         open={isDrawerVisible}
+        destroyOnClose
         width={600}
         extra={
           <Space>
@@ -66,7 +68,14 @@ export const AddMockResponseButton: React.FC<{
           </Space>
         }
       >
-        <Form form={form} onFinish={onFinish} layout="vertical">
+        <Form
+          form={form}
+          onFinish={onFinish}
+          layout="vertical"
+          initialValues={{
+            responseJson: "{\n}",
+          }}
+        >
           <Form.Item
             name="name"
             label="Name"
@@ -78,23 +87,46 @@ export const AddMockResponseButton: React.FC<{
             <TextArea rows={2} />
           </Form.Item>
           <Form.Item name="matchJson" label="Request Match (JSON)">
-            <TextArea
-              rows={4}
-              placeholder={JSON.stringify(
-                {
-                  body: {},
-                  params: {},
-                  headers: {},
-                  query: {},
+            <JSONEditor
+              schema={{
+                type: "object",
+                properties: {
+                  body: {
+                    description: "Body content for matching",
+                    type: "object",
+                    optional: true,
+                  },
+                  params: {
+                    type: "object",
+                    additionalProperties: {
+                      type: "string",
+                    },
+                    description: "URL parameters for matching",
+                    optional: true,
+                  },
+                  headers: {
+                    type: "object",
+                    additionalProperties: {
+                      type: "string",
+                    },
+                    description: "HTTP headers for matching",
+                    optional: true,
+                  },
+                  query: {
+                    type: "object",
+                    additionalProperties: {
+                      type: "string",
+                    },
+                    description: "Query parameters for matching",
+                    optional: true,
+                  },
                 },
-                null,
-                2
-              )}
-            />
+              }}
+            ></JSONEditor>
           </Form.Item>
           <Form.Item
             name="responseJson"
-            label="Response (JSON)"
+            label="Response"
             rules={[
               { required: true, message: "Please input the response JSON" },
               {
@@ -110,7 +142,7 @@ export const AddMockResponseButton: React.FC<{
               },
             ]}
           >
-            <TextArea rows={4} />
+            <JSONEditor></JSONEditor>
           </Form.Item>
         </Form>
       </Drawer>
