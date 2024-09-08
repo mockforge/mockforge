@@ -1,10 +1,10 @@
 export type HttpMockPIChangeEvent = {
-  type: "http-mock-api-change";
+  type: 'http-mock-api-change';
   clientId: string;
 };
 
 export type MockForgeStateChangeEvent = {
-  type: "mock-forge-state-change";
+  type: 'mock-forge-state-change';
   clientId: string;
 };
 

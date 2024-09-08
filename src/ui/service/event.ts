@@ -1,9 +1,6 @@
-import Emittery from "emittery";
-import type { WebSocket as WsWebsocket } from "ws";
-import {
-  IMockForgeEventListener,
-  MockForgeEvent,
-} from "../../server/common/event";
+import Emittery from 'emittery';
+import type { WebSocket as WsWebsocket } from 'ws';
+import { IMockForgeEventListener, MockForgeEvent } from '../../server/common/event';
 
 export class BrowserMockForgeEventListener implements IMockForgeEventListener {
   private baseUrl: string;
@@ -21,10 +18,10 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener {
   }
 
   handleEvent(handler: (event: MockForgeEvent) => void): void {
-    this.emitter.on("event", handler);
+    this.emitter.on('event', handler);
   }
   removeEventListener(handler: (event: MockForgeEvent) => void): void {
-    this.emitter.off("event", handler);
+    this.emitter.off('event', handler);
   }
 
   connect(): Promise<void> {
@@ -41,12 +38,12 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener {
       this.ws.onmessage = (event: any) => {
         const data = JSON.parse(event.data);
         if (data.clientId !== this.clientId) {
-          this.emitter.emit("event", data as MockForgeEvent);
+          this.emitter.emit('event', data as MockForgeEvent);
         }
       };
 
       this.ws.onerror = (error: any) => {
-        console.error("WebSocket error:", error);
+        console.error('WebSocket error:', error);
         reject(error);
       };
 

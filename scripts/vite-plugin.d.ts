@@ -1,1 +1,1 @@
-import { PluginOption, ResolvedConfig } from "vite";
+import { PluginOption, ResolvedConfig } from 'vite';

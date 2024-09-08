@@ -1,11 +1,11 @@
-import fs from "fs/promises";
-import os from "os";
-import path from "path";
-import { expect, it, vi } from "vitest";
-import { createMockForgeServer } from "../../../server/node/server.js";
-import { WebSocket } from "ws";
-import { BrowserMockForgeStateService } from "../../../ui/service/service.js";
-import { BrowserMockForgeEventListener } from "../../../ui/service/event.js";
+import fs from 'fs/promises';
+import os from 'os';
+import path from 'path';
+import { expect, it, vi } from 'vitest';
+import { createMockForgeServer } from '../../../server/node/server.js';
+import { WebSocket } from 'ws';
+import { BrowserMockForgeStateService } from '../../../ui/service/service.js';
+import { BrowserMockForgeEventListener } from '../../../ui/service/event.js';
 
 class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
   getWebsocket(url: string) {
@@ -13,31 +13,28 @@ class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
   }
 }
 
-it("test event listener", async () => {
+it('test event listener', async () => {
   let tempDir: string;
 
-  tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "mock-forge-sdk-test-"));
+  tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-forge-sdk-test-'));
   const port = await createMockForgeServer({
     baseDir: tempDir,
   });
-  const service = new BrowserMockForgeStateService(
-    "http://localhost:" + port,
-    "clientA"
-  );
+  const service = new BrowserMockForgeStateService('http://localhost:' + port, 'clientA');
 
   const mockAPI = {
-    type: "http" as const,
-    method: "GET" as const,
-    pathname: "/test",
-    name: "Test API",
-    description: "Test description",
+    type: 'http' as const,
+    method: 'GET' as const,
+    pathname: '/test',
+    name: 'Test API',
+    description: 'Test description',
     mockResponses: [
       {
-        name: "Default",
-        schema: "http_response_v1" as const,
-        description: "Default response",
+        name: 'Default',
+        schema: 'http_response_v1' as const,
+        description: 'Default response',
         requestMatcher: {
-          type: "basic-match" as const,
+          type: 'basic-match' as const,
           content: {
             body: {},
             params: {},
@@ -46,17 +43,14 @@ it("test event listener", async () => {
           },
         },
         responseData: {
-          type: "json" as const,
-          content: { message: "Hello, World!" },
+          type: 'json' as const,
+          content: { message: 'Hello, World!' },
         },
       },
     ],
   };
 
-  const eventListener = new TestBrowserMockForgeEventListener(
-    "ws://localhost:" + port,
-    "12345"
-  );
+  const eventListener = new TestBrowserMockForgeEventListener('ws://localhost:' + port, '12345');
   const mockFn = vi.fn();
   eventListener.handleEvent(mockFn);
   await eventListener.connect();
@@ -64,8 +58,6 @@ it("test event listener", async () => {
   await vi.waitUntil(() => {
     return mockFn.mock.calls.length === 1;
   });
-  expect(mockFn.mock.calls).toEqual([
-    [{ clientId: "clientA", type: "http-mock-api-change" }],
-  ]);
+  expect(mockFn.mock.calls).toEqual([[{ clientId: 'clientA', type: 'http-mock-api-change' }]]);
   await fs.rm(tempDir, { recursive: true });
 });

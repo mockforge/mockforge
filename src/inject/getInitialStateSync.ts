@@ -1,14 +1,11 @@
-import type { InitialState } from "../server/common/service";
+import type { InitialState } from '../server/common/service';
 
-export function getInitialStateSync(
-  baseUrl: string,
-  clientId: string
-): InitialState {
+export function getInitialStateSync(baseUrl: string, clientId: string): InitialState {
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", `${baseUrl}/api/v1/mockforge/rpc`, false); // 设置为同步请求
-  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.open('POST', `${baseUrl}/api/v1/mockforge/rpc`, false); // 设置为同步请求
+  xhr.setRequestHeader('Content-Type', 'application/json');
   const data = JSON.stringify({
-    method: "getInitialState",
+    method: 'getInitialState',
     args: [],
     clientId: clientId,
   });
@@ -19,6 +16,6 @@ export function getInitialStateSync(
   try {
     return JSON.parse(xhr.responseText).data;
   } catch (e) {
-    throw new Error("Failed to parse response as JSON");
+    throw new Error('Failed to parse response as JSON');
   }
 }

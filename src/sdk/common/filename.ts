@@ -1,13 +1,13 @@
-import isValidFilename from "valid-filename";
-import { HttpMethod } from "./types.js";
+import isValidFilename from 'valid-filename';
+import { HttpMethod } from './types.js';
 
-const JoinChar = "__";
+const JoinChar = '__';
 
-export const METADATA_FILENAME = "__metadata__.json";
+export const METADATA_FILENAME = '__metadata__.json';
 
 export function encodeHttpApiPath(method: string, apiPath: string): string {
   const normalizedPath = apiPath
-    .split("/")
+    .split('/')
     .filter((segment) => segment.length > 0)
     .join(JoinChar);
 
@@ -16,15 +16,15 @@ export function encodeHttpApiPath(method: string, apiPath: string): string {
 
 export function decodeHttpApiPath(dirname: string): [HttpMethod, string] {
   if (!dirname.startsWith(JoinChar) || !dirname.endsWith(JoinChar)) {
-    throw new Error("Invalid dirname format");
+    throw new Error('Invalid dirname format');
   }
   const trimmedDirname = dirname.slice(JoinChar.length, -JoinChar.length);
   const parts = trimmedDirname.split(JoinChar);
   const method = parts.shift();
   if (!method) {
-    throw new Error("Method is missing from dirname");
+    throw new Error('Method is missing from dirname');
   }
-  const pathname = "/" + parts.join("/");
+  const pathname = '/' + parts.join('/');
   return [method.toUpperCase() as HttpMethod, pathname];
 }
 
