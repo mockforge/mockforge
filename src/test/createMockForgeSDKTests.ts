@@ -31,6 +31,8 @@ export function createMockForgeSDKTests(
           description: "Test description",
           mockResponses: [
             {
+              $schema:
+                "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
               name: "Default",
               schema: "http_response_v1" as const,
               description: "Default response",
@@ -68,6 +70,8 @@ export function createMockForgeSDKTests(
           description: "Create a new user",
           mockResponses: [
             {
+              $schema:
+                "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
               name: "Success",
               schema: "http_response_v1" as const,
               description: "Successful response",
@@ -155,6 +159,8 @@ export function createMockForgeSDKTests(
         await sdk.addMockAPI(mockAPI);
 
         const newMockResponse = {
+          $schema:
+            "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
           name: "New Response",
           schema: "http_response_v1" as const,
           description: "New mock response",

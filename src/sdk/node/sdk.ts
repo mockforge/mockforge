@@ -123,10 +123,20 @@ export class MockForgeSDK implements IMockForgeSDK {
       pathname,
       mockResponse.name
     );
+
     if (await this.exist(mockResponsePath)) {
       throw new Error(`Mock response ${mockResponse.name} already exists`);
     }
-    await fs.writeFile(mockResponsePath, JSON.stringify(mockResponse, null, 2));
+    const httpMockResponseToWrite: Partial<HttpMockResponse> = {
+      ...mockResponse,
+      $schema:
+        "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json",
+    };
+    delete httpMockResponseToWrite.name;
+    await fs.writeFile(
+      mockResponsePath,
+      JSON.stringify(httpMockResponseToWrite, null, 2)
+    );
   }
 
   deleteHttpMockResponse(

@@ -29,6 +29,9 @@ export type MockAPI = HttpMockAPI;
 export interface HttpMockResponse {
   // Name of the mock response
   name: string;
+
+  $schema: string;
+
   // Schema version identifier
   schema: "http_response_v1";
 
