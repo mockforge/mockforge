@@ -32,6 +32,7 @@ export function mockForge(options: MockForgeOption) {
       port = await createMockForgeServer({
         baseDir: finalBaseDir,
         static: [join(getDirname(), 'ui'), join(getDirname(), 'inject')],
+        port: options.port,
       });
       console.log('[MockForge] start at http://localhost:' + port);
     },
