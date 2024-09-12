@@ -10,12 +10,15 @@
   "typesVersions": {
     "*": {
       "vite-plugin": [
-        "vite-plugin.d.ts"
+        "dist/vite-plugin.d.ts"
+      ],
+      "webpack5": [
+        "dist/webpack5-plugin.d.ts"
       ]
     }
   },
   "exports": {
-    "webpack5": {
+    "./webpack5-plugin": {
       "require": "./dist/webpack5-plugin.cjs",
       "import": "./dist/webpack5-plugin.mjs"
     },
