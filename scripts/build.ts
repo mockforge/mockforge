@@ -24,8 +24,25 @@ async function build() {
     minify: false,
     sourcemap: true,
     target: ['node16'],
-    external: ['express', 'ws'],
+    external: ['express', 'ws', 'html-webpack-plugin'],
   };
+
+  async function buildPlugin(main: string, name: string) {
+    await esbuild.build({
+      ...commonConfig,
+      platform: 'node',
+      format: 'cjs',
+      entryPoints: [main],
+      outfile: join(distDir, name + '.cjs'),
+    });
+    await esbuild.build({
+      ...commonConfig,
+      platform: 'node',
+      format: 'esm',
+      entryPoints: [main],
+      outfile: join(distDir, name + '.mjs'),
+    });
+  }
 
   try {
     // 构建 inject.js
@@ -37,25 +54,10 @@ async function build() {
       outfile: join(distDir, 'inject/inject.js'),
     });
     console.log('Built inject.js');
-
-    // 构建 vite-plugin.js
-    await esbuild.build({
-      ...commonConfig,
-      platform: 'node',
-      format: 'esm',
-      entryPoints: [join(srcDir, 'vite-plugin', 'main.ts')],
-      outfile: join(distDir, 'vite-plugin.mjs'),
-    });
-    await esbuild.build({
-      ...commonConfig,
-      platform: 'node',
-      format: 'cjs',
-      entryPoints: [join(srcDir, 'vite-plugin', 'main.ts')],
-      outfile: join(distDir, 'vite-plugin.cjs'),
-    });
+    await buildPlugin(join(srcDir, 'vite-plugin', 'main.ts'), 'vite-plugin');
+    await buildPlugin(join(srcDir, 'webpack', 'main.ts'), 'webpack5-plugin');
     console.log('Built vite-plugin.js');
     console.log('Build completed successfully');
-
     try {
       await cp(join(srcDir, 'jsonSchema'), jsonSchemaDir, {
         recursive: true,
