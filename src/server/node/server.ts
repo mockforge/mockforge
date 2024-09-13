@@ -1,12 +1,13 @@
+import cors from 'cors';
 import express, { Request, Response } from 'express';
 import getPort from 'get-port';
 import { createServer } from 'node:http';
-import { WebSocketServer, WebSocket } from 'ws';
+import querystring from 'query-string';
+import { WebSocket, WebSocketServer } from 'ws';
+import { serverDebugLog } from '../../logger/node.js';
+import { MockForgeEvent } from '../common/event.js';
 import { RPCRequestBody, RPCResponse } from './../common/rpc.js';
 import { MockForgeStateService } from './service.js';
-import { MockForgeEvent } from '../common/event.js';
-import querystring from 'query-string';
-import cors from 'cors';
 
 export interface CreateMockForgeServerOption {
   baseDir: string;
@@ -20,6 +21,7 @@ interface Client {
 }
 
 export async function createMockForgeServer(option: CreateMockForgeServerOption): Promise<number> {
+  serverDebugLog(`start option ${JSON.stringify(option)}`);
   const serverPort = await getPort({ port: option.port || 50930 });
   return new Promise((resolve, reject) => {
     const app = express();
@@ -37,6 +39,7 @@ export async function createMockForgeServer(option: CreateMockForgeServerOption)
     }
     if (option.static) {
       option.static.forEach((e) => {
+        serverDebugLog(`register static dir` + e);
         app.use(express.static(e));
       });
     }
@@ -107,8 +110,11 @@ export async function createMockForgeServer(option: CreateMockForgeServerOption)
         ws.close();
       }
     });
+
+    serverDebugLog(`start listen at ${serverPort}`);
     server.listen(serverPort, () => {
       const address = server.address();
+      serverDebugLog(`server address ${JSON.stringify(address)}`);
       if (address && typeof address === 'object') {
         resolve(address.port);
       } else {
