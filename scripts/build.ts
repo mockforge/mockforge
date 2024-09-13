@@ -54,8 +54,8 @@ async function build() {
       outfile: join(distDir, 'inject/inject.js'),
     });
     console.log('Built inject.js');
-    await buildPlugin(join(srcDir, 'vite-plugin', 'main.ts'), 'vite-plugin');
-    await buildPlugin(join(srcDir, 'webpack', 'main.ts'), 'webpack5-plugin');
+    await buildPlugin(join(srcDir, 'extension', 'vite-plugin', 'main.ts'), 'vite-plugin');
+    await buildPlugin(join(srcDir, 'extension', 'webpack', 'main.ts'), 'webpack5-plugin');
     console.log('Built vite-plugin.js');
     console.log('Build completed successfully');
     try {
