@@ -42,3 +42,5 @@ When you open the project, you will see the log of the server.
 `MockForge initialized, Access http://localhost:50930 to manage mock data`
 
 You can access the address to manage the mock data.
+
+Mock forge will inject the script into the page, and will intercept all XHR requests. If the requested URL matches the URL of the mock data, it will return the mock data. Otherwise, it will continue to request the real URL.
