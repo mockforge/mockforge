@@ -8,12 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@types/debug':
-        specifier: ^4.1.12
-        version: 4.1.12
-      debug:
-        specifier: ^4.3.7
-        version: 4.3.7
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -27,6 +21,9 @@ importers:
       '@types/cors':
         specifier: ^2.8.17
         version: 2.8.17
+      '@types/debug':
+        specifier: ^4.1.12
+        version: 4.1.12
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
@@ -63,6 +60,9 @@ importers:
       cors:
         specifier: ^2.8.5
         version: 2.8.5
+      debug:
+        specifier: ^4.3.7
+        version: 4.3.7
       emittery:
         specifier: ^1.0.3
         version: 1.0.3
