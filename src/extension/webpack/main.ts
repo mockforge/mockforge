@@ -1,6 +1,7 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import { createMockForgeServer } from '../server/node/server';
+import { createMockForgeServer } from '../../server/node/server.ts';
+import { getDirname } from '../node/dirname.ts';
 
 interface MockForgeOption {
   mockDataDir?: string;
@@ -32,7 +33,7 @@ export class MockForgeWebpackPlugin {
       if (this.isMockEnabled) {
         this.port = await createMockForgeServer({
           baseDir: finalBaseDir,
-          static: [path.join(__dirname, 'ui'), path.join(__dirname, 'inject')],
+          static: [path.join(getDirname(), 'ui'), path.join(getDirname(), 'inject')],
           port: this.options.port,
         });
         console.log('[MockForge] start at http://localhost:' + this.port);

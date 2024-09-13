@@ -1,20 +1,12 @@
 import { join } from 'path';
-import { createMockForgeServer } from '../server/node/server';
-import { vitePluginDebugLog } from '../logger/node';
+import { createMockForgeServer } from '../../server/node/server.ts';
+import { vitePluginDebugLog } from '../../logger/node.ts';
+import { getDirname } from '../node/dirname.ts';
 
 interface MockForgeOption {
   mockDataDir?: string;
   port?: number;
 }
-
-const getDirname = () => {
-  if (typeof __dirname !== 'undefined') {
-    return __dirname;
-  } else if (typeof import.meta !== 'undefined' && import.meta.url) {
-    return new URL('.', import.meta.url).pathname;
-  }
-  return process.cwd();
-};
 
 export function mockForge(options?: MockForgeOption) {
   const { mockDataDir } = options || {};
