@@ -83,10 +83,10 @@
     "vite": "^5.4.3",
     "vitest": "^2.0.5",
     "zustand": "^4.5.5",
-    "@types/debug": "^4.1.12",
-    "debug": "^4.3.7"
+    "@types/debug": "^4.1.12"
   },
   "dependencies": {
+    "debug": "^4.3.7",
     "express": "^4.19.2",
     "ws": "^8.18.0"
   }

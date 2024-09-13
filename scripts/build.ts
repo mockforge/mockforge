@@ -24,7 +24,7 @@ async function build() {
     minify: false,
     sourcemap: true,
     target: ['node16'],
-    external: ['express', 'ws', 'html-webpack-plugin'],
+    external: ['express', 'ws', 'html-webpack-plugin', 'debug'],
   };
 
   async function buildPlugin(main: string, name: string) {
