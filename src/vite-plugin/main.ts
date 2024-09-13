@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { createMockForgeServer } from '../server/node/server';
+import { vitePluginDebugLog } from '../logger/node';
 
 interface MockForgeOption {
   mockDataDir?: string;
@@ -27,25 +28,25 @@ export function mockForge(options?: MockForgeOption) {
       if (process.env.MOCK_FORGE && config.command === 'serve') {
         isMockEnabled = true;
       }
+      vitePluginDebugLog('plugin enable: ', isMockEnabled);
     },
     async configureServer() {
-      port = await createMockForgeServer({
-        baseDir: finalBaseDir,
-        static: [join(getDirname(), 'ui'), join(getDirname(), 'inject')],
-        port: options?.port,
-      });
-      console.log('[MockForge] start at http://localhost:' + port);
+      if (isMockEnabled) {
+        port = await createMockForgeServer({
+          baseDir: finalBaseDir,
+          static: [join(getDirname(), 'ui'), join(getDirname(), 'inject')],
+          port: options?.port,
+        });
+        console.log('[MockForge] start at http://localhost:' + port);
+      }
     },
-
     transformIndexHtml(html: string) {
       if (isMockEnabled && port !== null) {
         const randomId = Math.random().toString(36).substring(2, 15);
         const serverURL = `http://localhost:${port}`;
         const scriptUrl = `http://localhost:${port}/inject.js`;
-        const injection = `
-            <script src="${scriptUrl}" id="mock-forge-request-simulator" clientId="${randomId}" serverURL="${serverURL}">
-            </script>
-          `;
+        const injection = `<script src="${scriptUrl}" id="mock-forge-request-simulator" clientId="${randomId}" serverURL="${serverURL}"></script>`;
+        vitePluginDebugLog('inject script:', injection);
         return html.replace('</head>', `${injection}</head>`);
       }
       return html;
