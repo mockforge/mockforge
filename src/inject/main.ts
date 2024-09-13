@@ -3,6 +3,7 @@ import { BrowserMockForgeService } from '../ui/service/event';
 import { getInitialStateSync } from './getInitialStateSync';
 import { patchXMLHttpRequest } from './patchXMLHttpRequest';
 import { RequestSimulator } from './RequestSimulator';
+import { patchFetch } from './patchFetch.ts';
 
 async function initAndInject() {
   info('MockForge initializing');
@@ -24,6 +25,7 @@ async function initAndInject() {
     requestSimulator.setState(initState.mockState);
     //拦截 xml
     patchXMLHttpRequest(requestSimulator);
+    patchFetch(requestSimulator);
   } catch (error) {
     console.error('Mockforge Request Simulator: Failed to get mock state', error);
   }
