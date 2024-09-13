@@ -3,4 +3,4 @@ interface MockForgeOption {
   port?: number;
 }
 
-declare function mockForge(option: MockForgeOption): any;
+export function mockForge(option?: MockForgeOption): any;

@@ -3,4 +3,4 @@ interface MockForgeOption {
   port?: number;
 }
 
-declare function MockForgeWebpackPlugin(option: MockForgeOption): any;
+export function MockForgeWebpackPlugin(option?: MockForgeOption): any;

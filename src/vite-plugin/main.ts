@@ -15,7 +15,7 @@ const getDirname = () => {
   return process.cwd();
 };
 
-export function mockForge(options: MockForgeOption) {
+export function mockForge(options?: MockForgeOption) {
   const { mockDataDir } = options || {};
   const finalBaseDir = mockDataDir || join(process.cwd(), '.mockforge');
   let isMockEnabled = false;
@@ -32,7 +32,7 @@ export function mockForge(options: MockForgeOption) {
       port = await createMockForgeServer({
         baseDir: finalBaseDir,
         static: [join(getDirname(), 'ui'), join(getDirname(), 'inject')],
-        port: options.port,
+        port: options?.port,
       });
       console.log('[MockForge] start at http://localhost:' + port);
     },
