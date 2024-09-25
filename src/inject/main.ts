@@ -17,7 +17,9 @@ async function initAndInject() {
   if (!clientId || !serverURL) {
     return;
   }
-  const requestSimulator = new RequestSimulator(location.origin);
+  const browserMockForgeEventListener = new BrowserMockForgeEventListener(serverURL, clientId);
+  const browserMockForgeStateService = new BrowserMockForgeStateService(serverURL, clientId);
+  const requestSimulator = new RequestSimulator(location.origin, serverURL, browserMockForgeStateService);
   try {
     const initState = getInitialStateSync(serverURL, clientId);
     requestSimulator.setApiList(initState.mockAPIs);
@@ -29,8 +31,6 @@ async function initAndInject() {
   }
 
   try {
-    const browserMockForgeEventListener = new BrowserMockForgeEventListener(serverURL, clientId);
-    const browserMockForgeStateService = new BrowserMockForgeStateService(serverURL, clientId);
     await browserMockForgeEventListener.connect();
     browserMockForgeEventListener.handleEvent((event) => {
       if (event.type === 'http-mock-api-change') {

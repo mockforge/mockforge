@@ -1,10 +1,13 @@
+import { nanoid } from 'nanoid';
 import { MockForgeSDK } from '../../sdk/node/sdk.js';
-import { IMockForgeState, IMockForgeStateService, InitialState } from '../common/service.js';
+import { IMockForgeState, IMockForgeStateService, InitialState, IHttpMatchedMockResult } from '../common/service.js';
 
 export class MockForgeStateService extends MockForgeSDK implements IMockForgeStateService {
   private state: IMockForgeState = {
     http: [],
   };
+
+  private cache = new Map<string, IHttpMatchedMockResult>();
 
   async getMockForgeState(): Promise<IMockForgeState> {
     return this.state;
@@ -34,5 +37,17 @@ export class MockForgeStateService extends MockForgeSDK implements IMockForgeSta
       mockAPIs,
       mockState,
     };
+  }
+
+  async registerHttpMockResult(option: IHttpMatchedMockResult): Promise<string> {
+    const nanoId = nanoid();
+    this.cache.set(nanoId, option);
+    return nanoId;
+  }
+
+  async getHttpMockResult(uuid: string): Promise<IHttpMatchedMockResult | null> {
+    const res = this.cache.get(uuid) || null;
+    this.cache.delete(uuid);
+    return res;
   }
 }
