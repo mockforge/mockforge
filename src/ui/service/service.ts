@@ -1,6 +1,6 @@
 import { AddHttpMockResponse, HttpMockResponse, MockAPI, MockAPIMetadata } from '../../sdk/common/types.js';
 import { RPCRequestBody, RPCResponse } from '../../server/common/rpc.js';
-import { IMockForgeState, IMockForgeStateService } from '../../server/common/service.js';
+import { IHttpMatchedMockResult, IMockForgeState, IMockForgeStateService } from '../../server/common/service.js';
 
 export class BrowserMockForgeStateService implements IMockForgeStateService {
   private baseURL: string;
@@ -75,5 +75,13 @@ export class BrowserMockForgeStateService implements IMockForgeStateService {
 
   async getInitialState() {
     return this.callRPC('getInitialState', []);
+  }
+
+  async registerHttpMockResult(option: IHttpMatchedMockResult): Promise<string> {
+    return this.callRPC('registerHttpMockResult', [option]);
+  }
+
+  async getHttpMockResult(uuid: string): Promise<IHttpMatchedMockResult | null> {
+    return this.callRPC('getHttpMockResult', [uuid]);
   }
 }

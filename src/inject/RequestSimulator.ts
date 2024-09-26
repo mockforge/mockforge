@@ -2,7 +2,7 @@ import { cloneDeep, isMatch } from 'lodash-es';
 import { match } from 'path-to-regexp';
 import queryString from 'query-string';
 import { HttpMockResponse, MockAPI } from '../sdk/common/types';
-import { IMockForgeState } from '../server/common/service';
+import { IMockForgeState, IMockForgeStateService } from '../server/common/service';
 
 export interface RequestParameters {
   url?: string | URL;
@@ -28,10 +28,15 @@ export interface ISimulatedRequestHandler {
   setApiList(apiList: MockAPI[]): void;
   setState(state: IMockForgeState): void;
   handleSimulatedRequest(request: RequestParameters): SimulatedResponse | null;
+  logToNetwork(request: RequestParameters, response: SimulatedResponse): void;
 }
 
 export class RequestSimulator implements ISimulatedRequestHandler {
-  constructor(private origin: string) {}
+  constructor(
+    private origin: string,
+    private serverURL: string,
+    private service: IMockForgeStateService
+  ) {}
 
   private apiCollection: MockAPI[] = [];
   private state: IMockForgeState = {
@@ -151,4 +156,38 @@ export class RequestSimulator implements ISimulatedRequestHandler {
       };
     }
   }
+
+  async logToNetwork(request: RequestParameters, response: SimulatedResponse): Promise<void> {
+    const uuid = await this.service.registerHttpMockResult({
+      status: response.status,
+      body: JSON.parse(response.body),
+    });
+    const requestOption: any = {
+      method: request.method,
+      headers: {
+        ...request.headers,
+        'mockforge-result-uuid': uuid,
+      },
+    };
+    if (request.body) {
+      requestOption['body'] = request.body;
+    }
+
+    const normalizedUrl = typeof request.url === 'string' ? new URL(request.url, this.origin) : request.url;
+    if (!normalizedUrl) {
+      return;
+    }
+
+    await fetch(`${this.serverURL}/mocked/${transformPath(normalizedUrl)}`, requestOption);
+  }
+}
+
+function transformPath(input: URL): string {
+  // 检查输入是否是一个URL
+  const url = input;
+
+  // 如果是URL,替换域名中的点为下划线,并移除协议
+  const hostname = url.hostname.replace(/\./g, '_');
+  const path = url.pathname.replace(/^\//, ''); // 移除开头的斜杠
+  return `${hostname}/${path}?${url.searchParams.toString()}`;
 }

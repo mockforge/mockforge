@@ -7,12 +7,13 @@ export function patchXMLHttpRequest(mock: ISimulatedRequestHandler) {
   const ss = fakeXhr.useFakeXMLHttpRequest();
   ss.onCreate = function (xhr: any) {
     setTimeout(() => {
-      const mockRes = mock.handleSimulatedRequest({
+      const xhrRequest = {
         url: xhr.url,
         method: xhr.method,
         body: xhr.requestBody,
         headers: xhr.requestHeaders,
-      });
+      };
+      const mockRes = mock.handleSimulatedRequest(xhrRequest);
       if (!mockRes) {
         const originalXhr = new OriginalXMLHttpRequest();
         originalXhr.onreadystatechange = function () {
@@ -42,6 +43,7 @@ export function patchXMLHttpRequest(mock: ISimulatedRequestHandler) {
         originalXhr.send(xhr.requestBody);
         return;
       } else {
+        mock.logToNetwork(xhrRequest, mockRes);
         xhr.respond(200, { 'Content-Type': 'application/json' }, mockRes.body);
       }
     }, 0);

@@ -93,6 +93,20 @@ export async function createMockForgeServer(option: CreateMockForgeServerOption)
       res.json(response);
     });
 
+    app.all('/mocked/*', async (req: Request, res: Response) => {
+      const uuid = req.get('mockforge-result-uuid');
+      if (!uuid) {
+        res.status(404).send('Missing mock result uuid');
+        return;
+      }
+      const result = await mockForgeStateService.getHttpMockResult(uuid);
+      if (!result) {
+        res.status(404).send('Mock result not found');
+        return;
+      }
+      res.status(result.status).json(result.body);
+    });
+
     wss.on('connection', (ws: WebSocket, req: Request) => {
       const parseResult = querystring.parseUrl(req.url);
       const url = parseResult.url;
