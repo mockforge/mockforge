@@ -26,6 +26,10 @@ export interface HttpMockAPI {
 
 export type MockAPI = HttpMockAPI;
 
+export type AddHttpMockAPI = Omit<HttpMockAPI, 'mockResponses'> & { mockResponses: AddHttpMockResponse[] };
+
+export type AddMockAPI = AddHttpMockAPI;
+
 export interface HttpMockResponse {
   // Name of the mock response
   name: string;
@@ -57,5 +61,4 @@ export interface HttpMockResponse {
 }
 
 export type AddHttpMockResponse = Omit<HttpMockResponse, '$schema'>;
-
 export type UpdateHttpMockAPISchema = Pick<HttpMockAPI, 'method' | 'description'>;

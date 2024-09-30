@@ -1,7 +1,7 @@
 import Emittery from 'emittery';
 import { nanoid } from 'nanoid';
 import type { WebSocket as WsWebsocket } from 'ws';
-import { AddHttpMockResponse, HttpMockResponse, MockAPI, MockAPIMetadata } from '../../sdk/common/types';
+import { AddHttpMockResponse, AddMockAPI, HttpMockResponse, MockAPI, MockAPIMetadata } from '../../sdk/common/types';
 import { IMockForgeEventListener, MockForgeCallRpcMessage, MockForgeEvent } from '../../server/common/event';
 import { RPCRequestBody } from '../../server/common/rpc';
 import { IHttpMatchedMockResult, IMockForgeState, IMockForgeStateService } from '../../server/common/service';
@@ -116,7 +116,7 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener, I
     await this.callRPC('toggleHttpApiResponse', [method, pathname, responseName]);
   }
 
-  async addMockAPI(mockAPI: MockAPI): Promise<void> {
+  async addMockAPI(mockAPI: AddMockAPI): Promise<void> {
     await this.callRPC('addMockAPI', [mockAPI]);
   }
 

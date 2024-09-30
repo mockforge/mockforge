@@ -5,7 +5,7 @@ import { IMockForgeEventListener } from '../../server/common/event';
 import { IMockForgeState, IMockForgeStateService } from '../../server/common/service';
 import { BrowserMockForgeEventListener } from '../service/event';
 
-interface MockForgeStore {
+export interface MockForgeStore {
   clientId: string;
   browserMockForgeStateService: IMockForgeStateService;
   browserMockForgeEventListener: IMockForgeEventListener;
@@ -24,7 +24,7 @@ interface MockForgeStore {
 }
 const clientId = Math.random().toString(36).substring(2, 15);
 const browserMockForgeEventListener = new BrowserMockForgeEventListener('', clientId);
-browserMockForgeEventListener.connect().then((err) => {
+await browserMockForgeEventListener.connect().then((err) => {
   console.log(err);
 });
 export const useMockForgeStore = create<MockForgeStore>((set, get) => ({

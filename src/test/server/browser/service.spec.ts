@@ -26,6 +26,7 @@ class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
       });
       wewe = new TestBrowserMockForgeEventListener('http://localhost:' + port, nanoid());
       await wewe.connect();
+      console.log('connect');
       return wewe;
     },
     async () => {

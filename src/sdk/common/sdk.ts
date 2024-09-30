@@ -1,4 +1,4 @@
-import { AddHttpMockResponse, HttpMockResponse, MockAPI, MockAPIMetadata } from './types.js';
+import { AddHttpMockResponse, AddMockAPI, HttpMockResponse, MockAPI, MockAPIMetadata } from './types.js';
 
 export interface IMockForgeSDK {
   /**
@@ -6,7 +6,7 @@ export interface IMockForgeSDK {
    * @param mockAPI The mock API to add
    * @returns The ID of the mock API
    */
-  addMockAPI(mockAPI: MockAPI): Promise<void>;
+  addMockAPI(mockAPI: AddMockAPI): Promise<void>;
 
   /**
    * List all mock APIs

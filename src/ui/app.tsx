@@ -64,7 +64,6 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
 
 function useInitData(clientId: string) {
   const mockForgeStore = useMockForgeStore();
-
   const mockApiRequest = useRequest(
     () => {
       return mockForgeStore.browserMockForgeStateService.listMockAPIs();
