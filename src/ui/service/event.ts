@@ -19,7 +19,7 @@ class Deferred<T> {
   }
 }
 
-export class BrowserMockForgeEventListener implements IMockForgeEventListener, IMockForgeStateService {
+export class BrowserMockForgeService implements IMockForgeEventListener, IMockForgeStateService {
   private ws: WsWebsocket | WebSocket | null = null;
   private emitter: Emittery = new Emittery();
 
@@ -51,8 +51,6 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener, I
       };
       ws.onmessage = (event: any) => {
         const data: MockForgeEvent = JSON.parse(event.data);
-        console.log('client handle message', data);
-
         if (data.internal) {
           switch (data.type) {
             case 'mock-forge-rpc-callback': {
@@ -103,7 +101,6 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener, I
     };
     const deferred = new Deferred<any>();
     this.pendingRPCs.set(requestBody.uuid, deferred);
-    console.log('calll roc', message);
     this.ws.send(JSON.stringify(message));
     return deferred.promise;
   }

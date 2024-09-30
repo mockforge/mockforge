@@ -3,14 +3,7 @@ import os from 'os';
 import path from 'path';
 import { expect, it, vi } from 'vitest';
 import { createMockForgeServer } from '../../../server/node/server.js';
-import { WebSocket } from 'ws';
-import { BrowserMockForgeEventListener } from '../../../ui/service/event.js';
-
-class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
-  getWebsocket(url: string) {
-    return new WebSocket(url);
-  }
-}
+import { TestBrowserMockForgeEventListener } from './test.js';
 
 it('test event listener', async () => {
   let tempDir: string;

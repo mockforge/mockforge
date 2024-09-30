@@ -1,5 +1,5 @@
 import { info } from './logger';
-import { BrowserMockForgeEventListener } from '../ui/service/event';
+import { BrowserMockForgeService } from '../ui/service/event';
 import { getInitialStateSync } from './getInitialStateSync';
 import { patchXMLHttpRequest } from './patchXMLHttpRequest';
 import { RequestSimulator } from './RequestSimulator';
@@ -16,7 +16,7 @@ async function initAndInject() {
   if (!clientId || !serverURL) {
     return;
   }
-  const browserMockForgeEventListener = new BrowserMockForgeEventListener(serverURL, clientId);
+  const browserMockForgeEventListener = new BrowserMockForgeService(serverURL, clientId);
   const requestSimulator = new RequestSimulator(location.origin, serverURL, browserMockForgeEventListener);
   try {
     const initState = getInitialStateSync(serverURL, clientId);

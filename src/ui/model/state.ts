@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { AddHttpMockResponse, HttpMockAPI, MockAPI } from '../../sdk/common/types';
 import { IMockForgeEventListener } from '../../server/common/event';
 import { IMockForgeState, IMockForgeStateService } from '../../server/common/service';
-import { BrowserMockForgeEventListener } from '../service/event';
+import { BrowserMockForgeService } from '../service/event';
 
 export interface MockForgeStore {
   clientId: string;
@@ -23,7 +23,7 @@ export interface MockForgeStore {
   deleteHttpMockResponse: (method: string, pathname: string, mockResponseName: string) => Promise<void>;
 }
 const clientId = Math.random().toString(36).substring(2, 15);
-const browserMockForgeEventListener = new BrowserMockForgeEventListener('', clientId);
+const browserMockForgeEventListener = new BrowserMockForgeService('', clientId);
 await browserMockForgeEventListener.connect().then((err) => {
   console.log(err);
 });

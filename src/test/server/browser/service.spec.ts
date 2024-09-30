@@ -2,21 +2,16 @@ import fs from 'fs/promises';
 import { nanoid } from 'nanoid';
 import os from 'os';
 import path from 'path';
+import { IMockForgeSDK } from '../../../sdk/common/sdk.js';
+import { IMockForgeStateService } from '../../../server/common/service.js';
 import { createMockForgeServer } from '../../../server/node/server.js';
-import { BrowserMockForgeEventListener } from '../../../ui/service/event.js';
 import { createMockForgeSDKTests } from '../../createMockForgeSDKTests.js';
 import { createMockForgeStateServiceTests } from '../../createMockForgeStateService.js';
-import { WebSocket } from 'ws';
-
-class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
-  getWebsocket(url: string) {
-    return new WebSocket(url);
-  }
-}
+import { TestBrowserMockForgeEventListener } from './test.js';
 
 (() => {
   let tempDir: string;
-  let wewe: BrowserMockForgeEventListener;
+  let sdk: IMockForgeSDK;
   createMockForgeSDKTests(
     async () => {
       tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-forge-sdk-test-'));
@@ -24,10 +19,10 @@ class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
         baseDir: tempDir,
         port: Math.floor(Math.random() * 1000) + 10000,
       });
-      wewe = new TestBrowserMockForgeEventListener('http://localhost:' + port, nanoid());
-      await wewe.connect();
-      console.log('connect');
-      return wewe;
+      const service = new TestBrowserMockForgeEventListener('http://localhost:' + port, nanoid());
+      await service.connect();
+      sdk = service;
+      return sdk;
     },
     async () => {
       if (tempDir.includes('mock-forge-sdk-test-')) {
@@ -39,16 +34,17 @@ class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
 
 (() => {
   let tempDir: string;
-  let wewe: BrowserMockForgeEventListener;
+  let sdk: IMockForgeStateService;
   createMockForgeStateServiceTests(
     async () => {
       tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-forge-sdk-test-'));
       const port = await createMockForgeServer({
         baseDir: tempDir,
       });
-      wewe = new TestBrowserMockForgeEventListener('http://localhost:' + port, nanoid());
-      await wewe.connect();
-      return wewe;
+      const service = new TestBrowserMockForgeEventListener('http://localhost:' + port, nanoid());
+      await service.connect();
+      sdk = service;
+      return sdk;
     },
     async () => {
       if (tempDir.includes('mock-forge-sdk-test-')) {

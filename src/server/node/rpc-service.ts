@@ -16,7 +16,6 @@ export class RPCClientManager {
       const message = JSON.parse(data.toString()) as MockForgeReceiveMessage;
       switch (message.type) {
         case 'mock-forge-call-rpc': {
-          console.log('handle message', message);
           this.handleMessage(message.request);
           return;
         }
@@ -80,7 +79,6 @@ export class RPCClientManager {
       response,
     };
 
-    console.log('send back ', callBackMessage, this.rpcClient.get(request.clientId));
     this.rpcClient.get(request.clientId)?.send(JSON.stringify(callBackMessage));
   }
 
