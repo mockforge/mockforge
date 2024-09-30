@@ -1,17 +1,34 @@
 import Emittery from 'emittery';
+import { nanoid } from 'nanoid';
 import type { WebSocket as WsWebsocket } from 'ws';
-import { IMockForgeEventListener, MockForgeEvent } from '../../server/common/event';
+import { AddHttpMockResponse, HttpMockResponse, MockAPI, MockAPIMetadata } from '../../sdk/common/types';
+import { IMockForgeEventListener, MockForgeCallRpcMessage, MockForgeEvent } from '../../server/common/event';
+import { RPCRequestBody } from '../../server/common/rpc';
+import { IHttpMatchedMockResult, IMockForgeState, IMockForgeStateService } from '../../server/common/service';
 
-export class BrowserMockForgeEventListener implements IMockForgeEventListener {
-  private baseUrl: string;
-  private clientId: string;
+class Deferred<T> {
+  promise: Promise<T>;
+  resolve!: (value: T | PromiseLike<T>) => void;
+  reject!: (reason?: any) => void;
+
+  constructor() {
+    this.promise = new Promise<T>((resolve, reject) => {
+      this.resolve = resolve;
+      this.reject = reject;
+    });
+  }
+}
+
+export class BrowserMockForgeEventListener implements IMockForgeEventListener, IMockForgeStateService {
   private ws: WsWebsocket | WebSocket | null = null;
   private emitter: Emittery = new Emittery();
 
-  constructor(baseUrl: string, clientId: string) {
-    this.baseUrl = baseUrl;
-    this.clientId = clientId;
-  }
+  private pendingRPCs: Map<string, Deferred<any>> = new Map();
+
+  constructor(
+    private baseUrl: string,
+    private clientId: string
+  ) {}
 
   protected getWebsocket(url: string): WebSocket | WsWebsocket {
     return new WebSocket(url);
@@ -27,29 +44,115 @@ export class BrowserMockForgeEventListener implements IMockForgeEventListener {
   connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       const wsUrl = `${this.baseUrl}/api/v1/mockforge/connect?clientId=${this.clientId}`;
-      this.ws = this.getWebsocket(wsUrl);
-      this.ws.onopen = () => {
-        if (this.ws) {
-          this.ws.send(JSON.stringify({ clientId: this.clientId }));
-          resolve();
+      const ws = this.getWebsocket(wsUrl);
+      ws.onopen = () => {
+        this.ws = ws;
+        resolve();
+      };
+      ws.onmessage = (event: any) => {
+        const data: MockForgeEvent = JSON.parse(event.data);
+        console.log('client handle message', data);
+
+        if (data.internal) {
+          switch (data.type) {
+            case 'mock-forge-rpc-callback': {
+              const rpc = this.pendingRPCs.get(data.uuid);
+              if (!rpc) {
+                return;
+              }
+              if (data.response.success) {
+                rpc.resolve(data.response.data);
+                return;
+              } else {
+                const res = new Error(data.response.errorMessage);
+                res.stack = data.response.stack;
+                rpc.reject(res);
+              }
+              return;
+            }
+          }
+        } else {
+          if (data.clientId !== this.clientId) {
+            this.emitter.emit('event', data as MockForgeEvent);
+          }
         }
       };
-
-      this.ws.onmessage = (event: any) => {
-        const data = JSON.parse(event.data);
-        if (data.clientId !== this.clientId) {
-          this.emitter.emit('event', data as MockForgeEvent);
-        }
-      };
-
-      this.ws.onerror = (error: any) => {
+      ws.onerror = (error: any) => {
         console.error('WebSocket error:', error);
         reject(error);
       };
-
-      this.ws.onclose = () => {
+      ws.onclose = () => {
         this.ws = null;
       };
     });
+  }
+
+  private async callRPC(method: string, args: any[]): Promise<any> {
+    const requestBody: RPCRequestBody = {
+      method,
+      args,
+      clientId: this.clientId,
+      uuid: nanoid(),
+    };
+    if (!this.ws) {
+      throw new Error('websocket is not connected');
+    }
+    const message: MockForgeCallRpcMessage = {
+      type: 'mock-forge-call-rpc',
+      request: requestBody,
+    };
+    const deferred = new Deferred<any>();
+    this.pendingRPCs.set(requestBody.uuid, deferred);
+    console.log('calll roc', message);
+    this.ws.send(JSON.stringify(message));
+    return deferred.promise;
+  }
+
+  async getMockForgeState(): Promise<IMockForgeState> {
+    return this.callRPC('getMockForgeState', []);
+  }
+
+  async toggleHttpApiResponse(method: string, pathname: string, responseName: string): Promise<void> {
+    await this.callRPC('toggleHttpApiResponse', [method, pathname, responseName]);
+  }
+
+  async addMockAPI(mockAPI: MockAPI): Promise<void> {
+    await this.callRPC('addMockAPI', [mockAPI]);
+  }
+
+  async listMockAPIs(): Promise<MockAPI[]> {
+    return this.callRPC('listMockAPIs', []);
+  }
+
+  async deleteHttpMockAPI(method: string, pathname: string): Promise<void> {
+    await this.callRPC('deleteHttpMockAPI', [method, pathname]);
+  }
+
+  async updateHttpMockAPI(method: string, pathname: string, data: MockAPIMetadata): Promise<void> {
+    await this.callRPC('updateHttpMockAPI', [method, pathname, data]);
+  }
+
+  async addHttpMockResponse(
+    method: string,
+    pathname: string,
+    mockResponse: AddHttpMockResponse
+  ): Promise<HttpMockResponse> {
+    return await this.callRPC('addHttpMockResponse', [method, pathname, mockResponse]);
+  }
+
+  async deleteHttpMockResponse(method: string, pathname: string, mockResponseName: string): Promise<void> {
+    await this.callRPC('deleteHttpMockResponse', [method, pathname, mockResponseName]);
+  }
+
+  async getInitialState() {
+    return this.callRPC('getInitialState', []);
+  }
+
+  async registerHttpMockResult(option: IHttpMatchedMockResult): Promise<string> {
+    return this.callRPC('registerHttpMockResult', [option]);
+  }
+
+  async getHttpMockResult(uuid: string): Promise<IHttpMatchedMockResult | null> {
+    return this.callRPC('getHttpMockResult', [uuid]);
   }
 }

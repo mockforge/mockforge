@@ -4,7 +4,6 @@ import path from 'path';
 import { expect, it, vi } from 'vitest';
 import { createMockForgeServer } from '../../../server/node/server.js';
 import { WebSocket } from 'ws';
-import { BrowserMockForgeStateService } from '../../../ui/service/service.js';
 import { BrowserMockForgeEventListener } from '../../../ui/service/event.js';
 
 class TestBrowserMockForgeEventListener extends BrowserMockForgeEventListener {
@@ -20,7 +19,8 @@ it('test event listener', async () => {
   const port = await createMockForgeServer({
     baseDir: tempDir,
   });
-  const service = new BrowserMockForgeStateService('http://localhost:' + port, 'clientA');
+  const service = new TestBrowserMockForgeEventListener('http://localhost:' + port, 'clientA');
+  await service.connect();
 
   const mockAPI = {
     type: 'http' as const,

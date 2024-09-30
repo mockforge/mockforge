@@ -4,7 +4,6 @@ import { AddHttpMockResponse, HttpMockAPI, MockAPI } from '../../sdk/common/type
 import { IMockForgeEventListener } from '../../server/common/event';
 import { IMockForgeState, IMockForgeStateService } from '../../server/common/service';
 import { BrowserMockForgeEventListener } from '../service/event';
-import { BrowserMockForgeStateService } from '../service/service';
 
 interface MockForgeStore {
   clientId: string;
@@ -32,7 +31,7 @@ export const useMockForgeStore = create<MockForgeStore>((set, get) => ({
   mockForgeState: { http: [] },
   apiList: [],
   clientId,
-  browserMockForgeStateService: new BrowserMockForgeStateService('', clientId),
+  browserMockForgeStateService: browserMockForgeEventListener,
   browserMockForgeEventListener: browserMockForgeEventListener,
   updateMockForgeState: (newState) => set({ mockForgeState: newState }),
   updateApiList: (newApiList) => set({ apiList: newApiList }),
