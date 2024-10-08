@@ -1,3 +1,13 @@
+export interface IMockForgeState {
+  http: IHttpApiState[];
+}
+
+export interface IHttpApiState {
+  method: string;
+  pathname: string;
+  activeMockResponses: string[];
+}
+
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 export type MockAPIMetadata = {

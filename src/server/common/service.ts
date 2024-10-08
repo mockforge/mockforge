@@ -1,15 +1,5 @@
 import { IMockForgeSDK } from '../../sdk/common/sdk.js';
-import { MockAPI } from '../../sdk/common/types.js';
-
-export interface IHttpApiState {
-  method: string;
-  pathname: string;
-  activeMockResponses: string[];
-}
-
-export interface IMockForgeState {
-  http: IHttpApiState[];
-}
+import { IMockForgeState, MockAPI } from '../../sdk/common/types.js';
 
 export type HttpMockAPIChangeEvent = {
   method: string;

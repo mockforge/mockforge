@@ -14,6 +14,8 @@ export function encodeHttpApiPath(method: string, apiPath: string): string {
   return `${JoinChar}${method.toUpperCase()}${JoinChar}${normalizedPath}${JoinChar}`;
 }
 
+export function encodeState() {}
+
 export function decodeHttpApiPath(dirname: string): [HttpMethod, string] {
   if (!dirname.startsWith(JoinChar) || !dirname.endsWith(JoinChar)) {
     throw new Error('Invalid dirname format');
