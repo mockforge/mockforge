@@ -1,8 +1,14 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { checkDirAndFileName, decodeHttpApiPath, encodeHttpApiPath, METADATA_FILENAME } from '../common/filename.js';
+import {
+  checkDirAndFileName,
+  decodeHttpApiPath,
+  encodeHttpApiPath,
+  encodeStateName,
+  METADATA_FILENAME,
+} from '../common/filename.js';
 import { IMockForgeSDK } from '../common/sdk.js';
-import { AddHttpMockResponse, HttpMockResponse, MockAPI, MockAPIMetadata } from '../common/types.js';
+import { AddHttpMockResponse, HttpMockResponse, IMockForgeState, MockAPI, MockAPIMetadata } from '../common/types.js';
 
 export class MockForgeSDK implements IMockForgeSDK {
   constructor(private baseDir: string) {}
@@ -155,5 +161,40 @@ export class MockForgeSDK implements IMockForgeSDK {
       throw new Error('Invalid path');
     }
     return path.join(this.baseDir, 'http', dirname);
+  }
+
+  public async saveMockState(name: string, state: IMockForgeState): Promise<void> {
+    const stateToSave = {
+      ...state,
+    };
+    const encodedStateName = encodeStateName(name);
+    await fs.mkdir(this.mockStateDir, { recursive: true });
+    const statePath = path.join(this.mockStateDir, `${encodedStateName}.json`);
+    return fs.writeFile(statePath, JSON.stringify(stateToSave, null, 2));
+  }
+
+  deleteMockState(name: string): Promise<void> {
+    const encodedStateName = encodeStateName(name);
+    const statePath = path.join(this.mockStateDir, `${encodedStateName}.json`);
+    return fs.unlink(statePath);
+  }
+
+  async readMockState(name: string): Promise<IMockForgeState | null> {
+    const encodedStateName = encodeStateName(name);
+    const statePath = path.join(this.mockStateDir, `${encodedStateName}.json`);
+    if (!(await this.exist(statePath))) {
+      return null;
+    }
+    const stateContent = await fs.readFile(statePath, 'utf-8');
+    return JSON.parse(stateContent);
+  }
+
+  async listMockStates(): Promise<string[]> {
+    const files = await fs.readdir(this.mockStateDir);
+    return files.filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
+  }
+
+  private get mockStateDir() {
+    return path.join(this.baseDir, 'mockState');
   }
 }

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { IMockForgeSDK } from '../sdk/common/sdk.js';
-import { MockAPI } from '../sdk/common/types.js';
+import { IMockForgeState, MockAPI } from '../sdk/common/types.js';
 
 export function createMockForgeSDKTests(beforeEachFn: () => Promise<IMockForgeSDK>, afterEachFn: () => Promise<void>) {
   describe('MockForgeSDK', () => {
@@ -270,6 +270,24 @@ export function createMockForgeSDKTests(beforeEachFn: () => Promise<IMockForgeSD
 
         const apis = await sdk.listMockAPIs();
         expect(apis).toHaveLength(0);
+      });
+    });
+
+    describe('saveMockState', () => {
+      it('should save a mock state', async () => {
+        const stateName = 'Test State';
+        const state: IMockForgeState = {
+          http: [
+            {
+              method: 'GET',
+              pathname: '/test',
+              activeMockResponses: ['one'],
+            },
+          ],
+        };
+        await sdk.saveMockState(stateName, state);
+        const savedState = await sdk.readMockState(stateName);
+        expect(savedState).toEqual(state);
       });
     });
   });

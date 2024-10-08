@@ -152,4 +152,17 @@ export class BrowserMockForgeService implements IMockForgeEventListener, IMockFo
   async getHttpMockResult(uuid: string): Promise<IHttpMatchedMockResult | null> {
     return this.callRPC('getHttpMockResult', [uuid]);
   }
+
+  async saveMockState(stateName: string, state: IMockForgeState): Promise<void> {
+    await this.callRPC('saveMockState', [stateName, state]);
+  }
+  async readMockState(stateName: string): Promise<IMockForgeState> {
+    return this.callRPC('readMockState', [stateName]);
+  }
+  async listMockStates(): Promise<string[]> {
+    return this.callRPC('listMockStates', []);
+  }
+  async deleteMockState(stateName: string): Promise<void> {
+    return this.callRPC('deleteMockState', [stateName]);
+  }
 }
