@@ -23,8 +23,9 @@ export interface IMockForgeStateService extends IMockForgeSDK {
 
   toggleHttpApiResponse(method: string, pathname: string, responseName: string): Promise<void>;
 
-  loadMockState(name: string): Promise<void>;
-  saveCurrentMockState(name: string): Promise<void>;
+  loadMockState(name: string): Promise<IMockForgeState>;
+  saveCurrentMockState(name: string): Promise<string[]>;
+  switchDefaultMockState(): Promise<void>;
 
   registerHttpMockResult(option: IHttpMatchedMockResult): Promise<string>;
   getHttpMockResult(uuid: string): Promise<IHttpMatchedMockResult | null>;

@@ -1,10 +1,17 @@
 import Emittery from 'emittery';
 import { nanoid } from 'nanoid';
 import type { WebSocket as WsWebsocket } from 'ws';
-import { AddHttpMockResponse, AddMockAPI, HttpMockResponse, MockAPI, MockAPIMetadata } from '../../sdk/common/types';
+import {
+  AddHttpMockResponse,
+  AddMockAPI,
+  HttpMockResponse,
+  IMockForgeState,
+  MockAPI,
+  MockAPIMetadata,
+} from '../../sdk/common/types';
 import { IMockForgeEventListener, MockForgeCallRpcMessage, MockForgeEvent } from '../../server/common/event';
 import { RPCRequestBody } from '../../server/common/rpc';
-import { IHttpMatchedMockResult, IMockForgeState, IMockForgeStateService } from '../../server/common/service';
+import { IHttpMatchedMockResult, IMockForgeStateService } from '../../server/common/service';
 
 class Deferred<T> {
   promise: Promise<T>;
@@ -164,5 +171,17 @@ export class BrowserMockForgeService implements IMockForgeEventListener, IMockFo
   }
   async deleteMockState(stateName: string): Promise<void> {
     return this.callRPC('deleteMockState', [stateName]);
+  }
+
+  async loadMockState(name: string): Promise<IMockForgeState> {
+    return await this.callRPC('loadMockState', [name]);
+  }
+
+  async saveCurrentMockState(name: string): Promise<string[]> {
+    return await this.callRPC('saveCurrentMockState', [name]);
+  }
+
+  async switchDefaultMockState(): Promise<void> {
+    return await this.callRPC('switchDefaultMockState', []);
   }
 }

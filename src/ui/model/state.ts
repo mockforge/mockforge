@@ -1,8 +1,8 @@
 import { produce } from 'immer';
 import { create } from 'zustand';
-import { AddHttpMockResponse, HttpMockAPI, MockAPI } from '../../sdk/common/types';
+import { AddHttpMockResponse, HttpMockAPI, IMockForgeState, MockAPI } from '../../sdk/common/types';
 import { IMockForgeEventListener } from '../../server/common/event';
-import { IMockForgeState, IMockForgeStateService } from '../../server/common/service';
+import { IMockForgeStateService } from '../../server/common/service';
 import { BrowserMockForgeService } from '../service/event';
 
 export interface MockForgeStore {
@@ -27,6 +27,7 @@ const browserMockForgeEventListener = new BrowserMockForgeService('', clientId);
 await browserMockForgeEventListener.connect().then((err) => {
   console.log(err);
 });
+
 export const useMockForgeStore = create<MockForgeStore>((set, get) => ({
   mockForgeState: { http: [] },
   apiList: [],
@@ -111,3 +112,45 @@ export const useMockForgeStore = create<MockForgeStore>((set, get) => ({
 }));
 
 export default useMockForgeStore;
+
+interface IMockStateStore {
+  currentMockState?: string | null;
+  mockStates: string[];
+
+  deleteMockState: (name: string) => Promise<void>;
+  loadMockState: (name: string) => Promise<void>;
+  saveCurrentMockState: (name: string) => Promise<void>;
+  updateMockStates: (mockStates: string[]) => void;
+  switchDefaultMockState(): Promise<void>;
+}
+
+export const useMockStatesStore = create<IMockStateStore>((set, get) => ({
+  mockStates: [],
+  loadMockState: async (name: string) => {
+    const newState = await useMockForgeStore.getState().browserMockForgeStateService.loadMockState(name);
+    set({ currentMockState: name });
+    await useMockForgeStore.getState().updateMockForgeState(newState);
+  },
+  saveCurrentMockState: async (name: string) => {
+    const newModelStates = await useMockForgeStore.getState().browserMockForgeStateService.saveCurrentMockState(name);
+    set({ mockStates: newModelStates, currentMockState: name });
+  },
+  updateMockStates: (mockStates: string[]) => {
+    set({ mockStates });
+  },
+  switchDefaultMockState: async () => {
+    await useMockForgeStore.getState().browserMockForgeStateService.switchDefaultMockState();
+    const newState = await useMockForgeStore.getState().browserMockForgeStateService.getMockForgeState();
+    await useMockForgeStore.getState().updateMockForgeState(newState);
+    set({ currentMockState: null });
+  },
+  deleteMockState: async (name: string) => {
+    await useMockForgeStore.getState().browserMockForgeStateService.deleteMockState(name);
+    const mockStates = await useMockForgeStore.getState().browserMockForgeStateService.listMockStates();
+    if (get().currentMockState === name) {
+      set({ currentMockState: null, mockStates });
+    } else {
+      set({ mockStates });
+    }
+  },
+}));

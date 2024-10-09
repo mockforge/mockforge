@@ -47,18 +47,24 @@ export class MockForgeStateService extends MockForgeSDK implements IMockForgeSta
     };
   }
 
-  async loadMockState(name: string): Promise<void> {
+  async switchDefaultMockState(): Promise<void> {
+    this.state = this.getDefaultMockState();
+  }
+
+  async loadMockState(name: string): Promise<IMockForgeState> {
     const state = await this.readMockState(name);
     if (!state) {
       this.state = this.getDefaultMockState(name);
-      return;
+    } else {
+      this.state = state;
     }
-    this.state = state;
+    return this.state;
   }
 
-  async saveCurrentMockState(name: string): Promise<void> {
+  async saveCurrentMockState(name: string): Promise<string[]> {
     this.state.name = name;
     await super.saveMockState(name, { http: this.state.http });
+    return super.listMockStates();
   }
 
   async registerHttpMockResult(option: IHttpMatchedMockResult): Promise<string> {

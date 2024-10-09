@@ -63,6 +63,7 @@ export class RPCClientManager {
           break;
         }
 
+        case 'switchDefaultMockState':
         case 'loadMockState':
         case 'saveCurrentMockState':
         case 'saveMockState':
