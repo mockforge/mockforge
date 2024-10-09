@@ -190,6 +190,7 @@ export class MockForgeSDK implements IMockForgeSDK {
     const stateContent = await fs.readFile(statePath, 'utf-8');
     const parsed = JSON.parse(stateContent);
     parsed.__cache__ = stableStringify(parsed);
+    parsed.name = name;
     return parsed;
   }
 

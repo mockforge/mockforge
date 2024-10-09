@@ -118,6 +118,7 @@ interface IMockStateStore {
   currentMockState?: string | null;
   mockStates: string[];
 
+  updateCurrentName(name?: string): void;
   deleteMockState: (name: string) => Promise<void>;
   loadMockState: (name: string) => Promise<void>;
   saveCurrentMockState: (name: string) => Promise<void>;
@@ -127,6 +128,9 @@ interface IMockStateStore {
 
 export const useMockStatesStore = create<IMockStateStore>((set, get) => ({
   mockStates: [],
+  updateCurrentName(name: string) {
+    set({ currentMockState: name });
+  },
   loadMockState: async (name: string) => {
     const newState = await useMockForgeStore.getState().browserMockForgeStateService.loadMockState(name);
     set({ currentMockState: name });

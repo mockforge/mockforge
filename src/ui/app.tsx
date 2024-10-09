@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRequest } from 'ahooks';
-import { Button, Checkbox } from 'antd';
+import { Checkbox } from 'antd';
 import { useEffect } from 'react';
 import { MockAPI } from '../sdk/common/types';
 import { MockForgeEvent } from '../server/common/event';
@@ -85,6 +85,7 @@ function useInitData(clientId: string) {
     {
       refreshOnWindowFocus: true,
       onSuccess(data) {
+        mockStatesStore.updateCurrentName(data.name);
         mockForgeStore.updateMockForgeState(data);
       },
     }
