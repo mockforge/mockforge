@@ -1,4 +1,6 @@
 export interface IMockForgeState {
+  __cache__?: string;
+
   name?: string;
   http: IHttpApiState[];
 }

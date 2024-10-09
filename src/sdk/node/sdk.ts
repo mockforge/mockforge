@@ -9,6 +9,7 @@ import {
 } from '../common/filename.js';
 import { IMockForgeSDK } from '../common/sdk.js';
 import { AddHttpMockResponse, HttpMockResponse, IMockForgeState, MockAPI, MockAPIMetadata } from '../common/types.js';
+import stableStringify from 'json-stable-stringify';
 
 export class MockForgeSDK implements IMockForgeSDK {
   constructor(private baseDir: string) {}
@@ -167,6 +168,7 @@ export class MockForgeSDK implements IMockForgeSDK {
     const stateToSave = {
       ...state,
     };
+    delete stateToSave.__cache__;
     const encodedStateName = encodeStateName(name);
     await fs.mkdir(this.mockStateDir, { recursive: true });
     const statePath = path.join(this.mockStateDir, `${encodedStateName}.json`);
@@ -186,7 +188,9 @@ export class MockForgeSDK implements IMockForgeSDK {
       return null;
     }
     const stateContent = await fs.readFile(statePath, 'utf-8');
-    return JSON.parse(stateContent);
+    const parsed = JSON.parse(stateContent);
+    parsed.__cache__ = stableStringify(parsed);
+    return parsed;
   }
 
   async listMockStates(): Promise<string[]> {

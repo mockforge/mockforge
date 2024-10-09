@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@types/json-stable-stringify':
+        specifier: ^1.0.36
+        version: 1.0.36
       debug:
         specifier: ^4.3.7
         version: 4.3.7
       express:
         specifier: ^4.19.2
         version: 4.19.2
+      json-stable-stringify:
+        specifier: ^1.1.1
+        version: 1.1.1
       ws:
         specifier: ^8.18.0
         version: 8.18.0
@@ -778,6 +784,9 @@ packages:
   '@types/http-errors@2.0.4':
     resolution: {integrity: sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==}
 
+  '@types/json-stable-stringify@1.0.36':
+    resolution: {integrity: sha512-b7bq23s4fgBB76n34m2b3RBf6M369B0Z9uRR8aHTMd8kZISRkmDEpPD8hhpYvDFzr3bJCPES96cm3Q6qRNDbQw==}
+
   '@types/lodash-es@4.17.12':
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
 
@@ -1297,6 +1306,9 @@ packages:
     resolution: {integrity: sha512-LnQR4bZ9IADDRSkvpqMGvt/tEJWclzklNgSw48V5EAaAeDd6qGvN8ei6k5p0tvxSR171VmGyHuTiAOfxAbr8kA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
+  isarray@2.0.5:
+    resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
+
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
@@ -1331,6 +1343,10 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
+  json-stable-stringify@1.1.1:
+    resolution: {integrity: sha512-SU/971Kt5qVQfJpyDveVhQ/vya+5hvrjClFOcr8c0Fq5aODJjMwutrOfCU+eCnVD5gpx1Q3fEqkyom77zH1iIg==}
+    engines: {node: '>= 0.4'}
+
   json2mq@0.2.0:
     resolution: {integrity: sha512-SzoRg7ux5DWTII9J2qkrZrqV1gt+rTaoufMxEzXbS26Uid0NwaJd123HcoB80TgubEppxxIGdNxCx50fEoEWQA==}
 
@@ -1338,6 +1354,9 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
+
+  jsonify@0.0.1:
+    resolution: {integrity: sha512-2/Ki0GcmuqSrgFyelQq9M05y7PS0mEwuIzrf3f1fPqkVDVRvZrPZtVSMHxdgo8Aq0sxAOb/cr2aqqA3LeWHVPg==}
 
   just-extend@6.2.0:
     resolution: {integrity: sha512-cYofQu2Xpom82S6qD778jBDpwvvy39s1l/hrYij2u9AMdQcGRpaBu6kY4mVhuno5kJVi1DAz4aiphA2WI1/OAw==}
@@ -1458,6 +1477,10 @@ packages:
 
   object-inspect@1.13.2:
     resolution: {integrity: sha512-IRZSRuzJiynemAXPYtPe5BoI/RESNYR7TYm50MC5Mqbd3Jmw5y790sErYw3V6SryFJD64b74qQQs9wn5Bg/k3g==}
+    engines: {node: '>= 0.4'}
+
+  object-keys@1.1.1:
+    resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
     engines: {node: '>= 0.4'}
 
   on-finished@2.4.1:
@@ -2704,6 +2727,8 @@ snapshots:
 
   '@types/http-errors@2.0.4': {}
 
+  '@types/json-stable-stringify@1.0.36': {}
+
   '@types/lodash-es@4.17.12':
     dependencies:
       '@types/lodash': 4.17.7
@@ -3364,6 +3389,8 @@ snapshots:
 
   is-stream@3.0.0: {}
 
+  isarray@2.0.5: {}
+
   isexe@2.0.0: {}
 
   istanbul-lib-coverage@3.2.2: {}
@@ -3399,11 +3426,20 @@ snapshots:
 
   jsesc@2.5.2: {}
 
+  json-stable-stringify@1.1.1:
+    dependencies:
+      call-bind: 1.0.7
+      isarray: 2.0.5
+      jsonify: 0.0.1
+      object-keys: 1.1.1
+
   json2mq@0.2.0:
     dependencies:
       string-convert: 0.2.1
 
   json5@2.2.3: {}
+
+  jsonify@0.0.1: {}
 
   just-extend@6.2.0: {}
 
@@ -3505,6 +3541,8 @@ snapshots:
   object-assign@4.1.1: {}
 
   object-inspect@1.13.2: {}
+
+  object-keys@1.1.1: {}
 
   on-finished@2.4.1:
     dependencies:

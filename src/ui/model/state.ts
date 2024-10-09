@@ -22,6 +22,7 @@ export interface MockForgeStore {
   addHttpMockResponse: (method: string, pathname: string, mockResponse: AddHttpMockResponse) => Promise<void>;
   deleteHttpMockResponse: (method: string, pathname: string, mockResponseName: string) => Promise<void>;
 }
+
 const clientId = Math.random().toString(36).substring(2, 15);
 const browserMockForgeEventListener = new BrowserMockForgeService('', clientId);
 await browserMockForgeEventListener.connect().then((err) => {
