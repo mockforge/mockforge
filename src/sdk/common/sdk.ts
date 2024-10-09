@@ -5,6 +5,7 @@ import {
   IMockForgeState,
   MockAPI,
   MockAPIMetadata,
+  SaveMockStateSchema,
 } from './types.js';
 
 export interface IMockForgeSDK {
@@ -48,13 +49,12 @@ export interface IMockForgeSDK {
    * @param mockResponseName mock response name
    */
   deleteHttpMockResponse(method: string, pathname: string, mockResponseName: string): Promise<void>;
-
   /**
    *
    * @param name name of the state
    * @param state
    */
-  saveMockState(name: string, state: IMockForgeState): Promise<void>;
+  saveMockState(name: string, state: SaveMockStateSchema): Promise<void>;
   /**
    *
    * @param name name of the state

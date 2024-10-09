@@ -5,7 +5,6 @@ import { createServer } from 'node:http';
 import querystring from 'query-string';
 import { WebSocket, WebSocketServer } from 'ws';
 import { serverDebugLog } from '../../logger/node.js';
-import { RPCRequestBody, RPCResponse } from './../common/rpc.js';
 import { MockForgeStateService } from './service.js';
 import { RPCClientManager } from './rpc-service.js';
 

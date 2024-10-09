@@ -1,6 +1,9 @@
 export interface IMockForgeState {
+  name?: string;
   http: IHttpApiState[];
 }
+
+export type SaveMockStateSchema = Pick<IMockForgeState, 'http'>;
 
 export interface IHttpApiState {
   method: string;

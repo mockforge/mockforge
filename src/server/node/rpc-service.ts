@@ -62,11 +62,26 @@ export class RPCClientManager {
           });
           break;
         }
+
+        case 'loadMockState':
+        case 'saveCurrentMockState':
+        case 'saveMockState':
+        case 'deleteMockState':
         case 'toggleHttpApiResponse': {
           this.broadcastEvent({
             type: 'mock-forge-state-change',
             clientId,
           });
+          break;
+        }
+
+        case 'getInitialState':
+        case 'listMockStates':
+        case 'listMockAPIs':
+        case 'registerHttpMockResult':
+        case 'readMockState':
+        case 'getMockForgeState':
+        case 'getHttpMockResult': {
           break;
         }
       }
