@@ -1,7 +1,7 @@
 import type { TreeDataNode } from 'antd';
 import { Button, Tree } from 'antd';
 import React from 'react';
-import { useMockStatesStore } from '../model/state';
+import useMockForgeStore from '../model/state';
 import { DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import './tree.css';
 
@@ -54,7 +54,7 @@ function createTree(paths: string[]): TreeDataNode[] {
 }
 
 export const StateTree: React.FC = () => {
-  const treeData = useMockStatesStore((state): TreeDataNode[] => {
+  const treeData = useMockForgeStore((state): TreeDataNode[] => {
     const defaultNodes: TreeDataNode[] = [
       {
         title: 'Default',
@@ -65,11 +65,11 @@ export const StateTree: React.FC = () => {
     return defaultNodes.concat(createTree(state.mockStates));
   });
 
-  const selectedKeys = useMockStatesStore((o) => {
+  const selectedKeys = useMockForgeStore((o) => {
     return [o.currentMockState ?? DefaultKey];
   });
 
-  const { loadMockState, deleteMockState, switchDefaultMockState } = useMockStatesStore();
+  const { loadMockState, deleteMockState, switchDefaultMockState } = useMockForgeStore();
   const handleSelect = (selectedKeys: React.Key[]) => {
     const key = selectedKeys[0];
 

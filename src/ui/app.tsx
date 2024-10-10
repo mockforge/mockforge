@@ -7,7 +7,7 @@ import { MockForgeEvent } from '../server/common/event';
 import { AddApiForm } from './component/AddApiForm';
 import { AddMockResponseButton } from './component/AddApiResponse';
 import './index.css';
-import useMockForgeStore, { useMockStatesStore } from './model/state';
+import useMockForgeStore from './model/state';
 import { StateTree } from './component/Tree';
 import { SaveMockStateButton } from './component/SaveSate';
 
@@ -66,7 +66,7 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
 
 function useInitData(clientId: string) {
   const mockForgeStore = useMockForgeStore();
-  const mockStatesStore = useMockStatesStore();
+  const mockStatesStore = useMockForgeStore();
   const mockApiRequest = useRequest(
     () => {
       return mockForgeStore.browserMockForgeStateService.listMockAPIs();
@@ -113,11 +113,11 @@ function useInitData(clientId: string) {
         mockStatesList.refresh();
       }
     };
-    mockForgeStore.browserMockForgeEventListener.handleEvent(handler);
+    mockForgeStore.browserMockForgeStateService.handleEvent(handler);
     return () => {
-      mockForgeStore.browserMockForgeEventListener.removeEventListener(handler);
+      mockForgeStore.browserMockForgeStateService.removeEventListener(handler);
     };
-  }, [clientId, mockApiRequest]);
+  }, [clientId]);
 }
 
 export function App() {

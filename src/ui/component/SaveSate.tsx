@@ -1,13 +1,13 @@
 import { SaveOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, message } from 'antd';
 import React, { useState } from 'react';
-import useMockForgeStore, { useMockStatesStore } from '../model/state';
+import useMockForgeStore from '../model/state';
 import { isChange } from '../../sdk/common/state';
 
 export const SaveMockStateButton = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [inputName, setInputName] = useState('');
-  const { currentMockState, saveCurrentMockState } = useMockStatesStore();
+  const { currentMockState, saveCurrentMockState } = useMockForgeStore();
   const { mockForgeState } = useMockForgeStore();
 
   const handleSave = async () => {
