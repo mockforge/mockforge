@@ -34,8 +34,10 @@ function createTree(paths: string[]): TreeDataNode[] {
       } else {
         const parentKey = parts.slice(0, index).join('/');
         const parentNode = keyMap.get(parentKey)!;
-        if (keyMap.has(key) && isLastPart) {
-          keyMap.get(key)!.selectable = true;
+        if (keyMap.has(key)) {
+          if (isLastPart) {
+            keyMap.get(key)!.selectable = true;
+          }
           return;
         } else {
           keyMap.set(key, {
