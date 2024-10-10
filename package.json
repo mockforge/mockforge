@@ -53,6 +53,7 @@
     "@types/cors": "^2.8.17",
     "@types/debug": "^4.1.12",
     "@types/express": "^4.17.21",
+    "@types/json-stable-stringify": "^1.0.36",
     "@types/lodash-es": "^4.17.12",
     "@types/nise": "^1.4.5",
     "@types/node": "^22.5.4",
@@ -69,6 +70,7 @@
     "get-port": "^7.1.0",
     "html-webpack-plugin": "^5.6.0",
     "immer": "^10.1.1",
+    "json-stable-stringify": "^1.1.1",
     "lodash-es": "^4.17.21",
     "monaco-editor": "^0.51.0",
     "nanoid": "^5.0.7",
@@ -84,11 +86,10 @@
     "valid-filename": "^4.0.0",
     "vite": "^5.4.3",
     "vitest": "^2.0.5",
-    "json-stable-stringify": "^1.1.1",
-    "@types/json-stable-stringify": "^1.0.36",
     "zustand": "^4.5.5"
   },
   "dependencies": {
+    "antd-style": "^3.7.0",
     "debug": "^4.3.7",
     "express": "^4.19.2",
     "ws": "^8.18.0"

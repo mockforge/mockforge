@@ -47,8 +47,8 @@ export const AddMockResponseButton: React.FC<{
 
   return (
     <>
-      <Button type="primary" onClick={showDrawer}>
-        Add Mock Response
+      <Button type="link" onClick={showDrawer} style={{ padding: 0 }}>
+        Add Response
       </Button>
       <Drawer
         title="Add Mock Response"
