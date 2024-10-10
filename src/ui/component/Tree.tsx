@@ -74,7 +74,9 @@ export const StateTree: React.FC = () => {
   const { loadMockState, deleteMockState, switchDefaultMockState } = useMockForgeStore();
   const handleSelect = (selectedKeys: React.Key[]) => {
     const key = selectedKeys[0];
-
+    if (!key) {
+      return;
+    }
     if (key === DefaultKey) {
       switchDefaultMockState();
       return;
