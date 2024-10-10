@@ -81,6 +81,7 @@ export function createMockForgeStateServiceTests(
     it('test init state', async () => {
       expect(await service.getInitialState()).toEqual({
         mockAPIs: [],
+        mockStates: [],
         mockState: { http: [] },
       });
     });

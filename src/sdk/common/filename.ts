@@ -14,6 +14,17 @@ export function encodeHttpApiPath(method: string, apiPath: string): string {
   return `${JoinChar}${method.toUpperCase()}${JoinChar}${normalizedPath}${JoinChar}`;
 }
 
+export function encodeStateName(stateName: string): string {
+  return stateName
+    .split('/')
+    .filter((segment) => segment.length > 0)
+    .join(JoinChar);
+}
+
+export function decodeStateName(stateName: string): string {
+  return stateName.split(JoinChar).join('/');
+}
+
 export function decodeHttpApiPath(dirname: string): [HttpMethod, string] {
   if (!dirname.startsWith(JoinChar) || !dirname.endsWith(JoinChar)) {
     throw new Error('Invalid dirname format');

@@ -1,3 +1,18 @@
+export interface IMockForgeState {
+  __cache__?: string;
+
+  name?: string;
+  http: IHttpApiState[];
+}
+
+export type SaveMockStateSchema = Pick<IMockForgeState, 'http'>;
+
+export interface IHttpApiState {
+  method: string;
+  pathname: string;
+  activeMockResponses: string[];
+}
+
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 export type MockAPIMetadata = {
@@ -25,6 +40,10 @@ export interface HttpMockAPI {
 }
 
 export type MockAPI = HttpMockAPI;
+
+export type AddHttpMockAPI = Omit<HttpMockAPI, 'mockResponses'> & { mockResponses: AddHttpMockResponse[] };
+
+export type AddMockAPI = AddHttpMockAPI;
 
 export interface HttpMockResponse {
   // Name of the mock response
@@ -57,5 +76,4 @@ export interface HttpMockResponse {
 }
 
 export type AddHttpMockResponse = Omit<HttpMockResponse, '$schema'>;
-
 export type UpdateHttpMockAPISchema = Pick<HttpMockAPI, 'method' | 'description'>;

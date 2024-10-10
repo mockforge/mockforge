@@ -1,6 +1,5 @@
 import { info } from './logger';
-import { BrowserMockForgeEventListener } from '../ui/service/event';
-import { BrowserMockForgeStateService } from '../ui/service/service';
+import { BrowserMockForgeService } from '../ui/service/event';
 import { getInitialStateSync } from './getInitialStateSync';
 import { patchXMLHttpRequest } from './patchXMLHttpRequest';
 import { RequestSimulator } from './RequestSimulator';
@@ -17,9 +16,8 @@ async function initAndInject() {
   if (!clientId || !serverURL) {
     return;
   }
-  const browserMockForgeEventListener = new BrowserMockForgeEventListener(serverURL, clientId);
-  const browserMockForgeStateService = new BrowserMockForgeStateService(serverURL, clientId);
-  const requestSimulator = new RequestSimulator(location.origin, serverURL, browserMockForgeStateService);
+  const browserMockForgeEventListener = new BrowserMockForgeService(serverURL, clientId);
+  const requestSimulator = new RequestSimulator(location.origin, serverURL, browserMockForgeEventListener);
   try {
     const initState = getInitialStateSync(serverURL, clientId);
     requestSimulator.setApiList(initState.mockAPIs);
@@ -34,12 +32,12 @@ async function initAndInject() {
     await browserMockForgeEventListener.connect();
     browserMockForgeEventListener.handleEvent((event) => {
       if (event.type === 'http-mock-api-change') {
-        browserMockForgeStateService.listMockAPIs().then((state) => {
+        browserMockForgeEventListener.listMockAPIs().then((state) => {
           requestSimulator.setApiList(state);
         });
       }
       if (event.type === 'mock-forge-state-change') {
-        browserMockForgeStateService.getMockForgeState().then((state) => {
+        browserMockForgeEventListener.getMockForgeState().then((state) => {
           requestSimulator.setState(state);
         });
       }

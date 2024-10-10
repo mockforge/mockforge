@@ -1,16 +1,22 @@
 import { nanoid } from 'nanoid';
 import { MockForgeSDK } from '../../sdk/node/sdk.js';
-import { IMockForgeState, IMockForgeStateService, InitialState, IHttpMatchedMockResult } from '../common/service.js';
+import { IMockForgeStateService, InitialState, IHttpMatchedMockResult } from '../common/service.js';
+import { IMockForgeState } from '../../sdk/common/types.js';
 
 export class MockForgeStateService extends MockForgeSDK implements IMockForgeStateService {
-  private state: IMockForgeState = {
-    http: [],
-  };
+  private state: IMockForgeState = this.getDefaultMockState();
 
   private cache = new Map<string, IHttpMatchedMockResult>();
 
   async getMockForgeState(): Promise<IMockForgeState> {
     return this.state;
+  }
+
+  private getDefaultMockState(name?: string) {
+    return {
+      name,
+      http: [],
+    };
   }
 
   async toggleHttpApiResponse(method: string, pathname: string, responseName: string): Promise<void> {
@@ -33,10 +39,32 @@ export class MockForgeStateService extends MockForgeSDK implements IMockForgeSta
   async getInitialState(): Promise<InitialState> {
     const mockAPIs = await this.listMockAPIs();
     const mockState = await this.getMockForgeState();
+    const mockStates = await this.listMockStates();
     return {
       mockAPIs,
       mockState,
+      mockStates,
     };
+  }
+
+  async switchDefaultMockState(): Promise<void> {
+    this.state = this.getDefaultMockState();
+  }
+
+  async loadMockState(name: string): Promise<IMockForgeState> {
+    const state = await this.readMockState(name);
+    if (!state) {
+      this.state = this.getDefaultMockState(name);
+    } else {
+      this.state = state;
+    }
+    return this.state;
+  }
+
+  async saveCurrentMockState(name: string): Promise<string[]> {
+    await super.saveMockState(name, { http: this.state.http });
+    this.state = (await super.readMockState(name))!;
+    return super.listMockStates();
   }
 
   async registerHttpMockResult(option: IHttpMatchedMockResult): Promise<string> {

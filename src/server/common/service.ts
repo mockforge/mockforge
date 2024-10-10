@@ -1,15 +1,5 @@
 import { IMockForgeSDK } from '../../sdk/common/sdk.js';
-import { MockAPI } from '../../sdk/common/types.js';
-
-export interface IHttpApiState {
-  method: string;
-  pathname: string;
-  activeMockResponses: string[];
-}
-
-export interface IMockForgeState {
-  http: IHttpApiState[];
-}
+import { IMockForgeState, MockAPI } from '../../sdk/common/types.js';
 
 export type HttpMockAPIChangeEvent = {
   method: string;
@@ -17,6 +7,7 @@ export type HttpMockAPIChangeEvent = {
 };
 
 export interface InitialState {
+  mockStates: string[];
   mockAPIs: MockAPI[];
   mockState: IMockForgeState;
 }
@@ -27,9 +18,14 @@ export interface IHttpMatchedMockResult {
 }
 
 export interface IMockForgeStateService extends IMockForgeSDK {
-  getMockForgeState(): Promise<IMockForgeState>;
-  toggleHttpApiResponse(method: string, pathname: string, responseName: string): Promise<void>;
   getInitialState(): Promise<InitialState>;
+  getMockForgeState(): Promise<IMockForgeState>;
+
+  toggleHttpApiResponse(method: string, pathname: string, responseName: string): Promise<void>;
+
+  loadMockState(name: string): Promise<IMockForgeState>;
+  saveCurrentMockState(name: string): Promise<string[]>;
+  switchDefaultMockState(): Promise<void>;
 
   registerHttpMockResult(option: IHttpMatchedMockResult): Promise<string>;
   getHttpMockResult(uuid: string): Promise<IHttpMatchedMockResult | null>;

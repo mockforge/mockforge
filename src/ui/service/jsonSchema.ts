@@ -26,7 +26,6 @@ class JSONSchema implements IJSONSchema {
         fileMatch: [`${key}.json`],
       };
     });
-    console.log(JSON.stringify(schemas, null, 2));
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
       schemas: schemas,

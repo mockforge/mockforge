@@ -1,4 +1,12 @@
-import { AddHttpMockResponse, HttpMockResponse, MockAPI, MockAPIMetadata } from './types.js';
+import {
+  AddHttpMockResponse,
+  AddMockAPI,
+  HttpMockResponse,
+  IMockForgeState,
+  MockAPI,
+  MockAPIMetadata,
+  SaveMockStateSchema,
+} from './types.js';
 
 export interface IMockForgeSDK {
   /**
@@ -6,7 +14,7 @@ export interface IMockForgeSDK {
    * @param mockAPI The mock API to add
    * @returns The ID of the mock API
    */
-  addMockAPI(mockAPI: MockAPI): Promise<void>;
+  addMockAPI(mockAPI: AddMockAPI): Promise<void>;
 
   /**
    * List all mock APIs
@@ -34,5 +42,32 @@ export interface IMockForgeSDK {
    */
   addHttpMockResponse(method: string, pathname: string, mockResponse: AddHttpMockResponse): Promise<HttpMockResponse>;
 
+  /**
+   *
+   * @param method delete http method
+   * @param pathname http pathname
+   * @param mockResponseName mock response name
+   */
   deleteHttpMockResponse(method: string, pathname: string, mockResponseName: string): Promise<void>;
+  /**
+   *
+   * @param name name of the state
+   * @param state
+   */
+  saveMockState(name: string, state: SaveMockStateSchema): Promise<void>;
+  /**
+   *
+   * @param name name of the state
+   */
+  deleteMockState(name: string): Promise<void>;
+  /**
+   *
+   * @returns mock state
+   * @param name name of the state
+   */
+  readMockState(name: string): Promise<IMockForgeState | null>;
+  /**
+   * List all mock states
+   */
+  listMockStates(): Promise<string[]>;
 }

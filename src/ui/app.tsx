@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRequest } from 'ahooks';
 import { Checkbox } from 'antd';
 import { useEffect } from 'react';
@@ -7,6 +8,8 @@ import { AddApiForm } from './component/AddApiForm';
 import { AddMockResponseButton } from './component/AddApiResponse';
 import './index.css';
 import useMockForgeStore from './model/state';
+import { StateTree } from './component/Tree';
+import { SaveMockStateButton } from './component/SaveSate';
 
 const APICard: React.FC<{ api: MockAPI }> = (props) => {
   const mockForgeStore = useMockForgeStore();
@@ -63,7 +66,7 @@ const APICard: React.FC<{ api: MockAPI }> = (props) => {
 
 function useInitData(clientId: string) {
   const mockForgeStore = useMockForgeStore();
-
+  const mockStatesStore = useMockForgeStore();
   const mockApiRequest = useRequest(
     () => {
       return mockForgeStore.browserMockForgeStateService.listMockAPIs();
@@ -82,10 +85,24 @@ function useInitData(clientId: string) {
     {
       refreshOnWindowFocus: true,
       onSuccess(data) {
+        mockStatesStore.updateCurrentName(data.name);
         mockForgeStore.updateMockForgeState(data);
       },
     }
   );
+
+  const mockStatesList = useRequest(
+    () => {
+      return mockForgeStore.browserMockForgeStateService.listMockStates();
+    },
+    {
+      refreshOnWindowFocus: true,
+      onSuccess(data) {
+        mockStatesStore.updateMockStates(data);
+      },
+    }
+  );
+
   useEffect(() => {
     const handler = (event: MockForgeEvent) => {
       if (event.type === 'http-mock-api-change') {
@@ -93,30 +110,45 @@ function useInitData(clientId: string) {
       }
       if (event.type === 'mock-forge-state-change') {
         mockForgeStateRequest.refresh();
+        mockStatesList.refresh();
       }
     };
-    mockForgeStore.browserMockForgeEventListener.handleEvent(handler);
+    mockForgeStore.browserMockForgeStateService.handleEvent(handler);
     return () => {
-      mockForgeStore.browserMockForgeEventListener.removeEventListener(handler);
+      mockForgeStore.browserMockForgeStateService.removeEventListener(handler);
     };
-  }, [clientId, mockApiRequest]);
+  }, [clientId]);
 }
 
 export function App() {
   const mockForgeStore = useMockForgeStore();
   useInitData(mockForgeStore.clientId);
   return (
-    <div style={{ padding: 20 }}>
-      <div className="search-bar">
-        <AddApiForm></AddApiForm>
+    <div style={{ padding: 16, height: '100vh', boxSizing: 'border-box', display: 'flex' }}>
+      <div style={{ padding: 16, background: 'white', borderRadius: 4, marginRight: 8, width: 300 }}>
+        <StateTree></StateTree>
       </div>
-      {
-        <div style={{ marginTop: 20 }}>
+      <div
+        style={{
+          flex: 1,
+          padding: 8,
+          height: '100%',
+          boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        <div className="search-bar" style={{ justifyContent: 'space-between', marginBottom: 20 }}>
+          <SaveMockStateButton></SaveMockStateButton>
+          <AddApiForm></AddApiForm>
+        </div>
+        <div style={{ flex: 1, overflow: 'auto' }}>
           {mockForgeStore.apiList.map((api) => (
             <APICard api={api} />
           ))}
         </div>
-      }
+      </div>
     </div>
   );
 }

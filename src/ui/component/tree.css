@@ -1,0 +1,7 @@
+.tree-title:hover .delete-icon {
+  opacity: 1;
+}
+
+.delete-icon {
+  opacity: 0;
+}

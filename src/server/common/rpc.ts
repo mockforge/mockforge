@@ -2,6 +2,7 @@ export type RPCRequestBody = {
   method: string;
   args: any[];
   clientId: string;
+  uuid: string;
 };
 
 export type RPCSuccessResponse = {
