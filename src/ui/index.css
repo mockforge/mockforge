@@ -1,5 +1,5 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'PingFang SC';
   background-color: #f0f2f5;
   margin: 0;
 }
@@ -47,14 +47,24 @@ body {
   justify-content: flex-end;
 }
 
+.two-line {
+  overflow: hidden;
+  white-space: wrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+  color: rgba(0, 0, 0, 0.45);
+}
+
 .tag-item {
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 6px;
   background: #f5f5f5;
   border-radius: 4px;
-  margin-bottom: 8px;
-  width: 45%;
+  margin-right: 4px;
 }
 
 .tag-name {

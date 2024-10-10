@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRequest } from 'ahooks';
-import { Checkbox } from 'antd';
-import { useEffect } from 'react';
-import { MockAPI } from '../sdk/common/types';
+import { Checkbox, Table } from 'antd';
 import { MockForgeEvent } from '../server/common/event';
 import { AddApiForm } from './component/AddApiForm';
 import { AddMockResponseButton } from './component/AddApiResponse';
@@ -11,58 +9,24 @@ import useMockForgeStore from './model/state';
 import { StateTree } from './component/Tree';
 import { SaveMockStateButton } from './component/SaveSate';
 
-const APICard: React.FC<{ api: MockAPI }> = (props) => {
-  const mockForgeStore = useMockForgeStore();
+import { createStyles } from 'antd-style';
 
-  return (
-    <div className="api-card">
-      <div className="api-header">
-        <div style={{ display: 'flex' }}>
-          <div className="method-tag">{props.api.method}</div>
-          <div className="api-title">
-            {props.api.pathname}
-            <span className="api-name">{props.api.name}</span>
-            <div className="api-actions">
-              <AddMockResponseButton method={props.api.method} pathname={props.api.pathname} />
-            </div>
-          </div>
-        </div>
-        <div style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>{props.api.description}</div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-        }}
-      >
-        {props.api.mockResponses.map((o) => (
-          <div className="tag-item" key={o.name}>
-            <Checkbox
-              style={{ marginRight: 8 }}
-              checked={mockForgeStore.isHttpApiResponseSelected(props.api.method, props.api.pathname, o.name)}
-              onChange={(e) => {
-                if (e.nativeEvent.altKey) {
-                  mockForgeStore
-                    .selectSingleHttpApiResponse(props.api.method, props.api.pathname, o.name)
-                    .catch((err) => {
-                      console.log(err);
-                    });
-                  return;
-                }
-                console.log(e.nativeEvent.altKey);
-                mockForgeStore.toggleHttpApiResponse(props.api.method, props.api.pathname, o.name).catch((err) => {
-                  console.log(err);
-                });
-              }}
-            />
-            <div className="tag-name">{o.name}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+const useStyle = createStyles(({ css, token }) => {
+  const { antCls } = token;
+  return {
+    customTable: css`
+      ${antCls}-table {
+        ${antCls}-table-container {
+          ${antCls}-table-body,
+          ${antCls}-table-content {
+            scrollbar-width: thin;
+            scrollbar-color: unset;
+          }
+        }
+      }
+    `,
+  };
+});
 
 function useInitData(clientId: string) {
   const mockForgeStore = useMockForgeStore();
@@ -123,15 +87,17 @@ function useInitData(clientId: string) {
 export function App() {
   const mockForgeStore = useMockForgeStore();
   useInitData(mockForgeStore.clientId);
+  const { styles } = useStyle();
+
   return (
-    <div style={{ padding: 16, height: '100vh', boxSizing: 'border-box', display: 'flex' }}>
-      <div style={{ padding: 16, background: 'white', borderRadius: 4, marginRight: 8, width: 300 }}>
+    <div style={{ height: '100vh', boxSizing: 'border-box', display: 'flex' }}>
+      <div style={{ padding: 16, background: 'white', width: 250 }}>
         <StateTree></StateTree>
       </div>
       <div
         style={{
           flex: 1,
-          padding: 8,
+          padding: 16,
           height: '100%',
           boxSizing: 'border-box',
           display: 'flex',
@@ -144,9 +110,90 @@ export function App() {
           <AddApiForm></AddApiForm>
         </div>
         <div style={{ flex: 1, overflow: 'auto' }}>
-          {mockForgeStore.apiList.map((api) => (
-            <APICard api={api} />
-          ))}
+          <Table
+            rowKey={(record) => `${record.method}-${record.pathname}`}
+            bordered
+            scroll={{ y: 680 }}
+            className={styles.customTable}
+            virtual={true}
+            pagination={false}
+            columns={[
+              {
+                title: 'Method',
+                dataIndex: 'method',
+                width: 100,
+              },
+              {
+                title: 'API',
+                dataIndex: 'pathname',
+                width: 300,
+              },
+              {
+                title: 'name',
+                dataIndex: 'name',
+                width: 200,
+                render(_val, record) {
+                  return (
+                    <div>
+                      <div style={{ fontWeight: 'bold' }}>{record.name}</div>
+                      <div className="two-line">{record.description}</div>
+                    </div>
+                  );
+                },
+              },
+              {
+                title: 'Mock Response',
+                render(_val, record) {
+                  return (
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                      }}
+                    >
+                      {record.mockResponses.map((o) => (
+                        <div className="tag-item" key={o.name}>
+                          <Checkbox
+                            style={{ marginRight: 8 }}
+                            checked={mockForgeStore.isHttpApiResponseSelected(record.method, record.pathname, o.name)}
+                            onChange={(e) => {
+                              if (e.nativeEvent.altKey) {
+                                mockForgeStore
+                                  .selectSingleHttpApiResponse(record.method, record.pathname, o.name)
+                                  .catch((err) => {
+                                    console.log(err);
+                                  });
+                                return;
+                              }
+                              console.log(e.nativeEvent.altKey);
+                              mockForgeStore
+                                .toggleHttpApiResponse(record.method, record.pathname, o.name)
+                                .catch((err) => {
+                                  console.log(err);
+                                });
+                            }}
+                          />
+                          <div className="tag-name">{o.name}</div>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                },
+              },
+              {
+                title: 'Actions',
+                width: 150,
+                render(_val, record) {
+                  return (
+                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                      <AddMockResponseButton method={record.method} pathname={record.pathname} />
+                    </div>
+                  );
+                },
+              },
+            ]}
+            dataSource={mockForgeStore.apiList}
+          />
         </div>
       </div>
     </div>
