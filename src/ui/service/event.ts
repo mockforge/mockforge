@@ -1,5 +1,5 @@
 import Emittery from 'emittery';
-import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid/non-secure';
 import type { WebSocket as WsWebsocket } from 'ws';
 import {
   AddHttpMockResponse,
