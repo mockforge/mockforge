@@ -62,8 +62,8 @@ export class MockForgeStateService extends MockForgeSDK implements IMockForgeSta
   }
 
   async saveCurrentMockState(name: string): Promise<string[]> {
-    this.state.name = name;
     await super.saveMockState(name, { http: this.state.http });
+    this.state = (await super.readMockState(name))!;
     return super.listMockStates();
   }
 
