@@ -18,6 +18,9 @@
     }
   },
   "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
     "./webpack5-plugin": {
       "types": "./dist/webpack5-plugin.d.ts",
       "require": "./dist/webpack5-plugin.cjs",
