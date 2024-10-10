@@ -62,7 +62,6 @@ export class RPCClientManager {
           });
           break;
         }
-
         case 'switchDefaultMockState':
         case 'loadMockState':
         case 'saveCurrentMockState':
@@ -75,7 +74,6 @@ export class RPCClientManager {
           });
           break;
         }
-
         case 'getInitialState':
         case 'listMockStates':
         case 'listMockAPIs':
