@@ -13,7 +13,6 @@ export const SaveMockStateButton = () => {
   const handleSave = async () => {
     try {
       await saveCurrentMockState(currentMockState!);
-      message.success('Mock state saved successfully!');
     } catch (error) {
       message.error('Failed to save mock state');
     }
@@ -25,7 +24,6 @@ export const SaveMockStateButton = () => {
         await saveCurrentMockState(inputName);
         setIsModalVisible(false);
         setInputName('');
-        message.success('Mock state saved successfully!');
       } catch (error) {
         message.error('Failed to save mock state');
       }
@@ -48,11 +46,17 @@ export const SaveMockStateButton = () => {
   return (
     <div>
       {currentMockState && (
-        <Button type="primary" icon={<SaveOutlined />} disabled={isMockStateSaved} onClick={handleSave}>
+        <Button
+          type="primary"
+          icon={<SaveOutlined />}
+          style={{ marginRight: 8 }}
+          disabled={!isMockStateSaved}
+          onClick={handleSave}
+        >
           Save
         </Button>
       )}
-      <Button type="primary" icon={<SaveOutlined />} onClick={handleSaveAs}>
+      <Button icon={<SaveOutlined />} onClick={handleSaveAs}>
         Save As
       </Button>
       <Modal title="Save Mock State" open={isModalVisible} onOk={handleModalOk} onCancel={handleModalCancel}>

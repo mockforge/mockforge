@@ -7,7 +7,7 @@ export function isChange(state: IMockForgeState) {
     return true;
   }
   const { __cache__, ...rest } = state;
-  return stableStringify(rest) === __cache__;
+  return stableStringify(rest) !== __cache__;
 }
 
 export function removeCacheFromState(state: IMockForgeState) {

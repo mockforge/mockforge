@@ -138,6 +138,10 @@ export const useMockStatesStore = create<IMockStateStore>((set, get) => ({
   },
   saveCurrentMockState: async (name: string) => {
     const newModelStates = await useMockForgeStore.getState().browserMockForgeStateService.saveCurrentMockState(name);
+    const newMockState = await useMockForgeStore.getState().browserMockForgeStateService.readMockState(name);
+    if (newMockState) {
+      await useMockForgeStore.getState().updateMockForgeState(newMockState);
+    }
     set({ mockStates: newModelStates, currentMockState: name });
   },
   updateMockStates: (mockStates: string[]) => {

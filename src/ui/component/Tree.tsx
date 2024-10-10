@@ -2,29 +2,67 @@ import type { TreeDataNode } from 'antd';
 import { Button, Tree } from 'antd';
 import React from 'react';
 import { useMockStatesStore } from '../model/state';
-import { DeleteOutlined } from '@ant-design/icons';
-
-const { DirectoryTree } = Tree;
+import { DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
+import './tree.css';
 
 const DefaultKey = `${Math.random()}-${Math.random()}-${Date.now()}`;
 
+function createTree(paths: string[]): TreeDataNode[] {
+  const keyMap = new Map<string, TreeDataNode>();
+  const rootNodes: TreeDataNode[] = [];
+
+  paths.forEach((path) => {
+    const parts = path.split('/');
+    parts.forEach((part, index) => {
+      const isLastPart = index === parts.length - 1;
+      const key = parts.slice(0, index + 1).join('/');
+      if (index === 0) {
+        if (keyMap.has(key)) {
+          if (isLastPart) {
+            keyMap.get(key)!.selectable = true;
+          }
+          return;
+        } else {
+          keyMap.set(key, {
+            title: part,
+            key,
+            selectable: isLastPart,
+            children: [],
+          });
+          rootNodes.push(keyMap.get(key)!);
+        }
+      } else {
+        const parentKey = parts.slice(0, index).join('/');
+        const parentNode = keyMap.get(parentKey)!;
+        if (keyMap.has(key) && isLastPart) {
+          keyMap.get(key)!.selectable = true;
+          return;
+        } else {
+          keyMap.set(key, {
+            title: part,
+            key,
+            selectable: isLastPart,
+            children: [],
+          });
+          parentNode.children!.push(keyMap.get(key)!);
+        }
+      }
+    });
+  });
+
+  return rootNodes;
+}
+
 export const StateTree: React.FC = () => {
   const treeData = useMockStatesStore((state): TreeDataNode[] => {
-    const mockStatesNodes: TreeDataNode[] = state.mockStates.map((o) => {
-      return {
-        title: o,
-        key: o,
-        isLeaf: true,
-      };
-    });
     const defaultNodes: TreeDataNode[] = [
       {
         title: 'Default',
         key: DefaultKey,
-        isLeaf: true,
+        selectable: true,
       },
     ];
-    return defaultNodes.concat(mockStatesNodes);
+    return defaultNodes.concat(createTree(state.mockStates));
   });
 
   const selectedKeys = useMockStatesStore((o) => {
@@ -34,6 +72,7 @@ export const StateTree: React.FC = () => {
   const { loadMockState, deleteMockState, switchDefaultMockState } = useMockStatesStore();
   const handleSelect = (selectedKeys: React.Key[]) => {
     const key = selectedKeys[0];
+
     if (key === DefaultKey) {
       switchDefaultMockState();
       return;
@@ -42,11 +81,16 @@ export const StateTree: React.FC = () => {
   };
 
   const titleRender = (nodeData: TreeDataNode) => (
-    <div style={{ display: 'inline-flex', width: '80%', justifyContent: 'space-between', alignItems: 'center' }}>
-      {typeof nodeData.title === 'string' && <span style={{ width: 100 }}>{nodeData.title}</span>}
-      {nodeData.key !== DefaultKey && (
+    <div
+      className="tree-title"
+      style={{ display: 'inline-flex', justifyContent: 'space-between', alignItems: 'center' }}
+    >
+      {nodeData.selectable && <FileTextOutlined style={{ marginRight: 4 }} />}
+      {typeof nodeData.title === 'string' && <span style={{ marginRight: 8 }}>{nodeData.title}</span>}
+      {nodeData.key !== DefaultKey && nodeData.selectable && (
         <Button
           type="text"
+          className="delete-icon"
           icon={<DeleteOutlined />}
           size="small"
           onClick={(e) => {
@@ -60,9 +104,11 @@ export const StateTree: React.FC = () => {
 
   return (
     <div>
-      <div>Mock States</div>
-      <DirectoryTree
+      <div style={{ marginBottom: 8, fontSize: 14, fontWeight: 'normal', color: 'gray' }}>Mock States</div>
+      <Tree
+        key={JSON.stringify(treeData)}
         defaultExpandAll
+        autoExpandParent
         selectedKeys={selectedKeys}
         onSelect={handleSelect}
         selectable

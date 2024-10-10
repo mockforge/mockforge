@@ -3,6 +3,7 @@ import path from 'path';
 import {
   checkDirAndFileName,
   decodeHttpApiPath,
+  decodeStateName,
   encodeHttpApiPath,
   encodeStateName,
   METADATA_FILENAME,
@@ -189,14 +190,17 @@ export class MockForgeSDK implements IMockForgeSDK {
     }
     const stateContent = await fs.readFile(statePath, 'utf-8');
     const parsed = JSON.parse(stateContent);
-    parsed.__cache__ = stableStringify(parsed);
     parsed.name = name;
+    parsed.__cache__ = stableStringify(parsed);
     return parsed;
   }
 
   async listMockStates(): Promise<string[]> {
     const files = await fs.readdir(this.mockStateDir);
-    return files.filter((file) => file.endsWith('.json')).map((file) => file.replace('.json', ''));
+    return files
+      .filter((file) => file.endsWith('.json'))
+      .map((file) => file.replace('.json', ''))
+      .map((o) => decodeStateName(o));
   }
 
   private get mockStateDir() {

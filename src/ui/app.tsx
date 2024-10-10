@@ -124,21 +124,19 @@ export function App() {
   const mockForgeStore = useMockForgeStore();
   useInitData(mockForgeStore.clientId);
   return (
-    <div style={{ padding: 20 }}>
-      <div style={{ display: 'flex', marginTop: 20 }}>
-        <div style={{ padding: 20, background: 'white', borderRadius: 4, marginRight: 8, width: 200 }}>
-          <StateTree></StateTree>
+    <div style={{ padding: 16, height: '100vh', boxSizing: 'border-box', display: 'flex' }}>
+      <div style={{ padding: 16, background: 'white', borderRadius: 4, marginRight: 8, width: 300 }}>
+        <StateTree></StateTree>
+      </div>
+      <div style={{ flex: 1, padding: 8 }}>
+        <div className="search-bar" style={{ justifyContent: 'space-between' }}>
+          <SaveMockStateButton></SaveMockStateButton>
+          <AddApiForm></AddApiForm>
         </div>
-        <div style={{ flex: 1, padding: 8 }}>
-          <div className="search-bar" style={{ justifyContent: 'space-between' }}>
-            <SaveMockStateButton></SaveMockStateButton>
-            <AddApiForm></AddApiForm>
-          </div>
-          <div style={{ marginTop: 20 }}>
-            {mockForgeStore.apiList.map((api) => (
-              <APICard api={api} />
-            ))}
-          </div>
+        <div style={{ marginTop: 20 }}>
+          {mockForgeStore.apiList.map((api) => (
+            <APICard api={api} />
+          ))}
         </div>
       </div>
     </div>
