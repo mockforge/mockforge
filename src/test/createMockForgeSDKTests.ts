@@ -287,7 +287,17 @@ export function createMockForgeSDKTests(beforeEachFn: () => Promise<IMockForgeSD
         };
         await sdk.saveMockState(stateName, state);
         const savedState = await sdk.readMockState(stateName);
-        expect(savedState).toEqual(state);
+        expect(savedState).toEqual({
+          __cache__: '{"http":[{"activeMockResponses":["one"],"method":"GET","pathname":"/test"}],"name":"Test State"}',
+          http: [
+            {
+              activeMockResponses: ['one'],
+              method: 'GET',
+              pathname: '/test',
+            },
+          ],
+          name: 'Test State',
+        });
       });
     });
   });

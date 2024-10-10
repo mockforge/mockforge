@@ -196,6 +196,7 @@ export class MockForgeSDK implements IMockForgeSDK {
   }
 
   async listMockStates(): Promise<string[]> {
+    await fs.mkdir(this.mockStateDir, { recursive: true });
     const files = await fs.readdir(this.mockStateDir);
     return files
       .filter((file) => file.endsWith('.json'))
