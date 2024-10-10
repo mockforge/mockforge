@@ -128,12 +128,22 @@ export function App() {
       <div style={{ padding: 16, background: 'white', borderRadius: 4, marginRight: 8, width: 300 }}>
         <StateTree></StateTree>
       </div>
-      <div style={{ flex: 1, padding: 8 }}>
-        <div className="search-bar" style={{ justifyContent: 'space-between' }}>
+      <div
+        style={{
+          flex: 1,
+          padding: 8,
+          height: '100%',
+          boxSizing: 'border-box',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        <div className="search-bar" style={{ justifyContent: 'space-between', marginBottom: 20 }}>
           <SaveMockStateButton></SaveMockStateButton>
           <AddApiForm></AddApiForm>
         </div>
-        <div style={{ marginTop: 20 }}>
+        <div style={{ flex: 1, overflow: 'auto' }}>
           {mockForgeStore.apiList.map((api) => (
             <APICard api={api} />
           ))}

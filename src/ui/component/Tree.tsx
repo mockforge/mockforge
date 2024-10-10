@@ -106,6 +106,7 @@ export const StateTree: React.FC = () => {
     <div>
       <div style={{ marginBottom: 8, fontSize: 14, fontWeight: 'normal', color: 'gray' }}>Mock States</div>
       <Tree
+        showLine
         key={JSON.stringify(treeData)}
         defaultExpandAll
         autoExpandParent
