@@ -52,11 +52,12 @@ describe('Vite Demo Tests', () => {
     await page.waitForSelector('[data-mock-state="Vite Demo"]');
     await page.click('[data-mock-state="Vite Demo"]');
     await new Promise((resolve) => setTimeout(resolve, 500));
-    await page.screenshot({ path: path.resolve(__dirname, 'cache/mockforge.png') });
+    const cacheDir = path.resolve(__dirname, 'cache-ignore');
+    const snapshotDir = path.resolve(__dirname, 'snapshots');
+    await page.screenshot({ path: path.resolve(cacheDir, 'mockforge.png') });
     await page.goto(LOCAL_URL);
-    await page.screenshot({ path: path.resolve(__dirname, 'cache/vite-demo.png') });
-
-    expect(await page.innerHTML('body')).toMatchFileSnapshot('vite-demo-e2e.html');
+    await page.screenshot({ path: path.resolve(cacheDir, 'vite-demo.png') });
+    expect(await page.innerHTML('body')).toMatchFileSnapshot(path.resolve(snapshotDir, 'vite-demo-e2e.html'));
     await browser.close();
   }, 100000);
 
