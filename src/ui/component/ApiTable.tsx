@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Card, Checkbox, Popover, Table, Tag } from 'antd';
 import { createStyles } from 'antd-style';
 import useMockForgeStore from '../model/state';
@@ -152,6 +152,29 @@ export const ApiTable: React.FC<IApiTableProps> = (props) => {
     },
   ];
 
+  const sortedApiList = useMemo(() => {
+    if (!mockForgeStore.apiList) {
+      return;
+    }
+    const apiList = [...mockForgeStore.apiList];
+    apiList.sort((a, b) => {
+      const aSelected = a.mockResponses.some((o) =>
+        mockForgeStore.isHttpApiResponseSelected(a.method, a.pathname, o.name)
+      );
+      const bSelected = b.mockResponses.some((o) =>
+        mockForgeStore.isHttpApiResponseSelected(b.method, b.pathname, o.name)
+      );
+      if (aSelected && !bSelected) {
+        return -1;
+      }
+      if (!aSelected && bSelected) {
+        return 1;
+      }
+      return 0;
+    });
+    return apiList;
+  }, [mockForgeStore.currentMockState, mockForgeStore.apiList]);
+
   return (
     <Table<MockAPI>
       rowKey={(record) => `${record.method}-${record.pathname}`}
@@ -159,7 +182,7 @@ export const ApiTable: React.FC<IApiTableProps> = (props) => {
       virtual={true}
       pagination={false}
       columns={columns}
-      dataSource={mockForgeStore.apiList}
+      dataSource={sortedApiList}
     />
   );
 };
