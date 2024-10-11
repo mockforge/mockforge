@@ -4,6 +4,7 @@ import { exec } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { ChildProcess } from 'node:child_process';
+import stripAnsi from 'strip-ansi';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,7 +21,10 @@ describe('Vite Demo Tests', () => {
     await new Promise<void>((resolve) => {
       devProcess.stdout!.on('data', (data) => {
         console.log(data.toString());
-        const lines = data.toString().split('\n');
+        const lines = data
+          .toString()
+          .split('\n')
+          .map((o: string) => stripAnsi(o));
         for (const line of lines) {
           if (line.includes('Local:')) {
             LOCAL_URL = line.split('Local:')[1].trim();
