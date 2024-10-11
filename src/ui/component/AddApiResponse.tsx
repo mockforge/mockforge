@@ -2,8 +2,8 @@ import { Button, Drawer, Form, Input, Space } from 'antd';
 import React, { useState } from 'react';
 import { AddHttpMockResponse } from '../../sdk/common/types';
 import useMockForgeStore from '../model/state';
-import { JSONEditor } from './JsonEditor';
 import { requestMatcherSchema } from '../schema.ts';
+import { JSONEditor } from './JsonEditor';
 
 const { TextArea } = Input;
 

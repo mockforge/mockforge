@@ -3,8 +3,8 @@ import { Button, Card, Drawer, Form, Input, Select, Space } from 'antd';
 import React, { useState } from 'react';
 import { MockAPI } from '../../sdk/common/types';
 import useMockForgeStore from '../model/state';
-import { JSONEditor } from './JsonEditor.tsx';
 import { requestMatcherSchema } from '../schema.ts';
+import { JSONEditor } from './JsonEditor.tsx';
 
 const { Option } = Select;
 const { TextArea } = Input;

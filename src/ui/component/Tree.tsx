@@ -1,10 +1,10 @@
+import { DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
 import type { TreeDataNode } from 'antd';
 import { Button, Tree } from 'antd';
 import React from 'react';
 import useMockForgeStore from '../model/state';
-import { DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
-import styles from './tree.module.css';
 import { listToTree } from '../utils/list-to-tree';
+import styles from './tree.module.css';
 
 const DefaultKey = `${Math.random()}-${Math.random()}-${Date.now()}`;
 
