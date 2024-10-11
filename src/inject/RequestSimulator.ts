@@ -1,14 +1,14 @@
 import { cloneDeep, isMatch } from 'lodash-es';
 import { match } from 'path-to-regexp';
 import queryString from 'query-string';
-import { HttpMockResponse, MockAPI } from '../sdk/common/types';
-import { IMockForgeState, IMockForgeStateService } from '../server/common/service';
+import { HttpMockResponse, IMockForgeState, MockAPI } from '../sdk/common/types';
+import { IMockForgeStateService } from '../server/common/service';
 
 export interface RequestParameters {
   url?: string | URL;
   method?: string;
   headers?: Record<string, string>;
-  body?: Document | XMLHttpRequestBodyInit | null;
+  body?: Document | XMLHttpRequestBodyInit | null | FormData | BodyInit;
 }
 
 export interface ValidRequest {
@@ -88,7 +88,7 @@ export class RequestSimulator implements ISimulatedRequestHandler {
     }
     const normalizedUrl = typeof request.url === 'string' ? new URL(request.url, this.origin) : request.url;
     const urlPath = normalizedUrl.pathname;
-    const requestMethod = request.method || 'GET';
+    const requestMethod = (request.method || 'GET').toUpperCase();
     const matchingApi = this.findMatchingApi(urlPath, requestMethod);
     if (!matchingApi) {
       return null;
@@ -151,7 +151,6 @@ export class RequestSimulator implements ISimulatedRequestHandler {
       if (api.method !== requestMethod) {
         continue;
       }
-
       const matchFunction = match(api.pathname.replace(/\[(\S+)\]/g, ':$1'));
       const result = matchFunction(urlPath);
       if (!result) {
