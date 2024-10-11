@@ -89,10 +89,10 @@
     "valid-filename": "^4.0.0",
     "vite": "^5.4.3",
     "vitest": "^2.0.5",
+    "antd-style": "^3.7.0",
     "zustand": "^4.5.5"
   },
   "dependencies": {
-    "antd-style": "^3.7.0",
     "debug": "^4.3.7",
     "express": "^4.19.2",
     "ws": "^8.18.0"
