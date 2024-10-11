@@ -38,7 +38,7 @@ export const StateTree: React.FC = () => {
   };
 
   const titleRender = (nodeData: TreeDataNode) => (
-    <div className={styles['tree-title']} data-mock-state={nodeData.title}>
+    <div className={styles['tree-title']} data-mock-state={nodeData.key}>
       {typeof nodeData.title === 'string' && (
         <span style={{ marginRight: 8 }}>
           {nodeData.selectable && <FileTextOutlined style={{ marginRight: 4 }} />}
