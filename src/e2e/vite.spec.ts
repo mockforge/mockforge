@@ -3,10 +3,8 @@ import { chromium } from 'playwright';
 import { exec } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { promisify } from 'util';
 import { ChildProcess } from 'node:child_process';
 
-const execAsync = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -16,22 +14,10 @@ let MOCK_FORGE_URL = '';
 
 describe('Vite Demo Tests', () => {
   beforeEach(async () => {
-    // 1. 进入指定目录
     const demoDir = path.resolve(__dirname, '../../demo/vite-demo');
     process.chdir(demoDir);
-
-    // 2. 执行 pnpm i
-    try {
-      await execAsync('pnpm i');
-    } catch (error) {
-      console.error(`执行错误: ${error}`);
-      throw error;
-    }
-
-    // 3. 执行 pnpm run dev
     devProcess = exec('pnpm run dev');
 
-    // 等待服务启动并提取 URL
     await new Promise<void>((resolve) => {
       devProcess.stdout!.on('data', (data) => {
         const lines = data.toString().split('\n');
