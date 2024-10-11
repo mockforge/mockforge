@@ -17,9 +17,9 @@ describe('Vite Demo Tests', () => {
     const demoDir = path.resolve(__dirname, '../../demo/vite-demo');
     process.chdir(demoDir);
     devProcess = exec('pnpm run dev');
-
     await new Promise<void>((resolve) => {
       devProcess.stdout!.on('data', (data) => {
+        console.log(data.toString());
         const lines = data.toString().split('\n');
         for (const line of lines) {
           if (line.includes('Local:')) {
@@ -35,9 +35,8 @@ describe('Vite Demo Tests', () => {
         }
       });
     });
-
     await new Promise((resolve) => setTimeout(resolve, 2000));
-  });
+  }, 30 * 1000);
 
   it('should access MOCK_FORGE_URL and LOCAL_URL', async () => {
     const browser = await chromium.launch({ headless: true });

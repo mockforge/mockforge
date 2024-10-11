@@ -45,8 +45,8 @@
     "dev:ui": "vite",
     "dev:server": "tsx --watch scripts/start-server.ts",
     "build": "tsx scripts/build.ts && vite build",
-    "cov": "vitest run --coverage src/test/**/*",
-    "test:e2e": "vitest run src/e2e/**",
+    "cov": "vitest run --coverage src/test",
+    "e2e": "vitest run src/e2e",
     "format": "prettier src scripts -w"
   },
   "author": "DiamondYuan",
