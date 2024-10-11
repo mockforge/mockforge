@@ -1,0 +1,18 @@
+{
+  "http": [
+    {
+      "method": "GET",
+      "pathname": "/one",
+      "activeMockResponses": [
+        "one"
+      ]
+    },
+    {
+      "method": "POST",
+      "pathname": "/two",
+      "activeMockResponses": [
+        "two"
+      ]
+    }
+  ]
+}
