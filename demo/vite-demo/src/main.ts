@@ -73,6 +73,13 @@ function displayResults(results: { title: string; passed: boolean; error?: strin
       </table>
     </div>
   `;
+
+  // 在一个不可见的元素里塞 results
+  const resultsEl = document.createElement('div');
+  resultsEl.id = 'results';
+  resultsEl.style.display = 'none';
+  resultsEl.textContent = JSON.stringify(results);
+  document.body.appendChild(resultsEl);
 }
 
 async function makeRequest({ method, url }: RequestOptions, expectedData: ExpectedData): Promise<void> {

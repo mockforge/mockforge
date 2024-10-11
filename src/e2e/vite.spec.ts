@@ -64,11 +64,14 @@ describe('Vite Demo Tests', () => {
     await page.click('[data-mock-state="Vite Demo"]');
     await new Promise((resolve) => setTimeout(resolve, 500));
     const cacheDir = path.resolve(__dirname, 'cache-ignore');
-    const snapshotDir = path.resolve(__dirname, 'snapshots');
     await page.screenshot({ path: path.resolve(cacheDir, 'mockforge.png') });
     await page.goto(LOCAL_URL);
     await page.screenshot({ path: path.resolve(cacheDir, 'vite-demo.png') });
-    expect(await page.innerHTML('body')).toMatchFileSnapshot(path.resolve(snapshotDir, 'vite-demo-e2e.html'));
+    await page.waitForSelector('#results', { state: 'hidden' });
+    const results = await page.textContent('#results');
+    expect(results).toMatchInlineSnapshot(
+      `"[{"title":"GET /one","passed":true},{"title":"POST /two","passed":true},{"title":"GET /data.json","passed":true}]"`
+    );
     await browser.close();
   }, 100000);
 
