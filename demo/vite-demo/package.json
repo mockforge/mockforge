@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "MOCK_FORGE=true vite",
+    "dev": "cross-env MOCK_FORGE=true vite\"",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "mockfoge": "file:../../",
     "typescript": "^5.5.3",
     "vite": "^5.4.8"
