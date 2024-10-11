@@ -1,8 +1,8 @@
 import { cloneDeep, isMatch } from 'lodash-es';
 import { match } from 'path-to-regexp';
 import queryString from 'query-string';
-import { HttpMockResponse, MockAPI } from '../sdk/common/types';
-import { IMockForgeState, IMockForgeStateService } from '../server/common/service';
+import { HttpMockResponse, IMockForgeState, MockAPI } from '../sdk/common/types';
+import { IMockForgeStateService } from '../server/common/service';
 
 export interface RequestParameters {
   url?: string | URL;

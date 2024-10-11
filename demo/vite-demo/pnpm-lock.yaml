@@ -1046,7 +1046,6 @@ snapshots:
     dependencies:
       debug: 4.3.7
       express: 4.21.1
-      strip-ansi: 7.1.0
       ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil

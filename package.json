@@ -47,6 +47,7 @@
     "build": "tsx scripts/build.ts && vite build",
     "cov": "vitest run --coverage src/test",
     "e2e": "vitest run src/e2e",
+    "e2e:local": "npm run build && npm run e2e",
     "format": "prettier src scripts -w"
   },
   "author": "DiamondYuan",

@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { ChildProcess } from 'node:child_process';
 import stripAnsi from 'strip-ansi';
+import { promisify } from 'node:util';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,10 +14,20 @@ let devProcess: ChildProcess;
 let LOCAL_URL = '';
 let MOCK_FORGE_URL = '';
 
+const execAsync = promisify(exec);
+
 describe('Vite Demo Tests', () => {
   beforeEach(async () => {
     const demoDir = path.resolve(__dirname, '../../demo/vite-demo');
     process.chdir(demoDir);
+
+    try {
+      await execAsync('pnpm i');
+    } catch (error) {
+      console.error(`执行错误: ${error}`);
+      throw error;
+    }
+
     devProcess = exec('pnpm run dev');
     await new Promise<void>((resolve) => {
       devProcess.stdout!.on('data', (data) => {

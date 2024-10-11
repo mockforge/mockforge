@@ -9,16 +9,18 @@ export function patchFetch(mock: ISimulatedRequestHandler) {
     const method = opts?.method ?? 'GET';
     const body = opts?.body;
     const headers = convertHeadersInitToRecord(opts?.headers);
-    const mockRes = mock.handleSimulatedRequest({
+    const fetchRequest = {
       url: url,
       method,
       body,
       headers: headers,
-    });
+    };
+    const mockRes = mock.handleSimulatedRequest(fetchRequest);
     if (!mockRes) {
       return originalFetchRequest(url, opts);
     }
 
+    mock.logToNetwork(fetchRequest, mockRes);
     return {
       status: mockRes.status,
       body: mockRes.body,
