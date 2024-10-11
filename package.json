@@ -45,7 +45,8 @@
     "dev:ui": "vite",
     "dev:server": "tsx --watch scripts/start-server.ts",
     "build": "tsx scripts/build.ts && vite build",
-    "cov": "vitest run --coverage",
+    "cov": "vitest run --coverage src/test",
+    "e2e": "vitest run src/e2e",
     "format": "prettier src scripts -w"
   },
   "author": "DiamondYuan",
@@ -67,6 +68,7 @@
     "@vitest/coverage-v8": "^2.0.5",
     "ahooks": "^3.8.1",
     "antd": "^5.20.5",
+    "antd-style": "^3.7.0",
     "cors": "^2.8.5",
     "emittery": "^1.0.3",
     "esbuild": "^0.23.1",
@@ -79,6 +81,7 @@
     "nanoid": "^5.0.7",
     "nise": "^6.0.0",
     "path-to-regexp": "^8.0.0",
+    "playwright": "^1.48.0",
     "prettier": "^3.3.3",
     "query-string": "^9.1.0",
     "react": "^18.3.1",
@@ -89,7 +92,7 @@
     "valid-filename": "^4.0.0",
     "vite": "^5.4.3",
     "vitest": "^2.0.5",
-    "antd-style": "^3.7.0",
+    "strip-ansi": "^7.1.0",
     "zustand": "^4.5.5"
   },
   "dependencies": {
