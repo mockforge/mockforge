@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Card, Checkbox, Popover, Table, Tag } from 'antd';
 import { createStyles } from 'antd-style';
 import useMockForgeStore from '../model/state';
@@ -8,6 +8,7 @@ import type { MockAPI } from '../../sdk/common/types';
 
 const useStyles = createStyles(({ token }) => ({
   resourceCell: {
+    wordBreak: 'break-all',
     '& .ant-tag': {
       marginRight: token.marginXS,
     },
