@@ -1,0 +1,11 @@
+{
+  "schema": "http_response_v1",
+  "requestMatcher": null,
+  "responseData": {
+    "type": "json",
+    "content": {
+      "name": "one"
+    }
+  },
+  "$schema": "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json"
+}
