@@ -33,7 +33,10 @@ jobs:
         run: npm run cov
 
       - name: Build
-        run: npm run build && pnpm exec playwright install && cd demo/vite-demo && pnpm i
+        run: npm run build && pnpm exec playwright chromium
+
+      - name: Install Demo
+        run: cd demo/vite-demo && pnpm install
 
       - name: E2e
         run: npm run test:e2e
