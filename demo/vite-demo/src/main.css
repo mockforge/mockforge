@@ -1,41 +1,79 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 20px;
-  background-color: #f0f0f0;
-}
-h1 {
+  background-color: #f5f7fa;
   color: #333;
-  text-align: center;
 }
+
+h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.results-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
 table {
   width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-collapse: separate;
+  border-spacing: 0;
 }
+
 th,
 td {
-  padding: 12px;
+  padding: 16px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ecf0f1;
 }
+
 th {
-  background-color: #4caf50;
+  background-color: #3498db;
   color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
 }
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+
+tr:last-child td {
+  border-bottom: none;
 }
+
 .passed {
-  color: #4caf50;
-  font-weight: bold;
+  color: #2ecc71;
+  font-weight: 600;
 }
+
 .failed {
-  color: #f44336;
-  font-weight: bold;
+  color: #e74c3c;
+  font-weight: 600;
 }
+
 .error {
-  color: #f44336;
+  color: #e74c3c;
   font-style: italic;
+  font-size: 14px;
+}
+
+.status-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-icon.passed {
+  background-color: #2ecc71;
+}
+
+.status-icon.failed {
+  background-color: #e74c3c;
 }
