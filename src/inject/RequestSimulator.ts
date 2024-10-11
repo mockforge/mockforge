@@ -115,11 +115,18 @@ export class RequestSimulator implements ISimulatedRequestHandler {
         switch (o.requestMatcher.type) {
           case 'basic-match': {
             const query = queryString.parseUrl(request.url).query;
-
+            let parsedBody = request.body;
+            if (typeof request.body === 'string') {
+              try {
+                parsedBody = JSON.parse(request.body);
+              } catch (error) {
+                // ignore parse error
+              }
+            }
             if (
               isMatch(
                 {
-                  body: request.body,
+                  body: parsedBody,
                   params: request.params,
                   headers: request.headers,
                   query,

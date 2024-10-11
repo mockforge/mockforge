@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { jsonSchemaService } from '../service/jsonSchema';
 import styles from './JSONEditor.module.css';
 
-interface JSONEditorProps {
+export interface JSONEditorProps {
   schema?: any;
   value?: string;
   onChange?: (value: string) => void;

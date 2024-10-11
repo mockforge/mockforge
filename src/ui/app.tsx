@@ -1,152 +1,73 @@
-import React from 'react';
-import { useRequest } from 'ahooks';
-import { Checkbox } from 'antd';
-import { useEffect } from 'react';
-import { MockAPI } from '../sdk/common/types';
-import { MockForgeEvent } from '../server/common/event';
+import { createStyles } from 'antd-style';
+import React, { useEffect, useRef, useState } from 'react';
 import { AddApiForm } from './component/AddApiForm';
-import { AddMockResponseButton } from './component/AddApiResponse';
-import './index.css';
-import useMockForgeStore from './model/state';
-import { StateTree } from './component/Tree';
+import { ApiTable } from './component/ApiTable';
 import { SaveMockStateButton } from './component/SaveSate';
+import { StateTree } from './component/Tree';
+import { useInitData } from './hooks/useInitData';
+import useMockForgeStore from './model/state';
 
-const APICard: React.FC<{ api: MockAPI }> = (props) => {
-  const mockForgeStore = useMockForgeStore();
-
-  return (
-    <div className="api-card">
-      <div className="api-header">
-        <div style={{ display: 'flex' }}>
-          <div className="method-tag">{props.api.method}</div>
-          <div className="api-title">
-            {props.api.pathname}
-            <span className="api-name">{props.api.name}</span>
-            <div className="api-actions">
-              <AddMockResponseButton method={props.api.method} pathname={props.api.pathname} />
-            </div>
-          </div>
-        </div>
-        <div style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>{props.api.description}</div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-        }}
-      >
-        {props.api.mockResponses.map((o) => (
-          <div className="tag-item" key={o.name}>
-            <Checkbox
-              style={{ marginRight: 8 }}
-              checked={mockForgeStore.isHttpApiResponseSelected(props.api.method, props.api.pathname, o.name)}
-              onChange={(e) => {
-                if (e.nativeEvent.altKey) {
-                  mockForgeStore
-                    .selectSingleHttpApiResponse(props.api.method, props.api.pathname, o.name)
-                    .catch((err) => {
-                      console.log(err);
-                    });
-                  return;
-                }
-                console.log(e.nativeEvent.altKey);
-                mockForgeStore.toggleHttpApiResponse(props.api.method, props.api.pathname, o.name).catch((err) => {
-                  console.log(err);
-                });
-              }}
-            />
-            <div className="tag-name">{o.name}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-function useInitData(clientId: string) {
-  const mockForgeStore = useMockForgeStore();
-  const mockStatesStore = useMockForgeStore();
-  const mockApiRequest = useRequest(
-    () => {
-      return mockForgeStore.browserMockForgeStateService.listMockAPIs();
-    },
-    {
-      refreshOnWindowFocus: true,
-      onSuccess(data) {
-        mockForgeStore.updateApiList(data);
-      },
-    }
-  );
-  const mockForgeStateRequest = useRequest(
-    () => {
-      return mockForgeStore.browserMockForgeStateService.getMockForgeState();
-    },
-    {
-      refreshOnWindowFocus: true,
-      onSuccess(data) {
-        mockStatesStore.updateCurrentName(data.name);
-        mockForgeStore.updateMockForgeState(data);
-      },
-    }
-  );
-
-  const mockStatesList = useRequest(
-    () => {
-      return mockForgeStore.browserMockForgeStateService.listMockStates();
-    },
-    {
-      refreshOnWindowFocus: true,
-      onSuccess(data) {
-        mockStatesStore.updateMockStates(data);
-      },
-    }
-  );
-
-  useEffect(() => {
-    const handler = (event: MockForgeEvent) => {
-      if (event.type === 'http-mock-api-change') {
-        mockApiRequest.refresh();
-      }
-      if (event.type === 'mock-forge-state-change') {
-        mockForgeStateRequest.refresh();
-        mockStatesList.refresh();
-      }
-    };
-    mockForgeStore.browserMockForgeStateService.handleEvent(handler);
-    return () => {
-      mockForgeStore.browserMockForgeStateService.removeEventListener(handler);
-    };
-  }, [clientId]);
-}
+const useStyles = createStyles(({ token }) => ({
+  container: {
+    height: '100vh',
+    boxSizing: 'border-box',
+    display: 'flex',
+  },
+  sidebar: {
+    padding: token.padding,
+    background: token.colorBgContainer,
+    width: 250,
+  },
+  content: {
+    flex: 1,
+    padding: token.padding,
+    height: '100%',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+  },
+  header: {
+    justifyContent: 'space-between',
+    marginBottom: token.marginLG,
+    display: 'flex',
+    alignItems: 'center',
+    background: token.colorBgContainer,
+    padding: token.padding,
+    borderRadius: token.borderRadiusLG,
+    boxShadow: token.boxShadowTertiary,
+  },
+  tableContainer: {
+    flex: 1,
+    overflow: 'auto',
+  },
+}));
 
 export function App() {
+  const { styles } = useStyles();
   const mockForgeStore = useMockForgeStore();
   useInitData(mockForgeStore.clientId);
+
+  const [tableHeight, setTableHeight] = useState(600);
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (containerRef.current) {
+      setTableHeight(containerRef.current.getBoundingClientRect().height);
+    }
+  }, []);
+
   return (
-    <div style={{ padding: 16, height: '100vh', boxSizing: 'border-box', display: 'flex' }}>
-      <div style={{ padding: 16, background: 'white', borderRadius: 4, marginRight: 8, width: 300 }}>
-        <StateTree></StateTree>
+    <div className={styles.container}>
+      <div className={styles.sidebar}>
+        <StateTree />
       </div>
-      <div
-        style={{
-          flex: 1,
-          padding: 8,
-          height: '100%',
-          boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}
-      >
-        <div className="search-bar" style={{ justifyContent: 'space-between', marginBottom: 20 }}>
-          <SaveMockStateButton></SaveMockStateButton>
-          <AddApiForm></AddApiForm>
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <SaveMockStateButton />
+          <AddApiForm />
         </div>
-        <div style={{ flex: 1, overflow: 'auto' }}>
-          {mockForgeStore.apiList.map((api) => (
-            <APICard api={api} />
-          ))}
+        <div ref={containerRef} className={styles.tableContainer}>
+          <ApiTable height={tableHeight} />
         </div>
       </div>
     </div>

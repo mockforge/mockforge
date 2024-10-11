@@ -2,8 +2,8 @@ import { Button, Drawer, Form, Input, Space } from 'antd';
 import React, { useState } from 'react';
 import { AddHttpMockResponse } from '../../sdk/common/types';
 import useMockForgeStore from '../model/state';
-import { JSONEditor } from './JsonEditor';
 import { requestMatcherSchema } from '../schema.ts';
+import { JSONEditor } from './JsonEditor';
 
 const { TextArea } = Input;
 
@@ -47,8 +47,8 @@ export const AddMockResponseButton: React.FC<{
 
   return (
     <>
-      <Button type="primary" onClick={showDrawer}>
-        Add Mock Response
+      <Button type="link" onClick={showDrawer} style={{ padding: 0 }}>
+        Add Response
       </Button>
       <Drawer
         title="Add Mock Response"
