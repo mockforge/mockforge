@@ -53,27 +53,29 @@ describe('Vite Demo Tests', () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
   }, 30 * 1000);
 
-  it('should access MOCK_FORGE_URL and LOCAL_URL', async () => {
-    const browser = await chromium.launch({ headless: true });
-    const context = await browser.newContext();
-    const page = await context.newPage();
-
-    console.log('MOCK_FORGE_URL', MOCK_FORGE_URL);
-    await page.goto(MOCK_FORGE_URL);
-    await page.waitForSelector('[data-mock-state="Vite Demo"]');
-    await page.click('[data-mock-state="Vite Demo"]');
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    const cacheDir = path.resolve(__dirname, 'cache-ignore');
-    await page.screenshot({ path: path.resolve(cacheDir, 'mockforge.png') });
-    await page.goto(LOCAL_URL);
-    await page.screenshot({ path: path.resolve(cacheDir, 'vite-demo.png') });
-    await page.waitForSelector('#results', { state: 'hidden' });
-    const results = await page.textContent('#results');
-    expect(results).toMatchInlineSnapshot(
-      `"[{"title":"GET /one","passed":true},{"title":"POST /two","passed":true},{"title":"GET /data.json","passed":true}]"`
-    );
-    await browser.close();
-  }, 100000);
+  it(
+    'should access MOCK_FORGE_URL and LOCAL_URL',
+    async () => {
+      const browser = await chromium.launch({ headless: true });
+      const context = await browser.newContext();
+      const page = await context.newPage();
+      await page.goto(MOCK_FORGE_URL);
+      await page.waitForSelector('[data-mock-state="Vite Demo"]');
+      await page.click('[data-mock-state="Vite Demo"]');
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      const cacheDir = path.resolve(__dirname, 'cache-ignore');
+      await page.screenshot({ path: path.resolve(cacheDir, 'mockforge.png') });
+      await page.goto(LOCAL_URL);
+      await page.screenshot({ path: path.resolve(cacheDir, 'vite-demo.png') });
+      await page.waitForSelector('#results', { state: 'hidden' });
+      const results = await page.textContent('#results');
+      expect(results).toMatchInlineSnapshot(
+        `"[{"title":"GET /one","passed":true},{"title":"GET /one with body","passed":true},{"title":"POST /two","passed":true},{"title":"GET /data.json","passed":true},{"title":"GET /data.json with query","passed":true}]"`
+      );
+      await browser.close();
+    },
+    10 * 1000
+  );
 
   afterEach(() => {
     if (devProcess) {

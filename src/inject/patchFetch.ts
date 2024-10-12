@@ -6,7 +6,7 @@ import fetchMock from 'fetch-mock';
 fetchMock.config.fallbackToNetwork = true;
 export function patchFetch(mock: ISimulatedRequestHandler) {
   return fetchMock.mock('*', (url, opts) => {
-    const method = opts?.method ?? 'GET';
+    const method = (opts?.method ?? 'GET').toUpperCase();
     const body = opts?.body;
     const headers = convertHeadersInitToRecord(opts?.headers);
     const fetchRequest = {
@@ -19,7 +19,6 @@ export function patchFetch(mock: ISimulatedRequestHandler) {
     if (!mockRes) {
       return originalFetchRequest(url, opts);
     }
-
     mock.logToNetwork(fetchRequest, mockRes);
     return {
       status: mockRes.status,

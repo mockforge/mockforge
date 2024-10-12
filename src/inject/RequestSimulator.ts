@@ -1,4 +1,4 @@
-import { cloneDeep, isMatch } from 'lodash-es';
+import { cloneDeep, isMatch, method } from 'lodash-es';
 import { match } from 'path-to-regexp';
 import queryString from 'query-string';
 import { HttpMockResponse, IMockForgeState, MockAPI } from '../sdk/common/types';
@@ -66,6 +66,9 @@ export class RequestSimulator implements ISimulatedRequestHandler {
   };
 
   handleSimulatedRequest(request: RequestParameters): SimulatedResponse | null {
+    if (request.headers?.['mockforge-result-uuid']) {
+      return null;
+    }
     const res = this._handleSimulatedRequest(request);
     if (!res) {
       console.log(`[MockForge]  skip request, method=${request.method}, url=${request.url}`);
@@ -175,10 +178,9 @@ export class RequestSimulator implements ISimulatedRequestHandler {
         'mockforge-result-uuid': uuid,
       },
     };
-    if (request.body) {
+    if (request.body && request.method !== 'GET') {
       requestOption['body'] = request.body;
     }
-
     const normalizedUrl = typeof request.url === 'string' ? new URL(request.url, this.origin) : request.url;
     if (!normalizedUrl) {
       return;

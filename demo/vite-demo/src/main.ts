@@ -9,6 +9,7 @@ interface TestCase {
 interface RequestOptions {
   method: 'GET' | 'POST';
   url: string;
+  body?: any;
 }
 
 interface ExpectedData {
@@ -82,11 +83,16 @@ function displayResults(results: { title: string; passed: boolean; error?: strin
   document.body.appendChild(resultsEl);
 }
 
-async function makeRequest({ method, url }: RequestOptions, expectedData: ExpectedData): Promise<void> {
-  const fetchRes = await fetch(url, { method });
+async function makeRequest({ method, url, body }: RequestOptions, expectedData: ExpectedData): Promise<void> {
+  const fetchOption: Record<string, any> = { method };
+  if (body) {
+    fetchOption.body = JSON.stringify(body);
+    fetchOption.headers = { 'Content-Type': 'application/json' };
+  }
+  const fetchRes = await fetch(url, fetchOption);
   const fetchData = await fetchRes.json();
 
-  const axiosRes = await axios({ method, url });
+  const axiosRes = await axios({ method, url, data: body });
   const axiosData = axiosRes.data;
 
   // Compare fetch and axios results
@@ -104,6 +110,10 @@ async function makeRequest({ method, url }: RequestOptions, expectedData: Expect
 
 runTest('GET /one', async () => {
   return makeRequest({ method: 'GET', url: '/one' }, { name: 'one' });
+});
+
+runTest('GET /one with body', async () => {
+  return makeRequest({ method: 'GET', url: '/one?with=body', body: {} }, { name: 'one' });
 });
 
 runTest('POST /two', async () => {
