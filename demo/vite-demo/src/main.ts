@@ -114,4 +114,13 @@ runTest('GET /data.json', async () => {
   return await makeRequest({ method: 'GET', url: '/data.json' }, { value: 'real-data' });
 });
 
+runTest('GET /data.json with query', async () => {
+  return await makeRequest(
+    { method: 'GET', url: '/data.json?match=query' },
+    {
+      value: 'mock match query',
+    }
+  );
+});
+
 await executeTests();

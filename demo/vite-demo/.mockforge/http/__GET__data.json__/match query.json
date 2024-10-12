@@ -1,0 +1,18 @@
+{
+  "schema": "http_response_v1",
+  "requestMatcher": {
+    "type": "basic-match",
+    "content": {
+      "query": {
+        "match": "query"
+      }
+    }
+  },
+  "responseData": {
+    "type": "json",
+    "content": {
+      "value": "mock match query"
+    }
+  },
+  "$schema": "https://unpkg.com/mockforge@0.2.0/json-schema/http_response_v1.json"
+}

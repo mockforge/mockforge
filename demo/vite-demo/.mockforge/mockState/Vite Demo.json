@@ -13,6 +13,13 @@
       "activeMockResponses": [
         "two"
       ]
+    },
+    {
+      "method": "GET",
+      "pathname": "/data.json",
+      "activeMockResponses": [
+        "match query"
+      ]
     }
   ]
 }
