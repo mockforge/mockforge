@@ -65,6 +65,31 @@ describe('RequestSimulator', () => {
     },
     {
       type: 'http',
+      name: 'post form',
+      pathname: '/api/v1/form',
+      method: 'POST',
+      mockResponses: [
+        {
+          name: 'one',
+          $schema: 'http_response_v1',
+          schema: 'http_response_v1',
+          requestMatcher: {
+            type: 'basic-match',
+            content: {
+              body: { form: 'true' },
+            },
+          },
+          responseData: {
+            type: 'json',
+            content: {
+              title: '1',
+            },
+          },
+        },
+      ],
+    },
+    {
+      type: 'http',
       name: 'login',
       pathname: '/api/v1/login',
       method: 'POST',
@@ -98,6 +123,11 @@ describe('RequestSimulator', () => {
       {
         method: 'POST',
         pathname: '/api/v1/login',
+        activeMockResponses: ['one'],
+      },
+      {
+        method: 'POST',
+        pathname: '/api/v1/form',
         activeMockResponses: ['one'],
       },
     ],
@@ -195,16 +225,6 @@ describe('RequestSimulator', () => {
     expect(response).toEqual({ status: 200, body: '{}' });
   });
 
-  it('should return null for invalid body type', async () => {
-    const response = await requestSimulator.handleSimulatedRequest({
-      method: 'POST',
-      url: '/api/v1/login',
-      body: new FormData(), // Invalid body type
-    });
-
-    expect(response).toBeNull();
-  });
-
   it('should return null when no URL is provided', async () => {
     const response = await requestSimulator.handleSimulatedRequest({
       method: 'GET',
@@ -217,6 +237,17 @@ describe('RequestSimulator', () => {
       method: 'POST',
       url: '/api/v1/bookmark',
       body: JSON.stringify({ id: ['1'] }),
+    });
+    expect(response).not.toBeNull();
+  });
+
+  it('should return null when body match', async () => {
+    const fd = new FormData();
+    fd.set('form', true);
+    const response = await requestSimulator.handleSimulatedRequest({
+      method: 'POST',
+      url: '/api/v1/form',
+      body: fd,
     });
     expect(response).not.toBeNull();
   });
