@@ -15,7 +15,7 @@ export interface ValidRequest {
   url: string;
   method: string;
   headers?: Record<string, string>;
-  body?: null | string;
+  body?: null | string | FormData;
   params?: Record<string, string>;
 }
 
@@ -68,10 +68,7 @@ export class RequestSimulator implements ISimulatedRequestHandler {
   handleSimulatedRequest(request: RequestParameters): SimulatedResponse | null {
     const res = this._handleSimulatedRequest(request);
     if (!res) {
-      console.log(`[MockForge]  skip request, method=${request.method}, url=${request.url}`);
       return null;
-    } else {
-      console.log(`[MockForge] handle request, method=${request.method}, url=${request.url}, mock data:`, res);
     }
     return {
       status: 200,
@@ -83,7 +80,14 @@ export class RequestSimulator implements ISimulatedRequestHandler {
     if (!request.url) {
       return null;
     }
-    if (typeof request.body !== 'string' && request.body !== undefined && request.body !== null) {
+    if (
+      !(
+        typeof request.body === 'string' ||
+        request.body === undefined ||
+        request.body === null ||
+        request.body instanceof FormData
+      )
+    ) {
       return null;
     }
     const normalizedUrl = typeof request.url === 'string' ? new URL(request.url, this.origin) : request.url;
@@ -115,13 +119,18 @@ export class RequestSimulator implements ISimulatedRequestHandler {
         switch (o.requestMatcher.type) {
           case 'basic-match': {
             const query = queryString.parseUrl(request.url).query;
-            let parsedBody = request.body;
+            let parsedBody;
             if (typeof request.body === 'string') {
               try {
                 parsedBody = JSON.parse(request.body);
               } catch (error) {
+                parsedBody = request.body;
                 // ignore parse error
               }
+            } else if (request.body instanceof FormData) {
+              parsedBody = Object.fromEntries(request.body.entries());
+            } else {
+              parsedBody = request.body;
             }
             if (
               isMatch(
@@ -175,10 +184,9 @@ export class RequestSimulator implements ISimulatedRequestHandler {
         'mockforge-result-uuid': uuid,
       },
     };
-    if (request.body) {
+    if (request.body && request.method !== 'GET') {
       requestOption['body'] = request.body;
     }
-
     const normalizedUrl = typeof request.url === 'string' ? new URL(request.url, this.origin) : request.url;
     if (!normalizedUrl) {
       return;
