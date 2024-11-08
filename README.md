@@ -23,7 +23,7 @@ const plugins = [mockForge({})];
 In webpack, you can use the webpack plugin.
 
 ```javascript
-import { MockForgeWebpackPlugin } from 'mockforge/webpack5-plugin';
+import { MockForgeWebpackPlugin } from 'mockforge/webpack-plugin';
 const plugins = [new MockForgeWebpackPlugin()];
 ```
 

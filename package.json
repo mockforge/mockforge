@@ -12,6 +12,9 @@
       "vite-plugin": [
         "./dist/vite-plugin.d.ts"
       ],
+      "webpack-plugin": [
+        "./dist/webpack5-plugin.d.ts"
+      ],
       "webpack5-plugin": [
         "./dist/webpack5-plugin.d.ts"
       ]
@@ -20,6 +23,11 @@
   "exports": {
     "./package.json": {
       "default": "./package.json"
+    },
+    "./webpack-plugin": {
+      "types": "./dist/webpack5-plugin.d.ts",
+      "require": "./dist/webpack5-plugin.cjs",
+      "import": "./dist/webpack5-plugin.mjs"
     },
     "./webpack5-plugin": {
       "types": "./dist/webpack5-plugin.d.ts",
