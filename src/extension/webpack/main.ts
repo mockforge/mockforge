@@ -41,19 +41,34 @@ export class MockForgeWebpackPlugin {
     });
 
     compiler.hooks.compilation.tap('MockForgeWebpackPlugin', (compilation: any) => {
-      HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('MockForgeWebpackPlugin', (data, cb) => {
+      const handle = (data: any, cb: any) => {
         if (this.isMockEnabled && this.port !== null) {
           const randomId = Math.random().toString(36).substring(2, 15);
           const serverURL = `http://localhost:${this.port}`;
           const scriptUrl = `http://localhost:${this.port}/inject.js`;
           const injection = `
-                <script src="${scriptUrl}" id="mock-forge-request-simulator" clientId="${randomId}" serverURL="${serverURL}">
-                </script>
-              `;
+          <script src="${scriptUrl}" id="mock-forge-request-simulator" clientId="${randomId}" serverURL="${serverURL}">
+          </script>
+        `;
           data.html = data.html.replace('</head>', `${injection}</head>`);
         }
         cb(null, data);
-      });
+      };
+
+      if (
+        HtmlWebpackPlugin &&
+        typeof HtmlWebpackPlugin.getHooks === 'function' &&
+        HtmlWebpackPlugin.getHooks(compilation) &&
+        HtmlWebpackPlugin.getHooks(compilation).beforeEmit
+      ) {
+        HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('MockForgeWebpackPlugin', handle);
+        return;
+      }
+
+      if (compilation?.hooks?.htmlWebpackPluginBeforeHtmlProcessing?.tapAsync) {
+        compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('MockForgeWebpackPlugin', handle);
+        return;
+      }
     });
   }
 }
