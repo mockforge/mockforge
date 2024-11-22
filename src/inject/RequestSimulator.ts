@@ -110,6 +110,14 @@ export class RequestSimulator implements ISimulatedRequestHandler {
     return matchResponses[0];
   }
 
+  private isFormUrlEncoded(headers: Record<string, string>) {
+    const contentType = headers['Content-Type'];
+    if (!contentType) {
+      return false;
+    }
+    return contentType.includes('application/x-www-form-urlencoded');
+  }
+
   private findMathResponse(mockResponses: HttpMockResponse[], request: ValidRequest): HttpMockResponse[] {
     return mockResponses
       .map((o): null | HttpMockResponse => {
@@ -122,7 +130,11 @@ export class RequestSimulator implements ISimulatedRequestHandler {
             let parsedBody;
             if (typeof request.body === 'string') {
               try {
-                parsedBody = JSON.parse(request.body);
+                if (this.isFormUrlEncoded(request.headers || {})) {
+                  parsedBody = queryString.parse(request.body);
+                } else {
+                  parsedBody = JSON.parse(request.body);
+                }
               } catch (error) {
                 parsedBody = request.body;
                 // ignore parse error
