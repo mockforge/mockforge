@@ -39,8 +39,7 @@ export class MockForgeWebpackPlugin {
           port: this.options.port,
           host,
         });
-        this.port = result.port;
-        console.log('[MockForge] start at http://localhost:' + this.port);
+        console.log(`[MockForge] start at http://${host}:${this.port}`);
       }
     });
 
