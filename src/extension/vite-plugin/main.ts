@@ -6,6 +6,7 @@ import { getDirname } from '../node/dirname.ts';
 interface MockForgeOption {
   mockDataDir?: string;
   port?: number;
+  host?: string;
 }
 
 export function mockForge(options?: MockForgeOption) {
@@ -28,6 +29,7 @@ export function mockForge(options?: MockForgeOption) {
           baseDir: finalBaseDir,
           static: [join(getDirname(), 'ui'), join(getDirname(), 'inject')],
           port: options?.port,
+          host: options?.host,
         });
         port = result.port;
         console.log('[MockForge] start at http://localhost:' + port);
