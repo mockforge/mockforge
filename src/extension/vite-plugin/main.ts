@@ -24,11 +24,12 @@ export function mockForge(options?: MockForgeOption) {
     },
     async configureServer() {
       if (isMockEnabled) {
-        port = await createMockForgeServer({
+        const result = await createMockForgeServer({
           baseDir: finalBaseDir,
           static: [join(getDirname(), 'ui'), join(getDirname(), 'inject')],
           port: options?.port,
         });
+        port = result.port;
         console.log('[MockForge] start at http://localhost:' + port);
       }
     },

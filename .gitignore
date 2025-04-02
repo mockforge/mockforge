@@ -133,3 +133,6 @@ scripts/cache/
 .idea
 json-schema/
 /src/e2e/cache-ignore/
+
+
+.specstory

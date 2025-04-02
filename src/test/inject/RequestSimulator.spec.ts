@@ -137,7 +137,7 @@ describe('RequestSimulator', () => {
 
   beforeEach(async () => {
     tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-forge-sdk-test-'));
-    const port = await createMockForgeServer({
+    const { port } = await createMockForgeServer({
       baseDir: tempDir,
     });
     const serverURL = 'http://localhost:' + port;
