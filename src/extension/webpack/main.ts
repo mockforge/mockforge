@@ -31,11 +31,12 @@ export class MockForgeWebpackPlugin {
 
     compiler.hooks.afterEnvironment.tap('MockForgeWebpackPlugin', async () => {
       if (this.isMockEnabled) {
-        this.port = await createMockForgeServer({
+        const result = await createMockForgeServer({
           baseDir: finalBaseDir,
           static: [path.join(getDirname(), 'ui'), path.join(getDirname(), 'inject')],
           port: this.options.port,
         });
+        this.port = result.port;
         console.log('[MockForge] start at http://localhost:' + this.port);
       }
     });

@@ -9,7 +9,7 @@ it('test event listener', async () => {
   let tempDir: string;
 
   tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-forge-sdk-test-'));
-  const port = await createMockForgeServer({
+  const { port } = await createMockForgeServer({
     baseDir: tempDir,
   });
   const service = new TestBrowserMockForgeEventListener('http://localhost:' + port, 'clientA');

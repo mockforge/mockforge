@@ -17,7 +17,12 @@ export interface CreateMockForgeServerOption {
 const MAX_RETRY_COUNT = 5;
 const RETRY_DELAY = 1000; // 1 second
 
-export async function createMockForgeServer(option: CreateMockForgeServerOption): Promise<number> {
+interface CreateMockForgeServerResult {
+  port: number;
+  stop: () => void;
+}
+
+export async function createMockForgeServer(option: CreateMockForgeServerOption): Promise<CreateMockForgeServerResult> {
   serverDebugLog(`start option ${JSON.stringify(option)}`);
 
   return new Promise((resolve, reject) => {
@@ -34,7 +39,7 @@ export async function createMockForgeServer(option: CreateMockForgeServerOption)
           serverDebugLog(`server address ${JSON.stringify(address)}`);
           if (address && typeof address === 'object') {
             setupApp(server, wss, option);
-            resolve(address.port);
+            resolve({ port: address.port, stop: () => server.close() });
           } else {
             reject(new Error('Failed to get server address'));
           }
