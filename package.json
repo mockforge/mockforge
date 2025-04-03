@@ -10,13 +10,13 @@
   "typesVersions": {
     "*": {
       "vite-plugin": [
-        "./dist/vite-plugin.d.ts"
+        "./dist/extension/vite-plugin/main.d.ts"
       ],
       "webpack-plugin": [
-        "./dist/webpack5-plugin.d.ts"
+        "./dist/extension/webpack/main.d.ts"
       ],
       "webpack5-plugin": [
-        "./dist/webpack5-plugin.d.ts"
+        "./dist/extension/webpack/main.d.ts"
       ],
       "server": [
         "./dist/server/main.d.ts"
@@ -28,17 +28,17 @@
       "default": "./package.json"
     },
     "./webpack-plugin": {
-      "types": "./dist/webpack5-plugin.d.ts",
+      "types": "./dist/extension/webpack/main.d.ts",
       "require": "./dist/webpack5-plugin.cjs",
       "import": "./dist/webpack5-plugin.mjs"
     },
     "./webpack5-plugin": {
-      "types": "./dist/webpack5-plugin.d.ts",
+      "types": "./dist/extension/webpack/main.d.ts",
       "require": "./dist/webpack5-plugin.cjs",
       "import": "./dist/webpack5-plugin.mjs"
     },
     "./vite-plugin": {
-      "types": "./dist/vite-plugin.d.ts",
+      "types": "./dist/extension/vite-plugin/main.d.ts",
       "require": "./dist/vite-plugin.cjs",
       "import": "./dist/vite-plugin.mjs"
     },

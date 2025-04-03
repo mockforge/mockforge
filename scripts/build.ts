@@ -67,13 +67,6 @@ async function build() {
     } catch (err) {
       console.error('Error copying types directory:', err);
     }
-
-    try {
-      await cp(join(srcDir, 'types'), join(distDir), { recursive: true });
-      console.log('Copied types directory');
-    } catch (err) {
-      console.error('Error copying types directory:', err);
-    }
   } catch (err) {
     console.error('Build failed:', err);
     process.exit(1);
