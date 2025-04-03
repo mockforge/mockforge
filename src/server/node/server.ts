@@ -17,7 +17,7 @@ export interface CreateMockForgeServerOption {
 const MAX_RETRY_COUNT = 5;
 const RETRY_DELAY = 1000; // 1 second
 
-interface CreateMockForgeServerResult {
+export interface CreateMockForgeServerResult {
   port: number;
   stop: () => void;
 }
