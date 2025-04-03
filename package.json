@@ -38,6 +38,11 @@
       "types": "./dist/vite-plugin.d.ts",
       "require": "./dist/vite-plugin.cjs",
       "import": "./dist/vite-plugin.mjs"
+    },
+    "./server": {
+      "types": "./dist/server/main.d.ts",
+      "require": "./dist/server.cjs",
+      "import": "./dist/server.mjs"
     }
   },
   "publishConfig": {
