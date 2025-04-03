@@ -11,6 +11,7 @@ import { RPCClientManager } from './rpc-service.js';
 export interface CreateMockForgeServerOption {
   baseDir: string;
   port?: number;
+  host?: string;
   static?: string[];
 }
 
@@ -34,7 +35,7 @@ export async function createMockForgeServer(option: CreateMockForgeServerOption)
         const server = createServer();
         const wss = new WebSocketServer({ server });
 
-        server.listen(serverPort, () => {
+        server.listen(serverPort, option.host || 'localhost', () => {
           const address = server.address();
           serverDebugLog(`server address ${JSON.stringify(address)}`);
           if (address && typeof address === 'object') {

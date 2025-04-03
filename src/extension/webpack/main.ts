@@ -6,6 +6,7 @@ import { getDirname } from '../node/dirname.ts';
 interface MockForgeOption {
   mockDataDir?: string;
   port?: number;
+  host?: string;
 }
 
 export class MockForgeWebpackPlugin {
@@ -22,6 +23,7 @@ export class MockForgeWebpackPlugin {
   apply(compiler: any): void {
     const { mockDataDir } = this.options;
     const finalBaseDir = mockDataDir || path.join(process.cwd(), '.mockforge');
+    const host = this.options.host || process.env.MOCK_FORGE_HOST || 'localhost';
 
     compiler.hooks.environment.tap('MockForgeWebpackPlugin', () => {
       if (process.env.MOCK_FORGE) {
@@ -35,9 +37,10 @@ export class MockForgeWebpackPlugin {
           baseDir: finalBaseDir,
           static: [path.join(getDirname(), 'ui'), path.join(getDirname(), 'inject')],
           port: this.options.port,
+          host,
         });
         this.port = result.port;
-        console.log('[MockForge] start at http://localhost:' + this.port);
+        console.log(`[MockForge] start at http://${host}:${this.port}`);
       }
     });
 
@@ -45,8 +48,8 @@ export class MockForgeWebpackPlugin {
       const handle = (data: any, cb: any) => {
         if (this.isMockEnabled && this.port !== null) {
           const randomId = Math.random().toString(36).substring(2, 15);
-          const serverURL = `http://localhost:${this.port}`;
-          const scriptUrl = `http://localhost:${this.port}/inject.js`;
+          const serverURL = `http://${host}:${this.port}`;
+          const scriptUrl = `http://${host}:${this.port}/inject.js`;
           const injection = `
           <script src="${scriptUrl}" id="mock-forge-request-simulator" clientId="${randomId}" serverURL="${serverURL}">
           </script>
