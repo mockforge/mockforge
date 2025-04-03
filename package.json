@@ -17,6 +17,9 @@
       ],
       "webpack5-plugin": [
         "./dist/webpack5-plugin.d.ts"
+      ],
+      "server": [
+        "./dist/server/main.d.ts"
       ]
     }
   },
@@ -57,7 +60,7 @@
     "dev": "npm run dev:server & npm run dev:ui",
     "dev:ui": "vite",
     "dev:server": "tsx --watch scripts/start-server.ts",
-    "build": "tsx scripts/build.ts && vite build",
+    "build": "tsx scripts/build.ts && vite build && tsc -p tsconfig.build.json",
     "cov": "vitest run --coverage src/test",
     "e2e": "vitest run src/e2e",
     "e2e:local": "npm run build && npm run e2e",
