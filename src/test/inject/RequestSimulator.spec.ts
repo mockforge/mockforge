@@ -1,13 +1,13 @@
+import fs from 'fs/promises';
+import { nanoid } from 'nanoid';
+import { afterEach } from 'node:test';
+import os from 'os';
+import path from 'path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { RequestSimulator } from '../../inject/RequestSimulator';
 import { IMockForgeState, MockAPI } from '../../sdk/common/types';
+import { NodeMockForgeService } from '../../server/node/nodeMockForgeService';
 import { createMockForgeServer } from '../../server/node/server';
-import { TestBrowserMockForgeEventListener } from '../server/browser/test';
-import fs from 'fs/promises';
-import os from 'os';
-import path from 'path';
-import { nanoid } from 'nanoid';
-import { afterEach } from 'node:test';
 
 describe('RequestSimulator', () => {
   let requestSimulator: RequestSimulator;
@@ -141,7 +141,7 @@ describe('RequestSimulator', () => {
       baseDir: tempDir,
     });
     const serverURL = 'http://localhost:' + port;
-    const service = new TestBrowserMockForgeEventListener('http://localhost:' + port, nanoid());
+    const service = new NodeMockForgeService('http://localhost:' + port, nanoid());
     await service.connect();
     requestSimulator = new RequestSimulator('http://localhost', serverURL, service);
     requestSimulator.setApiList(mockApiList);
@@ -243,7 +243,7 @@ describe('RequestSimulator', () => {
 
   it('should return null when body match', async () => {
     const fd = new FormData();
-    fd.set('form', true);
+    fd.set('form', 'true');
     const response = await requestSimulator.handleSimulatedRequest({
       method: 'POST',
       url: '/api/v1/form',

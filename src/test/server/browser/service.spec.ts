@@ -4,10 +4,10 @@ import os from 'os';
 import path from 'path';
 import { IMockForgeSDK } from '../../../sdk/common/sdk.js';
 import { IMockForgeStateService } from '../../../server/common/service.js';
+import { NodeMockForgeService } from '../../../server/node/nodeMockForgeService.js';
 import { createMockForgeServer } from '../../../server/node/server.js';
 import { createMockForgeSDKTests } from '../../createMockForgeSDKTests.js';
 import { createMockForgeStateServiceTests } from '../../createMockForgeStateService.js';
-import { TestBrowserMockForgeEventListener } from './test.js';
 
 (() => {
   let tempDir: string;
@@ -19,7 +19,7 @@ import { TestBrowserMockForgeEventListener } from './test.js';
         baseDir: tempDir,
         port: Math.floor(Math.random() * 1000) + 10000,
       });
-      const service = new TestBrowserMockForgeEventListener('http://localhost:' + port, nanoid());
+      const service = new NodeMockForgeService('http://localhost:' + port, nanoid());
       await service.connect();
       sdk = service;
       return sdk;
@@ -41,7 +41,7 @@ import { TestBrowserMockForgeEventListener } from './test.js';
       const { port } = await createMockForgeServer({
         baseDir: tempDir,
       });
-      const service = new TestBrowserMockForgeEventListener('http://localhost:' + port, nanoid());
+      const service = new NodeMockForgeService('http://localhost:' + port, nanoid());
       await service.connect();
       sdk = service;
       return sdk;
