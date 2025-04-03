@@ -2,9 +2,8 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 import { expect, it, vi } from 'vitest';
+import { NodeMockForgeService } from '../../../server/node/nodeMockForgeService.js';
 import { createMockForgeServer } from '../../../server/node/server.js';
-import { TestBrowserMockForgeEventListener } from './test.js';
-
 it('test event listener', async () => {
   let tempDir: string;
 
@@ -12,7 +11,7 @@ it('test event listener', async () => {
   const { port } = await createMockForgeServer({
     baseDir: tempDir,
   });
-  const service = new TestBrowserMockForgeEventListener('http://localhost:' + port, 'clientA');
+  const service = new NodeMockForgeService('http://localhost:' + port, 'clientA');
   await service.connect();
 
   const mockAPI = {
@@ -43,7 +42,7 @@ it('test event listener', async () => {
     ],
   };
 
-  const eventListener = new TestBrowserMockForgeEventListener('ws://localhost:' + port, '12345');
+  const eventListener = new NodeMockForgeService('ws://localhost:' + port, '12345');
   const mockFn = vi.fn();
   eventListener.handleEvent(mockFn);
   await eventListener.connect();
